@@ -1,0 +1,116 @@
+section#artigo.box_detail figure {
+  position: relative;
+  display: inline-block;
+}
+
+section#artigo.box_detail figure:hover .lista-redes-sociais {
+  opacity: 1;
+}
+
+.lista-redes-sociais {
+  padding-top: 15px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  display: flex;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.lista-redes-sociais span.compartilha_imagem {
+  display: block;
+  text-align: center;
+  padding: 5px 0px;
+  transition: height 0.15s ease-in-out;
+  color: white;
+  position: unset !important;
+  cursor: pointer;
+}
+
+.facebook {
+  background: #3b5998;
+  color: white;
+}
+.twitter {
+  color: white;
+  background: #00acee;
+}
+.linkedin {
+  background: #0e76a8;
+  color: white;
+}
+.whatsapp {
+  color: white;
+  background: #25d366;
+}
+.link {
+  color: white;
+  background: #178bf4;
+}
+.download {
+  color: white;
+  background: #c4302b;
+}
+
+.compartilha_imagem.linkedin:after,
+.compartilha_imagem.facebook:after,
+.compartilha_imagem.twitter:after,
+.compartilha_imagem.whatsapp:after,
+.compartilha_imagem.download:after,
+.compartilha_imagem.link:after {
+  font-family: fontello;
+  position: relative;
+}
+
+@media only screen and (max-width: 600px) {
+  .lista-redes-sociais span.compartilha_imagem {
+    width: 2.5pc;
+  }
+  .linkedin:after,
+  .facebook:after,
+  .twitter:after,
+  .whatsapp:after,
+  .download:after,
+  .link:after {
+    font-size: 19px;
+  }
+}
+
+@media only screen and (min-width: 601px) {
+  .lista-redes-sociais span.compartilha_imagem {
+    width: 3pc;
+  }
+  .linkedin:after,
+  .facebook:after,
+  .twitter:after,
+  .whatsapp:after,
+  .download:after,
+  .link:after {
+    font-size: 25px;
+  }
+}
+
+.compartilha_imagem.linkedin:after {
+  content: "\f0e1";
+}
+
+.compartilha_imagem.facebook:after {
+  content: "\f09a";
+}
+
+.compartilha_imagem.twitter:after {
+  content: "\f099";
+}
+
+.compartilha_imagem.whatsapp:after {
+  content: "\f232";
+}
+
+.compartilha_imagem.download:after {
+  content: "\e805";
+}
+
+.link:after {
+  content: "\e804";
+}

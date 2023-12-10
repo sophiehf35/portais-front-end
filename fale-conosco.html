@@ -1,0 +1,77 @@
+<?php
+include_once $_SERVER["DOCUMENT_ROOT"] . "/configuracao/php/funcoes/universal.php";
+?>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <?php include $_SERVER["DOCUMENT_ROOT"] . "/configuracao/html/header/conteudo_head_geral.php" ?>
+    <?php include $_SERVER["DOCUMENT_ROOT"] . "/configuracao/html/header/conteudo_head_facebook.php" ?>
+    <?php include $_SERVER["DOCUMENT_ROOT"] . "/configuracao/html/header/conteudo_head_twitter.php" ?>
+    <?php include $_SERVER["DOCUMENT_ROOT"] . "/configuracao/css/scripts_css_gerais.php"; ?>
+    <!-- STYLES CSS EXCLUSIVOS DA PAGINA -->
+    <style>.nice-select.wide{margin-bottom:10px}</style>
+    <!-- STYLES CSS EXCLUSIVOS DA PAGINA -->
+</head>
+<body>
+<div id="page">
+    <?php include $_SERVER["DOCUMENT_ROOT"] . "/configuracao/html/header/header_geral.php" ?>
+    <div class="sub_header_in sticky_header">
+        <div style="text-align: center;" class="container-fluid">
+            <h1>Fale Conosco</h1>
+        </div>
+        <div class="bc-icons-2">
+            <ol style="background-color: unset; margin-bottom: 0px;" class="breadcrumb lighten-4 justify-content-center" itemscope itemtype="https://schema.org/BreadcrumbList">
+                <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <a itemprop="item" class="link_breadcumb" href="/"><span itemprop="name">Home</span></a>
+                    <meta itemprop="position" content="1"/>
+                    <span style="color: #FFF; display: flex; justify-content: center; align-items: center; line-height: unset; font-size: 1rem;" class="mx-1" data-icon="&#x39;"></span>
+                </li>
+                <li class="breadcrumb-item active" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <span itemprop="name">Fale Conosco</span>
+                    <meta itemprop="position" content="2"/>
+                </li>
+            </ol>
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /sub_header -->
+    <main>
+        <div class="container margin_60_35">
+            <div class="row justify-content-center">
+                <div class="col-lg-12">
+                    <div class="box_account">
+                        <div class="main_title_3">
+                            <span></span>
+                            <h2>Envie uma Mensagem</h2>
+                            <p>Descreva a sua solicitação no formulário abaixo.</p>
+                        </div>
+                    <?php include $_SERVER["DOCUMENT_ROOT"] . "/configuracao/html/formulario_de_contato.php" ?>
+                    </div>
+                    <!-- /box_account -->
+                </div>
+            </div>
+            <?php include $_SERVER["DOCUMENT_ROOT"] . "/configuracao/html/secao_cards_contato.php" ?>
+        </div>
+        <!-- /container -->
+    </main>
+    <!--/main-->
+    <?php include $_SERVER["DOCUMENT_ROOT"] . "/configuracao/html/rodape.php" ?>
+</div>
+
+<!-- POPUP LOGAR -->
+<?php include $_SERVER["DOCUMENT_ROOT"] . "/configuracao/html/popup_logar.php" ?>
+<!-- POPUP LOGAR -->
+
+<div id="toTop"></div><!-- Back to top button -->
+
+<!-- SCRIPTS GERAIS -->
+<?php include $_SERVER["DOCUMENT_ROOT"] . "/configuracao/js/scripts_js_gerais.php" ?>
+<script type="text/javascript" src="/configuracao/js/funcoes/universal.js" defer></script>
+<!-- SCRIPTS GERAIS -->
+
+<!-- FUNÇÕES E MASCARAS DA PAGINA -->
+<script type="text/javascript" src="/configuracao/js/funcoes/pagina-fale-conosco.js" defer></script>
+<!-- FUNÇÕES E MASCARAS DA PAGINA -->
+
+</body>
+</html>

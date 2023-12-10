@@ -1,0 +1,236 @@
+/* INICIO DESIGN GERAL */
+header.header.sticky,
+header.header_in {
+  background-color: var(--cor-fundo-header);
+}
+.sub_header_in {
+  background-color: var(--cor-primaria);
+}
+footer {
+  background-color: var(--cor-primaria);
+}
+.breadcrumb-item.active span {
+  color: #ffffff;
+  font-weight: 600;
+}
+a.box_topic i {
+  color: var(--cor-primaria);
+}
+.badge-primary {
+  background-color: var(--cor-secundaria);
+}
+article.blog .post_info small {
+  color: #ffffff !important;
+}
+.secao_artigos_em_destaque ul li small {
+  color: #ffffff;
+}
+.titulo_secao {
+  background: var(--cor-primaria);
+}
+.titulo {
+  color: #fff;
+}
+.animated .block-horizzontal {
+  background-color: var(--cor-primaria);
+}
+.btn_1,
+a.btn_1 {
+  background: var(--cor-botao-acao);
+}
+.pagination a.active {
+  background: var(--cor-botao-acao);
+}
+a.btn_1.full-width.purchase,
+.btn_1.full-width.purchase {
+  background-color: var(--cor-botao-acao);
+}
+.secondary_nav {
+  background-color: var(--cor-primaria);
+}
+@media only screen and (max-width: 600px) {
+  .tabela-customizada tbody tr td.th {
+    font-size: 13px;
+  }
+}
+@media only screen and (min-width: 601px) {
+  .tabela-customizada tbody tr td.th {
+    font-size: 15px;
+  }
+}
+@media (max-width: 991px) {
+  .header-fixo {
+    padding-top: 66px;
+  }
+}
+@media only screen and (min-width: 992px) {
+  header.header_in .main-menu > ul > li span > a,
+  header.sticky .main-menu > ul > li span > a {
+    color: var(--cor-letra-menu);
+  }
+  .header-fixo {
+    padding-top: 71px;
+  }
+}
+@media (max-width: 1200px) {
+  .card-noticias .secao-imagem {
+    border-top-left-radius: 0.375em;
+    border-top-right-radius: 0.375em;
+  }
+}
+@media only screen and (min-width: 1200px) {
+  .card-noticias .secao-imagem {
+    border-top-left-radius: 0.375em;
+    border-bottom-left-radius: 0.375em;
+  }
+}
+.tabela-customizada {
+  border-collapse: collapse;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  font-family: sans-serif;
+  width: 100%;
+  box-shadow: 0 0 20px rgb(0 0 0 / 15%);
+}
+.tabela-customizada tbody tr {
+  border-bottom: 1px solid #ddd;
+}
+.tabela-customizada td,
+.tabela-customizada th {
+  padding: 5px 15px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+.tabela-customizada tbody tr td.th {
+  background: var(--cor-primaria);
+  color: #fff;
+  text-transform: uppercase;
+}
+div.dataTables_wrapper div.dataTables_filter,
+div.dataTables_wrapper div.dataTables_paginate {
+  text-align: right;
+}
+h4 a {
+  color: unset !important;
+}
+.caixa_logo_quem_somos {
+  background: var(--cor-fundo-header);
+}
+.fundo_home {
+  background-color: var(--cor-primaria);
+  position: relative;
+  height: 620px;
+  width: 100%;
+}
+.fundo_home::before {
+  content: "";
+  background: url(../../../img/pattern_3.webp) center bottom repeat-x;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  opacity: 0.3;
+}
+.botao_acao_politica_copiar {
+  background-color: #28a745;
+  padding: 10px 15px;
+  color: #fff;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.botao_acao_politica_copiar:hover {
+  color: #fff;
+}
+.botao_acao_politica_gerar_nova {
+  background-color: #007bff;
+  padding: 10px 15px;
+  color: #fff;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.botao_acao_politica_gerar_nova:hover {
+  color: #fff;
+}
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(206, 160, 95, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(206, 160, 95, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(206, 160, 95, 0);
+  }
+}
+.card-noticias {
+  box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.1);
+}
+.card-noticias .secao-imagem a {
+  color: #fff;
+}
+.card-noticias .secao-texto ul.rodape li {
+  display: inline-block;
+  color: #555555;
+}
+.card-noticias .secao-texto ul.rodape li:first-child {
+  color: #555555;
+  font-weight: 600;
+}
+.card-noticias .secao-texto ul.rodape li:last-child {
+  float: right;
+}
+.card-noticias .secao-texto ul.rodape li:last-child i {
+  font-size: 0.875rem;
+  margin-right: 5px;
+  position: relative;
+  top: 3px;
+}
+/* FIM DESIGN GERAL */
+
+.b-0 {
+  bottom: 0;
+}
+.bg-shadow {
+  background: rgba(76, 76, 76, 0);
+  background: -webkit-gradient(
+    left top,
+    left bottom,
+    color-stop(0%, rgba(179, 171, 171, 0)),
+    color-stop(49%, rgba(48, 48, 48, 0.37)),
+    color-stop(100%, rgba(19, 19, 19, 0.8))
+  );
+  background: linear-gradient(
+    to bottom,
+    rgba(179, 171, 171, 0) 0%,
+    rgba(48, 48, 48, 0.71) 49%,
+    rgba(19, 19, 19, 0.8) 100%
+  );
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4c4c4c', endColorstr='#131313', GradientType=0 );
+}
+.overflow {
+  position: relative;
+  overflow: hidden;
+}
+.zoom img {
+  transition: all 0.2s linear;
+}
+.zoom:hover img {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+}
+.swiper {
+  width: 100%;
+  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+  height: calc((100% - 30px) / 2) !important;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}
