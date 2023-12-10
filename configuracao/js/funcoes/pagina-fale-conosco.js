@@ -1,30 +1,35 @@
-$(document).ready(function () {
-  $(document).on("click", "#enviar_contato", function () {
-    $("#notificacao").slideUp();
-    $.ajax({
-      url: pasta_funcoes + "pagina_fale_conosco/",
-      method: "POST",
-      data: {
-        nome: $("#nome").val(),
-        tipo_pessoa: $("#tipo_pessoa").val(),
-        email_contato: $("#email_contato").val(),
-        telefone: $("#telefone").val(),
-        mensagem: $("#mensagem").val(),
-        verifica_contato: $("#verifica_contato").val(),
-      },
-      type: "POST",
-      success: function (data) {
-        var obj = JSON.parse(data);
-        if (obj.status === "1") {
-          $("#notificacao").html(obj.mensagem);
-          $("#notificacao").slideDown();
-          $("#formulario_de_contato")[0].reset();
-        } else {
-          $("#notificacao").html(obj.mensagem);
-          $("#notificacao").slideDown();
-        }
-      },
-    });
+document.addEventListener('DOMContentLoaded', function () {
+  document.addEventListener('click', function (event) {
+      if (event.target.id === 'enviar_contato') {
+          document.getElementById('notificacao').style.display = 'none';
+
+          fetch(pasta_funcoes + 'pagina_fale_conosco/', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded',
+              },
+              body: new URLSearchParams({
+                  nome: document.getElementById('nome').value,
+                  tipo_pessoa: document.getElementById('tipo_pessoa').value,
+                  email_contato: document.getElementById('email_contato').value,
+                  telefone: document.getElementById('telefone').value,
+                  mensagem: document.getElementById('mensagem').value,
+                  verifica_contato: document.getElementById('verifica_contato').value,
+              }),
+          })
+              .then(response => response.json())
+              .then(obj => {
+                  if (obj.status === '1') {
+                      document.getElementById('notificacao').innerHTML = obj.mensagem;
+                      document.getElementById('notificacao').style.display = 'block';
+                      document.getElementById('formulario_de_contato').reset();
+                  } else {
+                      document.getElementById('notificacao').innerHTML = obj.mensagem;
+                      document.getElementById('notificacao').style.display = 'block';
+                  }
+              })
+              .catch(error => console.error('Erro na requisição:', error));
+      }
   });
 });
 

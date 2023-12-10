@@ -269,3 +269,42 @@ function calcularDiferencaTempo(dataPublicacao) {
   }
 }
 /* FUNÇÃO PARA TRATAR E CALCULAR A DIFERENÇA DE DATA DOS ARTIGOS */
+
+/* FUNÇÃO PARA CRIAR E CARREGAR OS CARDS DIFERENCIAIS */
+function carregaCardsDiferenciais() {
+
+    fetch('/configuracao/json/cards-contato.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Erro ao buscar dados. Código de status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+  
+          if (data.isArray(conteudoCards)) {
+            // Processa o conteúdo e gera os cards
+            const cardsDiferenciais = conteudoCards.map(conteudoCard => `
+                <div class="col-lg-4 col-md-6">
+                   <a class="box_topic">
+                      <span><i class="${conteudoCard.icone}"></i></span>
+                      <h3>${conteudoCard.titulo}</h3>
+                      <p>${conteudoCard.descricao}</p>
+                   </a>
+                </div>
+            `).join('');
+  
+            const divCardsDiferenciais = document.getElementById('cardsDiferenciais');
+            divCardsDiferenciais.insertAdjacentElement('afterend', cardsDiferenciais);
+            
+            } else {
+                throw new Error('O conteúdo do arquivo não é um array');
+            }
+  
+        })
+        .catch(error => {
+            console.error('Erro ao buscar dados:', error);
+        });
+  
+  }
+  /* FUNÇÃO PARA CRIAR E CARREGAR OS CARDS DIFERENCIAIS */
