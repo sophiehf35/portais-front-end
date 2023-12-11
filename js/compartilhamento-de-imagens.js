@@ -1,31 +1,30 @@
-window.addEventListener("load", function() {
+function compartilhamentoDeImagens(config) {
 
     const imagens = document.querySelectorAll("section#artigo.box_detail > figure >img");
     for (const imagem of imagens) {
       imagem.insertAdjacentHTML('afterend', '<div class="lista-redes-sociais"><span class="compartilha_imagem facebook"></span><span class="compartilha_imagem twitter"></span><span class="compartilha_imagem linkedin"></span><span class="compartilha_imagem whatsapp"></span><span class="compartilha_imagem link"></span><span class="compartilha_imagem download"></span></div>');
     }
 
-});
-
-document.addEventListener("click", function(event) {
-    var target = event.target;
-
+    var parentElement = this.parentNode.parentNode;
+    var src = parentElement.children[0].dataset.src;
+    var formattedSrc = (config.cdn_imagens === 1 ? src.replace('https://ik.imagekit.io/' + config.diretorio_cdn_imagens + '/', window.location.protocol + '//' + window.location.host + '/img/') : src);
+    
     if (target.classList.contains("facebook")) {
-        compartilhanoFacebook(target.closest(".parent").children[0].dataset.src.replace('https://ik.imagekit.io/calendario/', window.location.protocol + '//' + window.location.host + '/img/'), false);
+        compartilhanoFacebook(formattedSrc, false);
     } else if (target.classList.contains("twitter")) {
-        compartilhanoTwitter(target.closest(".parent").children[0].dataset.src.replace('https://ik.imagekit.io/calendario/', window.location.protocol + '//' + window.location.host + '/img/'), false);
+        compartilhanoTwitter(formattedSrc, false);
     } else if (target.classList.contains("linkedin")) {
-        compartilhanoLinkedin(target.closest(".parent").children[0].dataset.src.replace('https://ik.imagekit.io/calendario/', window.location.protocol + '//' + window.location.host + '/img/'), false);
+        compartilhanoLinkedin(formattedSrc, false);
     } else if (target.classList.contains("whatsapp")) {
-        compartilhanoWhatsapp(target.closest(".parent").children[0].dataset.src.replace('https://ik.imagekit.io/calendario/', window.location.protocol + '//' + window.location.host + '/img/'), false);
+        compartilhanoWhatsapp(formattedSrc, false);
     } else if (target.classList.contains("link")) {
-        copiaLink(target.closest(".parent").children[0].dataset.src.replace('https://ik.imagekit.io/calendario/', window.location.protocol + '//' + window.location.host + '/img/'), false);
+        copiaLink(formattedSrc, false);
     } else if (target.classList.contains("download")) {
-        var src = target.closest(".parent").children[0].dataset.src;
+        var src = parentElement.children[0].dataset.src;
         var fileName = src.split('/').pop().split('#')[0].split('?')[0].split('.')[0] + '.jpg';
         downloadImagem(src, fileName, false);
     }
-});
+}
 
 
 function compartilhanoFacebook(url){
@@ -86,7 +85,6 @@ function downloadImagem(url, name){
         const a = document.createElement('a');
         a.style.display = 'none';
         a.href = url;
-        // the filename you want
         a.download = name;
         document.body.appendChild(a);
         a.click();

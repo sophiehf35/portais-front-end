@@ -49,6 +49,7 @@ defineVariaveisUniversais(nomeDaPagina).then(config => {
        carregaConteudoDestaque(config);
        carregaComentariosAvaliacoes(document.querySelector("h1").dataset.id);
        validarFormulario(config);
+       compartilhamentoDeImagens(config);
     }
     
     carregaRodape(config);
