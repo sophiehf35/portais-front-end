@@ -273,7 +273,7 @@ function calcularDiferencaTempo(dataPublicacao) {
 /* FUNÇÃO PARA CRIAR E CARREGAR OS CARDS DIFERENCIAIS */
 function carregaCardsDiferenciais() {
 
-    fetch('/configuracao/json/cards-contato.json')
+    fetch('/configuracao/json/cards-diferenciais.json')
         .then(response => {
             if (!response.ok) {
                 throw new Error(`Erro ao buscar dados. Código de status: ${response.status}`);
