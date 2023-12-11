@@ -247,7 +247,7 @@ function exibirNotificacaoComentario(tipo, mensagem, campo) {
     classeMensagem +
     ' alert-dismissible d-flex align-items-center" style="margin-bottom:0px;" role="alert"><svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="' +
     tipo +
-    ':"><use xlink:href="/configuracao/svg/icones.svg' +
+    ':"><use xlink:href="/assets/svg/icones.svg' +
     iconeMensagem +
     '"></use></svg><div>' +
     mensagem +
