@@ -39,13 +39,13 @@ function carregaConteudoHomePortal(config) {
 
                 if (config.exibe_categorias_de_artigos === 1) {
                     categoryBadge = document.createElement('a');
-                    categoryBadge.href = '/categoria/' + item.slug_categoria + '/';
+                    categoryBadge.href = '/' + item.slug_categoria + '/';
                     categoryBadge.classList.add('p-2', 'badge', 'badge-primary', 'rounded-0');
                     categoryBadge.textContent = item.categoria;
                 }
 
                 const titleLink = document.createElement('a');
-                titleLink.href = '/' + item.slug + '/';
+                titleLink.href = '/' + item.slug_categoria + '/' + item.slug + '/';
 
                 const title = document.createElement('h2');
                 title.style.fontSize = '23px';
