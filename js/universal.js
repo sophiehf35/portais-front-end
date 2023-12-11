@@ -5,7 +5,7 @@ const partesDoCaminho = pathSemDominio.split("/").filter(Boolean);
 let nomeDaPagina = partesDoCaminho[partesDoCaminho.length - 1];
 let configPromise;
 
-console.log(url.protocol + '//' + url.hostname + url.pathname);
+console.log(url.protocol + '//' + url.hostname + url.pathname + 'teste');
 
 function defineVariaveisUniversais(nomeDaPagina) {
     if (!configPromise) {
@@ -31,7 +31,6 @@ defineVariaveisUniversais(nomeDaPagina).then(config => {
 
     carregaLogo(config, document.getElementById("logo"));
 
-    //TEMPORÁRIO
     if (pathSemDominio === '/') {
     //PÁGINA HOME
         nomeDaPagina = 'home';
