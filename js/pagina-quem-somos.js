@@ -22,7 +22,7 @@ function carregaConteudoQuemSomos() {
 /* FUNÇÃO PARA CRIAR E CARREGAR TEXTO DO QUEM SOMOS */
 
 /* FUNÇÃO PARA CRIAR E CARREGAR LOGO DO QUEM SOMOS */
-function criarImagem(config) {
+function carregaLogoQuemSomos(config) {
 
     const logoQuemSomos = document.createElement('img');
 
