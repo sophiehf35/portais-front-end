@@ -1,29 +1,45 @@
 function compartilhamentoDeImagens(config) {
+  const imagens = document.querySelectorAll("section#artigo.box_detail > figure >img");
 
-    const imagens = document.querySelectorAll("section#artigo.box_detail > figure >img");
-    for (const imagem of imagens) {
+  for (const imagem of imagens) {
       imagem.insertAdjacentHTML('afterend', '<div class="lista-redes-sociais"><span class="compartilha_imagem facebook"></span><span class="compartilha_imagem twitter"></span><span class="compartilha_imagem linkedin"></span><span class="compartilha_imagem whatsapp"></span><span class="compartilha_imagem link"></span><span class="compartilha_imagem download"></span></div>');
-    }
+  }
 
-    var parentElement = this.parentNode.parentNode;
-    var src = parentElement.children[0].dataset.src;
-    var formattedSrc = (config.cdn_imagens === 1 ? src.replace('https://ik.imagekit.io/' + config.diretorio_cdn_imagens + '/', window.location.protocol + '//' + window.location.host + '/img/') : src);
-    
-    if (target.classList.contains("facebook")) {
-        compartilhanoFacebook(formattedSrc, false);
-    } else if (target.classList.contains("twitter")) {
-        compartilhanoTwitter(formattedSrc, false);
-    } else if (target.classList.contains("linkedin")) {
-        compartilhanoLinkedin(formattedSrc, false);
-    } else if (target.classList.contains("whatsapp")) {
-        compartilhanoWhatsapp(formattedSrc, false);
-    } else if (target.classList.contains("link")) {
-        copiaLink(formattedSrc, false);
-    } else if (target.classList.contains("download")) {
-        var src = parentElement.children[0].dataset.src;
-        var fileName = src.split('/').pop().split('#')[0].split('?')[0].split('.')[0] + '.jpg';
-        downloadImagem(src, fileName, false);
+  document.querySelector('.lista-redes-sociais').addEventListener('click', function(event) {
+    var clickedElement = event.target;
+
+    if (clickedElement.classList.contains('compartilha_imagem')) {
+      //ENCONTRA TODAS AS CLASSES 
+      var classes = clickedElement.classList;
+      
+      //ENCONTRA O SRC DA IMAGEM QUE ESTÁ PRÓXIMA DO BOTÃO CLICADO
+      var imgElement = clickedElement.closest('figure').querySelector('img');
+      var imgSrc = imgElement.getAttribute('src');
+
+      //ENCONTRA A CLASSE APÓS COMPARTILHA_IMAGEM PARA SABER A AÇÃO
+      var lastClassIndex = Array.from(classes).indexOf('compartilha_imagem') + 1;
+      var acao = classes[lastClassIndex];
+      
+      //FORMATA SRC E PEGA O NOME DO ARQUIVO
+      var srcFormatado = (config.cdn_imagens === 1 ? imgSrc.replace(config.diretorio_cdn_imagens + '/', window.location.protocol + '//' + window.location.host + '/img/') : imgSrc);
+      var nomeArquivo = imgSrc.split('/').pop().split('.')[0];
+      
+      if(acao === 'facebook') {
+        compartilhanoFacebook(srcFormatado);
+      } else if(acao === 'twitter') {
+        compartilhanoTwitter(srcFormatado);
+      } else if(acao === 'linkedin') {
+        compartilhanoLinkedin(srcFormatado);
+      } else if(acao === 'whatsapp') {
+        compartilhanoWhatsapp(srcFormatado);
+      } else if(acao === 'link') {
+        copiaLink(srcFormatado);
+      } else if(acao === 'download') {
+        downloadImagem(imgSrc, nomeArquivo + '.jpg');
+      }
     }
+  });
+
 }
 
 
