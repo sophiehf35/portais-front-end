@@ -222,7 +222,7 @@ function carregaCardsModeloHorizontal(config) {
         window.history.replaceState({}, '', `${window.location.pathname}?${params}`);
     }
 
-    fetch('/crb/configuracao/json/artigos.json')
+    fetch('/configuracao/json/artigos.json')
         .then(response => {
             if (!response.ok) {
                 throw new Error(`Erro ao buscar dados. Código de status: ${response.status}`);
@@ -254,7 +254,7 @@ function carregaConteudoDestaque(config) {
     fetch('/configuracao/json/conteudo-destaque.json')
         .then(response => {
             if (!response.ok) {
-                throw new Error(`Erro ao buscar dados. C��digo de status: ${response.status}`);
+                throw new Error(`Erro ao buscar dados. Código de status: ${response.status}`);
             }
             return response.json();
         })
