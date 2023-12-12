@@ -1,11 +1,10 @@
 carregaMenu();
 const url = new URL(window.location.href);
-const pathSemDominio = window.location.href.replace(url.protocol + '//' + url.hostname, "");
-const partesDoCaminho = pathSemDominio.split("/").filter(Boolean);
+const caminho = url.pathname;
+const caminhoSemBarras = caminho.replace(/^\/|\/$/g, "");
+const partesDoCaminho = caminhoSemBarras.split("/").filter(Boolean);
 let nomeDaPagina = partesDoCaminho[partesDoCaminho.length - 1];
 let configPromise;
-
-console.log(url.protocol + '//' + url.hostname + url.pathname + 'teste');
 
 function defineVariaveisUniversais(nomeDaPagina) {
     if (!configPromise) {
@@ -31,19 +30,19 @@ defineVariaveisUniversais(nomeDaPagina).then(config => {
 
     carregaLogo(config, document.getElementById("logo"));
 
-    if (pathSemDominio === '/') {
+    if (caminhoSemBarras === '/') {
     //PÁGINA HOME
         nomeDaPagina = 'home';
         setaMetaTags(config, nomeDaPagina);
         carregaConteudoHomePortal(config);
-    } else if (pathSemDominio.endsWith("/") && nomeDaPagina !== 'home') {
+    } else if (config.paginas_fixas && config.paginas_fixas[nomeDaPagina] && nomeDaPagina !== 'home') {
     //PÁGINA DE CATEGORIAS
         document.querySelector('h1').textContent = config.paginas_fixas[nomeDaPagina].meta_titulo;
         document.querySelector('#titulo_breadcumb').textContent = config.paginas_fixas[nomeDaPagina].titulo_breadcumb;
         setaMetaTags(config, nomeDaPagina);
         carregaCardsModeloHorizontal(config);
         carregaConteudoDestaque(config);
-    } else  if (partesDoCaminho.length === 2) {
+    } else  if (partesDoCaminho.length >= 2) {
     //PÁGINA DE ARTIGOS
        carregaArtigosRelacionados(config, document.querySelector("h1").dataset.slugCategoria, document.querySelector("h1").dataset.slug);
        carregaConteudoDestaque(config);
