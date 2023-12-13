@@ -37,13 +37,13 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
     if (url.protocol + '//' + url.hostname + url.pathname === config.dominio + '/') {
     //PÁGINA HOME
         slugDaPagina = 'home';
-        setaMetaTags(config, slugDaPagina);
+        setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina));
         carregaConteudoHomePortal(config);
     } else if (config.paginas_fixas && config.paginas_fixas[slugDaPagina] && slugDaPagina !== 'home') {
     //PÁGINA DE CATEGORIAS
         document.querySelector('h1').textContent = config.paginas_fixas[slugDaPagina].meta_titulo;
         document.querySelector('#titulo_breadcumb').textContent = config.paginas_fixas[slugDaPagina].titulo_breadcumb;
-        setaMetaTags(config, slugDaPagina);
+        setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina));
         carregaCardsModeloHorizontal(config);
         carregaConteudoDestaque(config);
     } else  if (partesDoCaminho.length >= 2) {
@@ -124,7 +124,7 @@ function setaMetaTags(config, slugDaPagina, nomeDaPagina = '') {
 
     const metaAltImageOg = document.createElement('meta');
     metaAltImageOg.setAttribute('property', 'og:image:alt');
-    metaAltImageOg.setAttribute('content', 'Imagem da pagina de ' + slugDaPagina + ' do ' + config.nome_do_site);
+    metaAltImageOg.setAttribute('content', 'Imagem da pagina de ' + nomeDaPagina + ' do ' + config.nome_do_site);
     document.querySelector('meta[property="og:image"]').parentNode.insertBefore(metaAltImageOg, document.querySelector('meta[property="og:image"]').nextSibling);
 
     const metaTitleTwitter = document.createElement('meta');
@@ -144,7 +144,7 @@ function setaMetaTags(config, slugDaPagina, nomeDaPagina = '') {
     
     const metaAltImageTwitter = document.createElement('meta');
     metaAltImageTwitter.setAttribute('name', 'twitter:image:alt');
-    metaAltImageTwitter.setAttribute('content', 'Imagem da pagina de ' + slugDaPagina + ' do ' + config.nome_do_site);
+    metaAltImageTwitter.setAttribute('content', 'Imagem da pagina de ' + nomeDaPagina + ' do ' + config.nome_do_site);
     document.querySelector('meta[name="twitter:image"]').parentNode.insertBefore(metaAltImageTwitter, document.querySelector('meta[name="twitter:image"]').nextSibling);
 
 }
