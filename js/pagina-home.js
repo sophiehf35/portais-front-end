@@ -9,9 +9,7 @@ function carregaConteudoHomePortal(config) {
         })
         .then(data => {
 
-            const startIndex = (pagina - 1) * config.numero_artigos_pagina_home;
-            const endIndex = startIndex + config.numero_artigos_pagina_home;
-            const artigosDaPagina = data.slice(startIndex, endIndex);
+            const artigosDaPagina = data.slice(0, config.numero_artigos_pagina_home);
 
             const slideInicialDeArtigosContainer = document.getElementById('slideInicialDeArtigos');
             const imagemComArtigosContainer = document.getElementById('imagemComArtigos');
