@@ -115,7 +115,7 @@ const botaoEnviarComentario = document.querySelector("#envia_comentario");
 const divNotificacaoComentario = document.querySelector("#div_notificacao_comentario");
 const divBarraComentario = document.querySelector("#div_barra_comentario");
 
-function validarFormulario(config) {
+function validarFormularioComentario(config) {
     botaoEnviarComentario.addEventListener("click", function (event) {
       event.preventDefault();
       
@@ -206,7 +206,7 @@ function enviaComentario(id_site, nome, email, sexo, avaliacao, mensagem) {
     body: data.toString(),
   };
 
-  fetch("https://gerenciador.linkasites.com.br/configuracao/php/funcoes/recebe-dados/", options)
+  fetch(config.endereco_funcao_php, options)
     .then((response) => {
       if (!response.ok) {
         console.error("Erro na solicitação: " + response.status);
@@ -293,40 +293,6 @@ function verificaTipoAlerta() {
         }
     }
     return 'nenhum';
-}
-
-
-function validarEmail(email) {
-  const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-  return regex.test(email);
-}
-
-function verificaFechamentoNotificacao(notificacao, campo) {
-  const alerta = document.querySelector(
-    "#div_notificacao_" + notificacao + " .alert"
-  );
-  alerta.addEventListener("closed.bs.alert", function () {
-    if (notificacao === "comentario") {
-      ocultaNotificacaoComentario(verificaTipoAlerta(), campo);
-    }
-  });
-}
-
-function criaBarraProgresso(duracao) {
-  const progressBar = document.querySelector(".progress-bar");
-  let width = 0;
-  const interval = 10;
-
-  const increment = (interval / duracao) * 100;
-
-  const animation = setInterval(function () {
-    width += increment;
-    progressBar.style.width = width + "%";
-
-    if (width >= 100) {
-      clearInterval(animation);
-    }
-  }, interval);
 }
 /* FUNÇÃO PARA VALIDAR E ENVIAR FORMULÁRIO DE COMENTÁRIO */
 

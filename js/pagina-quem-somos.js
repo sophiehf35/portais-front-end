@@ -21,8 +21,8 @@ function carregaLogoQuemSomos(config) {
     const logoQuemSomos = document.createElement('img');
 
     logoQuemSomos.src = `data:image/webp;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=`;
-    logoQuemSomos.setAttribute('data-src', `${config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : "/img"}/logo-${config.nome_do_logo}.webp`);
-    logoQuemSomos.setAttribute('data-srcset', `${config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : "/img"}/logo-${config.nome_do_logo}.webp?tr=w-300 300w, ${config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : "/img"}/logo-${config.nome_do_logo}.webp?tr=w-100 100w, ${config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : "/img"}/logo-${config.nome_do_logo}.webp?tr=w-700 700w, ${config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : "/img"}/logo-${config.nome_do_logo}.webp?tr=w-1060 1060w`);
+    logoQuemSomos.setAttribute('data-src', `${config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : "/img"}/${config.nome_do_logo}.webp`);
+    logoQuemSomos.setAttribute('data-srcset', `${config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : "/img"}/${config.nome_do_logo}.webp?tr=w-300 300w, ${config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : "/img"}/${config.nome_do_logo}.webp?tr=w-100 100w, ${config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : "/img"}/${config.nome_do_logo}.webp?tr=w-700 700w, ${config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : "/img"}/${config.nome_do_logo}.webp?tr=w-1060 1060w`);
     logoQuemSomos.alt = config.nome_do_site;
     logoQuemSomos.title = config.nome_do_site;
     logoQuemSomos.className = "img-fluid";

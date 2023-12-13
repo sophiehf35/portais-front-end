@@ -47,7 +47,7 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
        carregaArtigosRelacionados(config, document.querySelector("h1").dataset.slugCategoria, document.querySelector("h1").dataset.slug);
        carregaConteudoDestaque(config);
        carregaComentariosAvaliacoes(document.querySelector("h1").dataset.id);
-       validarFormulario(config);
+       validarFormularioComentario(config);
        compartilhamentoDeImagens(config);
     } else {
     //PÁGINAS ESTÁTICAS - FALE CONOSCO / POLÍTICA DE PRIVACIDADE / QUEM SOMOS
@@ -57,6 +57,7 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
 
         if(slugDaPagina === 'fale-conosco') {
             carregaCardsDiferenciais();
+            validarFormularioContato(config);
         } else if (slugDaPagina === 'quem-somos') {
             carregaLogoQuemSomos(config);
             carregaCardsDiferenciais();
@@ -310,9 +311,9 @@ function carregaCardsDiferenciais() {
         console.error('Erro ao buscar dados:', error);
     });
 }
-  /* FUNÇÃO PARA CRIAR E CARREGAR OS CARDS DIFERENCIAIS */
+/* FUNÇÃO PARA CRIAR E CARREGAR OS CARDS DIFERENCIAIS */
 
-  function slugParaTitulo(slug) {
+function slugParaTitulo(slug) {
     const primeiraLetraMaiuscula = slug.charAt(0).toUpperCase();
     const restanteDoTitulo = slug.slice(1).replace(/-/g, ' ');
     
@@ -320,3 +321,38 @@ function carregaCardsDiferenciais() {
 
     return titulo;
 }
+
+function validarEmail(email) {
+    const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    return regex.test(email);
+}
+
+function verificaFechamentoNotificacao(notificacao, campo) {
+    const alerta = document.querySelector(
+        "#div_notificacao_" + notificacao + " .alert"
+    );
+    alerta.addEventListener("closed.bs.alert", function () {
+        if (notificacao === "comentario") {
+            ocultaNotificacaoComentario(verificaTipoAlerta(), campo);
+        } else if (notificacao === "contato") {
+            ocultaNotificacaoContato(verificaTipoAlerta(), campo);
+        }
+    });
+}
+
+function criaBarraProgresso(duracao) {
+    const progressBar = document.querySelector(".progress-bar");
+    let width = 0;
+    const interval = 10;
+  
+    const increment = (interval / duracao) * 100;
+  
+    const animation = setInterval(function () {
+      width += increment;
+      progressBar.style.width = width + "%";
+  
+      if (width >= 100) {
+        clearInterval(animation);
+      }
+    }, interval);
+  }
