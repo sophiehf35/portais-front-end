@@ -394,7 +394,7 @@ function carregaComentariosAvaliacoes() {
           })
           .then(data => {
 
-              const comentariosArtigo = data.filter(dados => dados.id_artigo === document.querySelector("h1").dataset.id);
+              const comentariosArtigo = data.filter(dados => dados.id_artigo === parseInt(document.querySelector("h1").dataset.id, 10));
               const lista_comentarios = comentariosArtigo.map(dados => {
                   const estrelas = Array.from({
                           length: 5
@@ -468,6 +468,10 @@ function carregaComentariosAvaliacoes() {
           .catch(error => {
               console.error('Erro ao buscar dados:', error);
           });
+
+
+
+          
   }
 }
 /* FUNÇÃO PARA CRIAR SECTION E CARREGAR OS COMENTÁRIOS */
