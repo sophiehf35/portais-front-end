@@ -8,7 +8,7 @@ fetch('/configuracao/json/conteudo-quem-somos.json')
 })
 .then(conteudoQuemSomos => {
     const divConteudoQuemSomos = document.getElementById('conteudoQuemSomos');
-    divConteudoQuemSomos.insertAdjacentElement('afterend', conteudoQuemSomos);
+    divConteudoQuemSomos.insertAdjacentHTML('afterend', conteudoQuemSomos);
 })
 .catch(error => {
     console.error('Erro ao buscar dados:', error);
