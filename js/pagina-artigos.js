@@ -380,38 +380,39 @@ function carregaArtigosRelacionados(config, categoria, slugArtigo) {
 /* FUNÇÃO PARA CRIAR SECTION E CARREGAR OS ARTIGOS RELACIONADOS */
 
 /* FUNÇÃO PARA CRIAR SECTION E CARREGAR OS COMENTÁRIOS */
-function carregaComentariosAvaliacoes(idArtigo) {
-    fetch('/configuracao/json/comentarios.json')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Erro ao buscar dados. Código de status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
+function carregaComentariosAvaliacoes() {
 
-            const comentariosArtigo = data.filter(dados => dados.id_artigo === idArtigo);
+  const numeroComentarios = document.querySelector("h1").dataset.comentarios;
+  if (numeroComentarios > 0) {
 
-            if (comentariosArtigo.length > 0) {
+      fetch('/configuracao/json/comentarios.json')
+          .then(response => {
+              if (!response.ok) {
+                  throw new Error(`Erro ao buscar dados. Código de status: ${response.status}`);
+              }
+              return response.json();
+          })
+          .then(data => {
 
-                const lista_comentarios = comentariosArtigo.map(dados => {
-                    const estrelas = Array.from({
-                            length: 5
-                        }, (_, index) =>
-                        index < dados.avaliacao ?
-                        '<i class="icon_star voted"></i>' :
-                        '<i class="icon_star"></i>'
-                    ).join('');
-                    const imagemAvatar = sexo === '1' ? '<img src="../img/feminino_comentario.webp">' : '<img src="../img/masculino_comentario.webp">';
-                    const options = {
-                        weekday: 'long',
-                        day: 'numeric',
-                        month: 'long',
-                        year: 'numeric'
-                    };
-                    data_hora_criacao = new Date(dados.data_hora_criacao).toLocaleDateString('pt-BR', options);
+              const comentariosArtigo = data.filter(dados => dados.id_artigo === document.querySelector("h1").dataset.id);
+              const lista_comentarios = comentariosArtigo.map(dados => {
+                  const estrelas = Array.from({
+                          length: 5
+                      }, (_, index) =>
+                      index < dados.avaliacao ?
+                      '<i class="icon_star voted"></i>' :
+                      '<i class="icon_star"></i>'
+                  ).join('');
+                  const imagemAvatar = sexo === '1' ? '<img src="../img/feminino_comentario.webp">' : '<img src="../img/masculino_comentario.webp">';
+                  const options = {
+                      weekday: 'long',
+                      day: 'numeric',
+                      month: 'long',
+                      year: 'numeric'
+                  };
+                  data_hora_criacao = new Date(dados.data_hora_criacao).toLocaleDateString('pt-BR', options);
 
-                    return `
+                  return `
                 <div class="review-box clearfix">
                     <figure class="rev-thumb">${imagemAvatar}</figure>
                     <div class="rev-content">
@@ -425,50 +426,49 @@ function carregaComentariosAvaliacoes(idArtigo) {
                     </div>
                 </div>
                 ${ListarComentariosDeRespostas(data, dados.id)}
-            `;
-                }).join('');
+                `;
+              }).join('');
 
-                const secaoEnviaComentarios = document.getElementById('envia_comentarios');
-                secaoEnviaComentarios.insertAdjacentHTML(
-                    "beforebegin",
-                    '<section id="comentarios"><div style="margin-bottom: 20px; padding:0px" class="reviews-container box_detail"><div class="titulo_secao"><h3 class="titulo">COMENTÁRIOS</h3></div><div style="padding: 20px 20px 15px 20px;">' +
-                    lista_comentarios +
-                    "</div></div></section>"
-                );
+              const secaoEnviaComentarios = document.getElementById('envia_comentarios');
+              secaoEnviaComentarios.insertAdjacentHTML(
+                  "beforebegin",
+                  '<section id="comentarios"><div style="margin-bottom: 20px; padding:0px" class="reviews-container box_detail"><div class="titulo_secao"><h3 class="titulo">COMENTÁRIOS</h3></div><div style="padding: 20px 20px 15px 20px;">' +
+                  lista_comentarios +
+                  "</div></div></section>"
+              );
 
-            }
+              function ListarComentariosDeRespostas(comentarios, id_comentario_pai, marginleft = 0) {
+                  const comentariosRespostas = comentarios.filter(comentario => comentario.id_comentario_pai === id_comentario_pai);
+                  const output = comentariosRespostas.map(comentario => {
 
-            function ListarComentariosDeRespostas(comentarios, id_comentario_pai, marginleft = 0) {
-                const comentariosRespostas = comentarios.filter(comentario => comentario.id_comentario_pai === id_comentario_pai);
-                const output = comentariosRespostas.map(comentario => {
+                      const divAvaliacao = getDivAvaliacao(comentario.avaliacao);
+                      const divImagemAvatar = getDivImagemAvatar(comentario.sexo);
 
-                    const divAvaliacao = getDivAvaliacao(comentario.avaliacao);
-                    const divImagemAvatar = getDivImagemAvatar(comentario.sexo);
+                      return `
+                      <div style="margin-left:${marginleft}px" class="review-box clearfix">
+                          <figure class="rev-thumb">${divImagemAvatar}</figure>
+                          <div class="rev-content">
+                              ${divAvaliacao}
+                              <div class="rev-info">${comentario.nome}</div>
+                              <div class="botao_responder_comentario responder" id="${comentario.id}">Responder<i style="margin-left:5px" class="fa fa-reply"></i></div>
+                              <div class="rev-info">${formatarData(comentario.data_hora_criacao)}</div>
+                              <div class="rev-text">
+                                  <p>${ucFirst(comentario.comentario)}</p>
+                              </div>
+                          </div>
+                      </div>
+                      ${ListarComentariosDeRespostas(comentarios, comentario.id, marginleft + 48)}
+                  `;
+                  }).join('');
 
-                    return `
-                        <div style="margin-left:${marginleft}px" class="review-box clearfix">
-                            <figure class="rev-thumb">${divImagemAvatar}</figure>
-                            <div class="rev-content">
-                                ${divAvaliacao}
-                                <div class="rev-info">${comentario.nome}</div>
-                                <div class="botao_responder_comentario responder" id="${comentario.id}">Responder<i style="margin-left:5px" class="fa fa-reply"></i></div>
-                                <div class="rev-info">${formatarData(comentario.data_hora_criacao)}</div>
-                                <div class="rev-text">
-                                    <p>${ucFirst(comentario.comentario)}</p>
-                                </div>
-                            </div>
-                        </div>
-                        ${ListarComentariosDeRespostas(comentarios, comentario.id, marginleft + 48)}
-                    `;
-                }).join('');
+                  return output;
+              }
 
-                return output;
-            }
-
-        })
-        .catch(error => {
-            console.error('Erro ao buscar dados:', error);
-        });
+          })
+          .catch(error => {
+              console.error('Erro ao buscar dados:', error);
+          });
+  }
 }
 /* FUNÇÃO PARA CRIAR SECTION E CARREGAR OS COMENTÁRIOS */
 

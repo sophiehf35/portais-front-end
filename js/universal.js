@@ -52,7 +52,7 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
     //PÁGINA DE ARTIGOS
        carregaArtigosRelacionados(config, document.querySelector("h1").dataset.slugCategoria, document.querySelector("h1").dataset.slug);
        carregaConteudoDestaque(config);
-       carregaComentariosAvaliacoes(document.querySelector("h1").dataset.id);
+       carregaComentariosAvaliacoes();
        validarFormularioComentario(config);
        compartilhamentoDeImagens(config);
     } else {
