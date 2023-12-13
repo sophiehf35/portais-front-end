@@ -34,7 +34,7 @@ defineVariaveisUniversais(nomeDaPagina).then(config => {
 
     carregaLogo(config, document.getElementById("logo"));
 
-    if (caminhoSemBarras === '/') {
+    if (url.protocol + '//' + url.hostname + url.pathname === config.dominio + '/') {
     //PÁGINA HOME
         nomeDaPagina = 'home';
         setaMetaTags(config, nomeDaPagina);
