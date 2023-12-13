@@ -3,6 +3,7 @@ const url = new URL(window.location.href);
 const caminho = url.pathname;
 const caminhoSemBarras = caminho.replace(/^\/|\/$/g, "");
 const partesDoCaminho = caminhoSemBarras.split("/").filter(Boolean);
+const parametrosURL = new URLSearchParams(window.location.search);
 let slugDaPagina = partesDoCaminho[partesDoCaminho.length - 1];
 let configPromise;
 
@@ -33,13 +34,18 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
     if (url.protocol + '//' + url.hostname + url.pathname === config.dominio + '/') {
     //PÁGINA HOME
         slugDaPagina = 'home';
-        setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina));
+        setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina), config.dominio);
         carregaConteudoHomePortal(config);
     } else if (config.paginas_fixas && config.paginas_fixas[slugDaPagina] && slugDaPagina !== 'home') {
     //PÁGINA DE CATEGORIAS
         document.querySelector('h1').textContent = config.paginas_fixas[slugDaPagina].meta_titulo;
         document.querySelector('#titulo_breadcumb').textContent = config.paginas_fixas[slugDaPagina].titulo_breadcumb;
-        setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina));
+        if (parametrosURL.has('page')) {
+        //POSSUÍ PAGINAÇÃO
+            setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina), config.dominio + '/' + slugDaPagina + '/?pagina=' + parametrosURL.get('pagina'));
+        } else {
+            setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina) + '/');
+        }
         carregaCardsModeloHorizontal(config);
         carregaConteudoDestaque(config);
     } else  if (partesDoCaminho.length >= 2) {
@@ -75,7 +81,7 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
 });
 
 
-function setaMetaTags(config, slugDaPagina, nomeDaPagina = '') {
+function setaMetaTags(config, slugDaPagina, nomeDaPagina, linkCanonical = '') {
 
     const titleTag = document.createElement('title');
     titleTag.innerText = config.paginas_fixas[slugDaPagina] && config.paginas_fixas[slugDaPagina].meta_titulo ? config.paginas_fixas[slugDaPagina].meta_titulo : nomeDaPagina + ' ' + config.paginas_fixas.meta_titulo_padrao;
@@ -93,7 +99,7 @@ function setaMetaTags(config, slugDaPagina, nomeDaPagina = '') {
 
     const tagCanonical = document.createElement('link');
     tagCanonical.setAttribute('real', 'canonical');
-    tagCanonical.setAttribute('href', (slugDaPagina == 'home' ? config.dominio : config.dominio + '/' + slugDaPagina));
+    tagCanonical.setAttribute('href', (linkCanonical !== '' ? linkCanonical : config.dominio + '/' + slugDaPagina));
     document.querySelector('meta[name="author"]').parentNode.insertBefore(tagCanonical, document.querySelector('meta[name="author"]').nextSibling);
 
     const metaTitleTagOg = document.createElement('meta');
