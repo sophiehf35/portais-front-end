@@ -1,24 +1,18 @@
 /* FUNÇÃO PARA CRIAR E CARREGAR TEXTO DO QUEM SOMOS */
-function carregaConteudoQuemSomos() {
-
-    fetch('/configuracao/json/conteudo-quem-somos.json')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Erro ao buscar dados. Código de status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(conteuQuemSomos => {
-
-            const divConteuQuemSomos = document.getElementById('conteuQuemSomos');
-            divConteuQuemSomos.insertAdjacentElement('afterend', conteuQuemSomos);
-
-        })
-        .catch(error => {
-            console.error('Erro ao buscar dados:', error);
-        });
-
-}
+fetch('/configuracao/json/conteudo-quem-somos.json')
+.then(response => {
+    if (!response.ok) {
+        throw new Error(`Erro ao buscar dados. Código de status: ${response.status}`);
+    }
+    return response.json();
+})
+.then(conteuQuemSomos => {
+    const divConteuQuemSomos = document.getElementById('conteuQuemSomos');
+    divConteuQuemSomos.insertAdjacentElement('afterend', conteuQuemSomos);
+})
+.catch(error => {
+    console.error('Erro ao buscar dados:', error);
+});
 /* FUNÇÃO PARA CRIAR E CARREGAR TEXTO DO QUEM SOMOS */
 
 /* FUNÇÃO PARA CRIAR E CARREGAR LOGO DO QUEM SOMOS */

@@ -3,14 +3,14 @@ const url = new URL(window.location.href);
 const caminho = url.pathname;
 const caminhoSemBarras = caminho.replace(/^\/|\/$/g, "");
 const partesDoCaminho = caminhoSemBarras.split("/").filter(Boolean);
-let nomeDaPagina = partesDoCaminho[partesDoCaminho.length - 1];
+let slugDaPagina = partesDoCaminho[partesDoCaminho.length - 1];
 let configPromise;
 
 console.log(url.protocol + '//' + url.hostname + url.pathname);
 console.log(caminhoSemBarras);
-console.log(nomeDaPagina);
+console.log(slugDaPagina);
 
-function defineVariaveisUniversais(nomeDaPagina) {
+function defineVariaveisUniversais(slugDaPagina) {
     if (!configPromise) {
         configPromise = fetch('../configuracao/json/universal.json')
             .then(response => {
@@ -30,20 +30,20 @@ function defineVariaveisUniversais(nomeDaPagina) {
     return configPromise;
 }
 
-defineVariaveisUniversais(nomeDaPagina).then(config => {
+defineVariaveisUniversais(slugDaPagina).then(config => {
 
     carregaLogo(config, document.getElementById("logo"));
 
     if (url.protocol + '//' + url.hostname + url.pathname === config.dominio + '/') {
     //PÁGINA HOME
-        nomeDaPagina = 'home';
-        setaMetaTags(config, nomeDaPagina);
+        slugDaPagina = 'home';
+        setaMetaTags(config, slugDaPagina);
         carregaConteudoHomePortal(config);
-    } else if (config.paginas_fixas && config.paginas_fixas[nomeDaPagina] && nomeDaPagina !== 'home') {
+    } else if (config.paginas_fixas && config.paginas_fixas[slugDaPagina] && slugDaPagina !== 'home') {
     //PÁGINA DE CATEGORIAS
-        document.querySelector('h1').textContent = config.paginas_fixas[nomeDaPagina].meta_titulo;
-        document.querySelector('#titulo_breadcumb').textContent = config.paginas_fixas[nomeDaPagina].titulo_breadcumb;
-        setaMetaTags(config, nomeDaPagina);
+        document.querySelector('h1').textContent = config.paginas_fixas[slugDaPagina].meta_titulo;
+        document.querySelector('#titulo_breadcumb').textContent = config.paginas_fixas[slugDaPagina].titulo_breadcumb;
+        setaMetaTags(config, slugDaPagina);
         carregaCardsModeloHorizontal(config);
         carregaConteudoDestaque(config);
     } else  if (partesDoCaminho.length >= 2) {
@@ -53,6 +53,17 @@ defineVariaveisUniversais(nomeDaPagina).then(config => {
        carregaComentariosAvaliacoes(document.querySelector("h1").dataset.id);
        validarFormulario(config);
        compartilhamentoDeImagens(config);
+    } else {
+    //PÁGINAS ESTÁTICAS - FALE CONOSCO / POLÍTICA DE PRIVACIDADE / QUEM SOMOS
+        setaMetaTags(config, slugDaPagina, slugParaTitulo(slug));
+
+        if(slugDaPagina === 'fale-conosco') {
+            carregaCardsDiferenciais();
+        } else if (slugDaPagina === 'quem-somos') {
+            carregaLogoQuemSomos(config);
+            carregaCardsDiferenciais();
+        }
+    
     }
     
     carregaRodape(config);
@@ -65,15 +76,15 @@ defineVariaveisUniversais(nomeDaPagina).then(config => {
 });
 
 
-function setaMetaTags(config, nomeDaPagina) {
+function setaMetaTags(config, slugDaPagina, nomeDaPagina = '') {
 
     const titleTag = document.createElement('title');
-    titleTag.innerText = config.paginas_fixas[nomeDaPagina].meta_titulo;
+    titleTag.innerText = config.paginas_fixas[slugDaPagina] && config.paginas_fixas[slugDaPagina].meta_titulo ? config.paginas_fixas[slugDaPagina].meta_titulo : nomeDaPagina + ' ' + config.paginas_fixas.meta_titulo_padrao;
     document.querySelector('meta[name="robots"]').parentNode.insertBefore(titleTag, document.querySelector('meta[name="robots"]').nextSibling);
 
     const metaDescription = document.createElement('meta');
     metaDescription.setAttribute('name', 'description');
-    metaDescription.content = config.paginas_fixas[nomeDaPagina].meta_descricao;
+    metaDescription.content = config.paginas_fixas[slugDaPagina] && config.paginas_fixas[slugDaPagina].meta_descricao ? config.paginas_fixas[slugDaPagina].meta_descricao : nomeDaPagina + ' ' + config.paginas_fixas.meta_descricao_padrao;
     document.querySelector('title').parentNode.insertBefore(metaDescription, document.querySelector('title').nextSibling);
 
     const metaAuthor = document.createElement('meta');
@@ -83,17 +94,17 @@ function setaMetaTags(config, nomeDaPagina) {
 
     const tagCanonical = document.createElement('link');
     tagCanonical.setAttribute('real', 'canonical');
-    tagCanonical.setAttribute('href', (nomeDaPagina == 'home' ? config.dominio : config.dominio + '/' + nomeDaPagina));
+    tagCanonical.setAttribute('href', (slugDaPagina == 'home' ? config.dominio : config.dominio + '/' + slugDaPagina));
     document.querySelector('meta[name="author"]').parentNode.insertBefore(tagCanonical, document.querySelector('meta[name="author"]').nextSibling);
 
     const metaTitleTagOg = document.createElement('meta');
     metaTitleTagOg.setAttribute('property', 'og:title');
-    metaTitleTagOg.setAttribute('content', config.paginas_fixas[nomeDaPagina].meta_titulo);
+    metaTitleTagOg.setAttribute('content', config.paginas_fixas[slugDaPagina] && config.paginas_fixas[slugDaPagina].meta_titulo ? config.paginas_fixas[slugDaPagina].meta_titulo : nomeDaPagina + ' ' + config.paginas_fixas.meta_titulo_padrao);
     document.querySelector('meta[property="og:type"]').parentNode.insertBefore(metaTitleTagOg, document.querySelector('meta[property="og:type"]').nextSibling);
 
     const metaDescriptionOg = document.createElement('meta');
     metaDescriptionOg.setAttribute('property', 'og:description');
-    metaDescriptionOg.setAttribute('content', config.paginas_fixas[nomeDaPagina].meta_descricao);
+    metaDescriptionOg.setAttribute('content', config.paginas_fixas[slugDaPagina] && config.paginas_fixas[slugDaPagina].meta_descricao ? config.paginas_fixas[slugDaPagina].meta_descricao : nomeDaPagina + ' ' + config.paginas_fixas.meta_descricao_padrao);
     document.querySelector('meta[property="og:title"]').parentNode.insertBefore(metaDescriptionOg, document.querySelector('meta[property="og:title"]').nextSibling);
 
     const metaUrlOg = document.createElement('meta');
@@ -108,32 +119,32 @@ function setaMetaTags(config, nomeDaPagina) {
 
     const metaImageOg = document.createElement('meta');
     metaImageOg.setAttribute('property', 'og:image');
-    metaImageOg.setAttribute('content', config.dominio + '/img/' + nomeDaPagina + '.webp');
+    metaImageOg.setAttribute('content', config.dominio + '/img/' + slugDaPagina + '.webp');
     document.querySelector('meta[property="og:site_name"]').parentNode.insertBefore(metaImageOg, document.querySelector('meta[property="og:site_name"]').nextSibling);
 
     const metaAltImageOg = document.createElement('meta');
     metaAltImageOg.setAttribute('property', 'og:image:alt');
-    metaAltImageOg.setAttribute('content', 'Imagem da pagina de ' + nomeDaPagina + ' do ' + config.nome_do_site);
+    metaAltImageOg.setAttribute('content', 'Imagem da pagina de ' + slugDaPagina + ' do ' + config.nome_do_site);
     document.querySelector('meta[property="og:image"]').parentNode.insertBefore(metaAltImageOg, document.querySelector('meta[property="og:image"]').nextSibling);
 
     const metaTitleTwitter = document.createElement('meta');
     metaTitleTwitter.setAttribute('name', 'twitter:title');
-    metaTitleTwitter.setAttribute('content', config.paginas_fixas[nomeDaPagina].meta_titulo);
+    metaTitleTwitter.setAttribute('content', config.paginas_fixas[slugDaPagina] && config.paginas_fixas[slugDaPagina].meta_titulo ? config.paginas_fixas[slugDaPagina].meta_titulo : nomeDaPagina + ' ' + config.paginas_fixas.meta_titulo_padrao);
     document.querySelector('meta[name="twitter:card"]').parentNode.insertBefore(metaTitleTwitter, document.querySelector('meta[name="twitter:card"]').nextSibling);
 
     const metaDescriptionTwitter = document.createElement('meta');
     metaDescriptionTwitter.setAttribute('name', 'twitter:description');
-    metaDescriptionTwitter.setAttribute('content', config.paginas_fixas[nomeDaPagina].meta_descricao);
+    metaDescriptionTwitter.setAttribute('content', config.paginas_fixas[slugDaPagina] && config.paginas_fixas[slugDaPagina].meta_descricao ? config.paginas_fixas[slugDaPagina].meta_descricao : nomeDaPagina + ' ' + config.paginas_fixas.meta_descricao_padrao);
     document.querySelector('meta[name="twitter:title"]').parentNode.insertBefore(metaDescriptionTwitter, document.querySelector('meta[name="twitter:title"]').nextSibling);
 
     const metaImageTwitter = document.createElement('meta');
     metaImageTwitter.setAttribute('name', 'twitter:image');
-    metaImageTwitter.setAttribute('content', config.dominio + '/img/' + nomeDaPagina + '.webp');
+    metaImageTwitter.setAttribute('content', config.dominio + '/img/' + slugDaPagina + '.webp');
     document.querySelector('meta[name="twitter:description"]').parentNode.insertBefore(metaImageTwitter, document.querySelector('meta[name="twitter:description"]').nextSibling);
     
     const metaAltImageTwitter = document.createElement('meta');
     metaAltImageTwitter.setAttribute('name', 'twitter:image:alt');
-    metaAltImageTwitter.setAttribute('content', 'Imagem da pagina de ' + nomeDaPagina + ' do ' + config.nome_do_site);
+    metaAltImageTwitter.setAttribute('content', 'Imagem da pagina de ' + slugDaPagina + ' do ' + config.nome_do_site);
     document.querySelector('meta[name="twitter:image"]').parentNode.insertBefore(metaAltImageTwitter, document.querySelector('meta[name="twitter:image"]').nextSibling);
 
 }
@@ -311,3 +322,12 @@ function carregaCardsDiferenciais() {
   
   }
   /* FUNÇÃO PARA CRIAR E CARREGAR OS CARDS DIFERENCIAIS */
+
+  function slugParaTitulo(slug) {
+    const primeiraLetraMaiuscula = slug.charAt(0).toUpperCase();
+    const restanteDoTitulo = slug.slice(1).replace(/-/g, ' ');
+    
+    const titulo = `${primeiraLetraMaiuscula}${restanteDoTitulo}`;
+
+    return titulo;
+}

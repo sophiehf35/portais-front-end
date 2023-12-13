@@ -1,44 +1,47 @@
 function compartilhamentoDeImagens(config) {
   const imagens = document.querySelectorAll("section#artigo.box_detail > figure >img");
 
-  for (const imagem of imagens) {
-      imagem.insertAdjacentHTML('afterend', '<div class="lista-redes-sociais"><span class="compartilha_imagem facebook"></span><span class="compartilha_imagem twitter"></span><span class="compartilha_imagem linkedin"></span><span class="compartilha_imagem whatsapp"></span><span class="compartilha_imagem link"></span><span class="compartilha_imagem download"></span></div>');
-  }
+  if (imagens.length > 0) {
 
-  document.querySelector('.lista-redes-sociais').addEventListener('click', function(event) {
-    var clickedElement = event.target;
-
-    if (clickedElement.classList.contains('compartilha_imagem')) {
-      //ENCONTRA TODAS AS CLASSES 
-      var classes = clickedElement.classList;
-      
-      //ENCONTRA O SRC DA IMAGEM QUE ESTÁ PRÓXIMA DO BOTÃO CLICADO
-      var imgElement = clickedElement.closest('figure').querySelector('img');
-      var imgSrc = imgElement.getAttribute('src');
-
-      //ENCONTRA A CLASSE APÓS COMPARTILHA_IMAGEM PARA SABER A AÇÃO
-      var lastClassIndex = Array.from(classes).indexOf('compartilha_imagem') + 1;
-      var acao = classes[lastClassIndex];
-      
-      //FORMATA SRC E PEGA O NOME DO ARQUIVO
-      var srcFormatado = (config.cdn_imagens === 1 ? imgSrc.replace(config.diretorio_cdn_imagens + '/', window.location.protocol + '//' + window.location.host + '/img/') : imgSrc);
-      var nomeArquivo = imgSrc.split('/').pop().split('.')[0];
-      
-      if(acao === 'facebook') {
-        compartilhanoFacebook(srcFormatado);
-      } else if(acao === 'twitter') {
-        compartilhanoTwitter(srcFormatado);
-      } else if(acao === 'linkedin') {
-        compartilhanoLinkedin(srcFormatado);
-      } else if(acao === 'whatsapp') {
-        compartilhanoWhatsapp(srcFormatado);
-      } else if(acao === 'link') {
-        copiaLink(srcFormatado);
-      } else if(acao === 'download') {
-        downloadImagem(imgSrc, nomeArquivo + '.jpg');
-      }
+    for (const imagem of imagens) {
+        imagem.insertAdjacentHTML('afterend', '<div class="lista-redes-sociais"><span class="compartilha_imagem facebook"></span><span class="compartilha_imagem twitter"></span><span class="compartilha_imagem linkedin"></span><span class="compartilha_imagem whatsapp"></span><span class="compartilha_imagem link"></span><span class="compartilha_imagem download"></span></div>');
     }
-  });
+
+    document.querySelector('.lista-redes-sociais').addEventListener('click', function(event) {
+      var clickedElement = event.target;
+
+      if (clickedElement.classList.contains('compartilha_imagem')) {
+        //ENCONTRA TODAS AS CLASSES 
+        var classes = clickedElement.classList;
+        
+        //ENCONTRA O SRC DA IMAGEM QUE ESTÁ PRÓXIMA DO BOTÃO CLICADO
+        var imgElement = clickedElement.closest('figure').querySelector('img');
+        var imgSrc = imgElement.getAttribute('src');
+
+        //ENCONTRA A CLASSE APÓS COMPARTILHA_IMAGEM PARA SABER A AÇÃO
+        var lastClassIndex = Array.from(classes).indexOf('compartilha_imagem') + 1;
+        var acao = classes[lastClassIndex];
+        
+        //FORMATA SRC E PEGA O NOME DO ARQUIVO
+        var srcFormatado = (config.cdn_imagens === 1 ? imgSrc.replace(config.diretorio_cdn_imagens + '/', window.location.protocol + '//' + window.location.host + '/img/') : imgSrc);
+        var nomeArquivo = imgSrc.split('/').pop().split('.')[0];
+        
+        if(acao === 'facebook') {
+          compartilhanoFacebook(srcFormatado);
+        } else if(acao === 'twitter') {
+          compartilhanoTwitter(srcFormatado);
+        } else if(acao === 'linkedin') {
+          compartilhanoLinkedin(srcFormatado);
+        } else if(acao === 'whatsapp') {
+          compartilhanoWhatsapp(srcFormatado);
+        } else if(acao === 'link') {
+          copiaLink(srcFormatado);
+        } else if(acao === 'download') {
+          downloadImagem(imgSrc, nomeArquivo + '.jpg');
+        }
+      }
+    });
+  }
 
 }
 
