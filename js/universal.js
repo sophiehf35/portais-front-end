@@ -55,7 +55,7 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
        compartilhamentoDeImagens(config);
     } else {
     //PÁGINAS ESTÁTICAS - FALE CONOSCO / POLÍTICA DE PRIVACIDADE / QUEM SOMOS
-        setaMetaTags(config, slugDaPagina, slugParaTitulo(slug));
+        setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina));
 
         if(slugDaPagina === 'fale-conosco') {
             carregaCardsDiferenciais();
