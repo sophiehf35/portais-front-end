@@ -6,6 +6,10 @@ const partesDoCaminho = caminhoSemBarras.split("/").filter(Boolean);
 let nomeDaPagina = partesDoCaminho[partesDoCaminho.length - 1];
 let configPromise;
 
+console.log(url.protocol + '//' + url.hostname + url.pathname);
+console.log(caminhoSemBarras);
+console.log(nomeDaPagina);
+
 function defineVariaveisUniversais(nomeDaPagina) {
     if (!configPromise) {
         configPromise = fetch('../configuracao/json/universal.json')

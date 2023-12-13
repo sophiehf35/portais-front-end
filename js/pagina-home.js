@@ -9,12 +9,16 @@ function carregaConteudoHomePortal(config) {
         })
         .then(data => {
 
+            const startIndex = (pagina - 1) * config.numero_artigos_pagina_home;
+            const endIndex = startIndex + config.numero_artigos_pagina_home;
+            const artigosDaPagina = data.slice(startIndex, endIndex);
+
             const slideInicialDeArtigosContainer = document.getElementById('slideInicialDeArtigos');
             const imagemComArtigosContainer = document.getElementById('imagemComArtigos');
             const cardHorizontalDeArtigosContainer = document.getElementById('cardHorizontalDeArtigos');
 
             //SLIDE INICIAL DE ARTIGOS
-            data.slice(0, 4).forEach(item => {
+            artigosDaPagina.slice(0, 4).forEach(item => {
 
                 const slide = document.createElement('div');
                 slide.classList.add('swiper-slide');
@@ -84,7 +88,7 @@ function carregaConteudoHomePortal(config) {
             });
 
             //SEÇAO DE IMAGEM COM ARTIGOS
-            data.slice(4, 10).forEach((item, index) => {
+            artigosDaPagina.slice(4, 10).forEach((item, index) => {
 
                 const article = document.createElement('div');
                 article.classList.add('col-xl-4', 'col-md-6', 'mb-3', 'px-0');
@@ -206,7 +210,7 @@ function carregaConteudoHomePortal(config) {
             });
 
             //SEÇÃO CARD HORIZONTAL DE ARTIGOS
-            data.slice(0, config.numero_artigos_por_pagina).forEach(item => {
+            artigosDaPagina.slice(10).forEach((item) => {
 
                 const article = document.createElement('div');
                 article.classList.add('card', 'mb-3', 'card-noticias');
