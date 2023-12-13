@@ -286,19 +286,14 @@ function calcularDiferencaTempo(dataPublicacao) {
 
 /* FUNÇÃO PARA CRIAR E CARREGAR OS CARDS DIFERENCIAIS */
 function carregaCardsDiferenciais() {
-
-    fetch('/configuracao/json/cards-diferenciais.json')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Erro ao buscar dados. Código de status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-  
-          if (data.isArray(conteudoCards)) {
-            // Processa o conteúdo e gera os cards
-            const cardsDiferenciais = conteudoCards.map(conteudoCard => `
+    fetch('/configuracao/json/cards-diferenciais.json').then(response => {
+        if (!response.ok) {
+            throw new Error(`Erro ao buscar dados. Código de status: ${response.status}`);
+        }
+        return response.json();
+    }).then(data => {
+        if (Array.isArray(data)) {
+            const cardsDiferenciais = data.map(conteudoCard => `
                 <div class="col-lg-4 col-md-6">
                    <a class="box_topic">
                       <span><i class="${conteudoCard.icone}"></i></span>
@@ -307,20 +302,16 @@ function carregaCardsDiferenciais() {
                    </a>
                 </div>
             `).join('');
-  
+
             const divCardsDiferenciais = document.getElementById('cardsDiferenciais');
-            divCardsDiferenciais.insertAdjacentElement('afterend', cardsDiferenciais);
-            
-            } else {
-                throw new Error('O conteúdo do arquivo não é um array');
-            }
-  
-        })
-        .catch(error => {
-            console.error('Erro ao buscar dados:', error);
-        });
-  
-  }
+            divCardsDiferenciais.insertAdjacentHTML('afterend', cardsDiferenciais);
+        } else {
+            throw new Error('O conteúdo do arquivo não é um array');
+        }
+    }).catch(error => {
+        console.error('Erro ao buscar dados:', error);
+    });
+}
   /* FUNÇÃO PARA CRIAR E CARREGAR OS CARDS DIFERENCIAIS */
 
   function slugParaTitulo(slug) {

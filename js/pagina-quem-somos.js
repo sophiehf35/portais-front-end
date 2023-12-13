@@ -6,9 +6,9 @@ fetch('/configuracao/json/conteudo-quem-somos.json')
     }
     return response.json();
 })
-.then(conteuQuemSomos => {
-    const divConteuQuemSomos = document.getElementById('conteuQuemSomos');
-    divConteuQuemSomos.insertAdjacentElement('afterend', conteuQuemSomos);
+.then(conteudoQuemSomos => {
+    const divConteudoQuemSomos = document.getElementById('conteudoQuemSomos');
+    divConteudoQuemSomos.insertAdjacentElement('afterend', conteudoQuemSomos);
 })
 .catch(error => {
     console.error('Erro ao buscar dados:', error);
@@ -27,7 +27,7 @@ function carregaLogoQuemSomos(config) {
     logoQuemSomos.title = config.nome_do_site;
     logoQuemSomos.className = "img-fluid";
 
-    const divLogoQuemSomos = document.getElementById('logoQuemSomos');
-    divLogoQuemSomos.insertAdjacentElement('afterend', logoQuemSomos);
+    const figureLogoQuemSomos = document.getElementById('logoQuemSomos');
+    figureLogoQuemSomos.insertAdjacentElement('beforeend', logoQuemSomos);
   }
   /* FUNÇÃO PARA CRIAR E CARREGAR LOGO DO QUEM SOMOS */
