@@ -29,5 +29,7 @@ function carregaLogoQuemSomos(config) {
 
     const figureLogoQuemSomos = document.getElementById('logoQuemSomos');
     figureLogoQuemSomos.insertAdjacentElement('beforeend', logoQuemSomos);
-  }
-  /* FUNÇÃO PARA CRIAR E CARREGAR LOGO DO QUEM SOMOS */
+
+    AdiarImagens();
+}
+/* FUNÇÃO PARA CRIAR E CARREGAR LOGO DO QUEM SOMOS */

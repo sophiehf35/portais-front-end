@@ -6,10 +6,6 @@ const partesDoCaminho = caminhoSemBarras.split("/").filter(Boolean);
 let slugDaPagina = partesDoCaminho[partesDoCaminho.length - 1];
 let configPromise;
 
-console.log(url.protocol + '//' + url.hostname + url.pathname);
-console.log(caminhoSemBarras);
-console.log(slugDaPagina);
-
 function defineVariaveisUniversais(slugDaPagina) {
     if (!configPromise) {
         configPromise = fetch('../configuracao/json/universal.json')
@@ -55,6 +51,8 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
        compartilhamentoDeImagens(config);
     } else {
     //PÁGINAS ESTÁTICAS - FALE CONOSCO / POLÍTICA DE PRIVACIDADE / QUEM SOMOS
+        document.querySelector('h1').textContent = slugParaTitulo(slugDaPagina);
+        document.querySelector('#titulo_breadcumb').textContent = slugParaTitulo(slugDaPagina);
         setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina));
 
         if(slugDaPagina === 'fale-conosco') {
@@ -304,7 +302,7 @@ function carregaCardsDiferenciais() {
             `).join('');
 
             const divCardsDiferenciais = document.getElementById('cardsDiferenciais');
-            divCardsDiferenciais.insertAdjacentHTML('afterend', cardsDiferenciais);
+            divCardsDiferenciais.insertAdjacentHTML('afterbegin', cardsDiferenciais);
         } else {
             throw new Error('O conteúdo do arquivo não é um array');
         }
