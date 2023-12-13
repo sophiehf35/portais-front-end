@@ -40,7 +40,7 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
     //PÁGINA DE CATEGORIAS
         document.querySelector('h1').textContent = config.paginas_fixas[slugDaPagina].meta_titulo;
         document.querySelector('#titulo_breadcumb').textContent = config.paginas_fixas[slugDaPagina].titulo_breadcumb;
-        if (parametrosURL.has('page')) {
+        if (parametrosURL.has('pagina')) {
         //POSSUÍ PAGINAÇÃO
             setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina), config.dominio + '/' + slugDaPagina + '/?pagina=' + parametrosURL.get('pagina'));
         } else {
@@ -99,7 +99,7 @@ function setaMetaTags(config, slugDaPagina, nomeDaPagina, linkCanonical = '') {
 
     const tagCanonical = document.createElement('link');
     tagCanonical.setAttribute('real', 'canonical');
-    tagCanonical.setAttribute('href', (linkCanonical !== '' ? linkCanonical : config.dominio + '/' + slugDaPagina));
+    tagCanonical.setAttribute('href', (linkCanonical === '' ? config.dominio + '/' + slugDaPagina : linkCanonical));
     document.querySelector('meta[name="author"]').parentNode.insertBefore(tagCanonical, document.querySelector('meta[name="author"]').nextSibling);
 
     const metaTitleTagOg = document.createElement('meta');
