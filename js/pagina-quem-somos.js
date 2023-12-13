@@ -17,8 +17,8 @@ fetch('/configuracao/json/conteudo-quem-somos.json')
 
 /* FUNÇÃO PARA CRIAR E CARREGAR LOGO DO QUEM SOMOS */
 function carregaLogoQuemSomos(config) {
-    
-    const logo = '';
+
+    let logo = '';
 
     if (getComputedStyle(document.documentElement).getPropertyValue('--cor-fundo-header') === '#FFFFFF') {
         logo =  config.nome_do_logo;
