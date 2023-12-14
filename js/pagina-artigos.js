@@ -394,7 +394,7 @@ function carregaComentariosAvaliacoes() {
           })
           .then(data => {
 
-              const comentariosArtigo = data.filter(dados => dados.id_artigo === parseInt(document.querySelector("h1").dataset.id, 10));
+              const comentariosArtigo = data.filter(dados => dados.id_artigo === parseInt(document.querySelector("h1").dataset.id, 10) && dados.id_comentario_pai === 0);
               const lista_comentarios = comentariosArtigo.map(dados => {
                   const estrelas = Array.from({
                           length: 5
@@ -412,7 +412,7 @@ function carregaComentariosAvaliacoes() {
                   };
                   data_hora_criacao = new Date(dados.data_hora_criacao).toLocaleDateString('pt-BR', options);
 
-                  return `
+              return `
                 <div class="review-box clearfix">
                     <figure class="rev-thumb">${imagemAvatar}</figure>
                     <div class="rev-content">
@@ -425,7 +425,7 @@ function carregaComentariosAvaliacoes() {
                         </div>
                     </div>
                 </div>
-                ${ListarComentariosDeRespostas(data, dados.id)}
+                ${ListarComentariosDeRespostas(data, dados.id, 30)}
                 `;
               }).join('');
 
@@ -441,23 +441,35 @@ function carregaComentariosAvaliacoes() {
                   const comentariosRespostas = comentarios.filter(comentario => comentario.id_comentario_pai === id_comentario_pai);
                   const output = comentariosRespostas.map(comentario => {
 
-                      const divAvaliacao = getDivAvaliacao(comentario.avaliacao);
-                      const divImagemAvatar = getDivImagemAvatar(comentario.sexo);
+                      const estrelas = Array.from({
+                              length: 5
+                          }, (_, index) =>
+                          index < comentario.avaliacao ?
+                          '<i class="icon_star voted"></i>' :
+                          '<i class="icon_star"></i>'
+                      ).join('');
+                      const imagemAvatar = comentario.sexo === '1' ? '<img src="../img/feminino_comentario.webp">' : '<img src="../img/masculino_comentario.webp">';
+                      const options = {
+                          weekday: 'long',
+                          day: 'numeric',
+                          month: 'long',
+                          year: 'numeric'
+                      };
 
                       return `
                       <div style="margin-left:${marginleft}px" class="review-box clearfix">
-                          <figure class="rev-thumb">${divImagemAvatar}</figure>
+                          <figure class="rev-thumb">${imagemAvatar}</figure>
                           <div class="rev-content">
-                              ${divAvaliacao}
+                              <div class="rating_pequeno">${estrelas}</div>
                               <div class="rev-info">${comentario.nome}</div>
                               <div class="botao_responder_comentario responder" id="${comentario.id}">Responder<i style="margin-left:5px" class="fa fa-reply"></i></div>
-                              <div class="rev-info">${formatarData(comentario.data_hora_criacao)}</div>
+                              <div class="rev-info">${new Date(comentario.data_hora_criacao).toLocaleDateString('pt-BR', options)}</div>
                               <div class="rev-text">
-                                  <p>${ucFirst(comentario.comentario)}</p>
+                                  <p>${comentario.comentario.charAt(0).toUpperCase() + comentario.comentario.slice(1)}</p>
                               </div>
                           </div>
                       </div>
-                      ${ListarComentariosDeRespostas(comentarios, comentario.id, marginleft + 48)}
+                      ${ListarComentariosDeRespostas(comentarios, comentario.id, marginleft + 30)}
                   `;
                   }).join('');
 
@@ -469,9 +481,6 @@ function carregaComentariosAvaliacoes() {
               console.error('Erro ao buscar dados:', error);
           });
 
-
-
-          
   }
 }
 /* FUNÇÃO PARA CRIAR SECTION E CARREGAR OS COMENTÁRIOS */
