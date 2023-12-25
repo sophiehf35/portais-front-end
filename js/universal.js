@@ -36,7 +36,7 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
         slugDaPagina = 'home';
         setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina), config.dominio);
         carregaConteudoHomePortal(config);
-    } else if (config.paginas_fixas && config.paginas_fixas[slugDaPagina] && slugDaPagina !== 'home') {
+    } else if (config.paginas_categorias && config.paginas_categorias.slugs.includes(slugDaPagina)) {
     //PÁGINA DE CATEGORIAS
         document.querySelector('h1').textContent = config.paginas_fixas[slugDaPagina].meta_titulo;
         document.querySelector('#titulo_breadcumb').textContent = config.paginas_fixas[slugDaPagina].titulo_breadcumb;
@@ -48,14 +48,14 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
         }
         carregaCardsModeloHorizontal(config);
         carregaConteudoDestaque(config);
-    } else  if (partesDoCaminho.length >= 2) {
+    } else if (config.paginas_categorias && config.paginas_categorias.slugs.some(categoria => slugDaPagina.includes(categoria))) {
     //PÁGINA DE ARTIGOS
        carregaArtigosRelacionados(config, document.querySelector("h1").dataset.slugCategoria, document.querySelector("h1").dataset.slug);
        carregaConteudoDestaque(config);
        carregaComentariosAvaliacoes();
        validarFormularioComentario(config);
        compartilhamentoDeImagens(config);
-    } else {
+    } else if (config.paginas_fixas && config.paginas_fixas.slugs.includes(slugDaPagina) && slugDaPagina !== 'home') {
     //PÁGINAS ESTÁTICAS - FALE CONOSCO / POLÍTICA DE PRIVACIDADE / QUEM SOMOS
         document.querySelector('h1').textContent = slugParaTitulo(slugDaPagina);
         document.querySelector('#titulo_breadcumb').textContent = slugParaTitulo(slugDaPagina);
