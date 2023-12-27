@@ -216,8 +216,8 @@ function carregaLogo(config, logoContainer) {
     }
 
     img.src = "data:image/webp;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
-    img.alt = "logo do" + config.nome_do_site;
-    img.title = "logo do" + config.nome_do_site;
+    img.alt = "logo do " + config.nome_do_site;
+    img.title = "logo do " + config.nome_do_site;
     img.classList.add("fade-in");
     img.width = "200";
     img.height = "45";
