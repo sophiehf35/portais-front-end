@@ -35,7 +35,7 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
     //PÁGINA HOME
         slugDaPagina = 'home';
         setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina), config.dominio);
-        carregaConteudoHomePortal(config);
+        config.tipo_home === "portal" ? carregaConteudoHomePortal(config) : null;
     } else if (config.paginas_categorias && config.paginas_categorias.slugs && config.paginas_categorias.slugs.includes(slugDaPagina)) {
     //PÁGINA DE CATEGORIAS
         document.querySelector('h1').textContent = config.paginas_fixas[slugDaPagina].meta_titulo;
