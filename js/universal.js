@@ -29,6 +29,9 @@ function defineVariaveisUniversais(slugDaPagina) {
 
 defineVariaveisUniversais(slugDaPagina).then(config => {
 
+    console.log('slugDaPagina:', slugDaPagina);
+    console.log('Categorias permitidas:', config.paginas_categorias.slugs);
+
     carregaLogo(config, document.getElementById("logo"));
 
     if (url.protocol + '//' + url.hostname + url.pathname === config.dominio + '/') {
@@ -49,6 +52,7 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
         carregaConteudoDestaque(config);
     } else if (config.paginas_categorias && config.paginas_categorias.slugs && config.paginas_categorias.slugs.some(categoria => slugDaPagina.includes(categoria))) {
     //PÁGINA DE ARTIGOS
+       console.log('entrou');
        carregaArtigosRelacionados(config, document.querySelector("h1").dataset.slugCategoria, document.querySelector("h1").dataset.slug);
        carregaConteudoDestaque(config);
        carregaComentariosAvaliacoes();
