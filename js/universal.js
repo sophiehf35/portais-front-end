@@ -29,13 +29,6 @@ function defineVariaveisUniversais(slugDaPagina) {
 
 defineVariaveisUniversais(slugDaPagina).then(config => {
 
-    console.log('slugDaPagina:', slugDaPagina);
-    console.log('Categorias permitidas:', config.paginas_categorias.slugs);
-
-    config.paginas_categorias.slugs.forEach(categoria => {
-        console.log(`Comparando com ${categoria}: ${slugDaPagina.startsWith(categoria)}`);
-    });
-
     carregaLogo(config, document.getElementById("logo"));
 
     if (url.protocol + '//' + url.hostname + url.pathname === config.dominio + '/') {
@@ -54,12 +47,8 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
         }
         carregaCardsModeloHorizontal(config, slugDaPagina);
         carregaConteudoDestaque(config);
-    } else if (
-        config.paginas_categorias.slugs &&
-        partesDoCaminho.some(parte => config.paginas_categorias.slugs.includes(parte))
-      ) {
+    } else if (config.paginas_categorias.slugs && partesDoCaminho.some(parte => config.paginas_categorias.slugs.includes(parte))) {
     //PÁGINA DE ARTIGOS
-       console.log('entrou');
        carregaArtigosRelacionados(config, document.querySelector("h1").dataset.slugCategoria, document.querySelector("h1").dataset.slug);
        carregaConteudoDestaque(config);
        carregaComentariosAvaliacoes();
