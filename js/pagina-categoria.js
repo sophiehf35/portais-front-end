@@ -22,6 +22,7 @@ function carregaCardsModeloHorizontal(config, slugDaPagina) {
 
             // Exibe os artigos na página atual e a paginação
             exibirArtigosNaPagina(paginaAtual, slugDaPagina);
+            exibirPaginacao();
         })
         .catch(error => {
             console.error('Erro ao buscar dados:', error);
@@ -172,10 +173,10 @@ function carregaCardsModeloHorizontal(config, slugDaPagina) {
 
         // Adia as imagens (se necessário)
         AdiarImagens();
-        exibirPaginacao(artigosDaPagina);
     }
 
-    function exibirPaginacao(artigosDaPagina) {
+    function exibirPaginacao() {
+        const artigosDaPagina = data.filter(item => item.slug_categoria === slugDaPagina);
         const totalPages = Math.ceil(artigosDaPagina.length / numeroArtigosPorPagina);
         const paginationContainer = document.querySelector('#divPaginacao');
 
