@@ -508,14 +508,14 @@ function carregaConteudoDestaque(config) {
                     link += `
                         <li>
                             <div class="alignleft shadow-sm">
-                                <a href="/${slugConteudo}/">
+                                <a href="/${slugConteudo}">
                                     <figure>
                                         <img width="95px" height="53px" src="data:image/webp;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-src="${(config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : "/img")}${imagem}" data-srcset="${(config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : "/img")}${imagem}?tr=w-150" class="img-fluid" alt="${conteudo.alt_imagem_destaque}" title="${conteudo.titulo_imagem_destaque}" itemprop="image">
                                     </figure>
                                 </a>
                             </div>
                             <small class="p-1 badge badge-primary rounded-0">${categoria}</small>
-                            <h4><a href="/${slugConteudo}/">${conteudo.titulo_breadcumb}</a></h4>
+                            <h4><a href="/${slugConteudo}">${conteudo.titulo_breadcumb}</a></h4>
                         </li>
                     `;
                 });
