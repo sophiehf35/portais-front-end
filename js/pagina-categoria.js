@@ -179,67 +179,70 @@ function carregaCardsModeloHorizontal(config, slugDaPagina) {
         const artigosDaPagina = data.filter(item => item.slug_categoria === slugDaPagina);
         const totalPages = Math.ceil(artigosDaPagina.length / numeroArtigosPorPagina);
         const paginationContainer = document.querySelector('#divPaginacao');
-
-        // Limpa a paginação antes de exibir as páginas
-        paginationContainer.innerHTML = '';
-
-        const paginationList = document.createElement('ul');
-        paginationList.classList.add('pagination');
-
-        // Adiciona o botão "Anterior" se houver uma página anterior
-        if (paginaAtual > 1) {
-            const prevPageItem = document.createElement('li');
-            const prevPageLink = document.createElement('a');
-            prevPageLink.classList.add('page-link');
-            prevPageLink.style.fontSize = '20px';
-            prevPageLink.href = paginaAtual === 2 ? '/noticias/' : `?pagina=${paginaAtual - 1}`;
-            prevPageLink.title = 'página anterior';
-            prevPageLink.textContent = '<';
-
-            prevPageItem.appendChild(prevPageLink);
-            paginationList.appendChild(prevPageItem);
-        }
-
-        for (let i = 1; i <= totalPages; i++) {
-            const paginationItem = document.createElement('li');
-
-            if (i === paginaAtual) {
-                const activeLink = document.createElement('a');
-                activeLink.classList.add('active');
-                activeLink.href = i === 1 ? '/noticias/' : `?pagina=${i}`;
-                activeLink.title = `página ${i}`;
-                activeLink.textContent = i;
-
-                paginationItem.appendChild(activeLink);
-            } else {
-                const pageLink = document.createElement('a');
-                pageLink.classList.add('page-link');
-                pageLink.href = i === 1 ? '/noticias/' : `?pagina=${i}`;
-                pageLink.title = `página ${i}`;
-                pageLink.textContent = i;
-
-                paginationItem.appendChild(pageLink);
+    
+        // Verifica se há mais de uma página
+        if (totalPages > 1) {
+            // Limpa a paginação antes de exibir as páginas
+            paginationContainer.innerHTML = '';
+    
+            const paginationList = document.createElement('ul');
+            paginationList.classList.add('pagination');
+    
+            // Adiciona o botão "Anterior" se houver uma página anterior
+            if (paginaAtual > 1) {
+                const prevPageItem = document.createElement('li');
+                const prevPageLink = document.createElement('a');
+                prevPageLink.classList.add('page-link');
+                prevPageLink.style.fontSize = '20px';
+                prevPageLink.href = paginaAtual === 2 ? '/noticias/' : `?pagina=${paginaAtual - 1}`;
+                prevPageLink.title = 'página anterior';
+                prevPageLink.textContent = '<';
+    
+                prevPageItem.appendChild(prevPageLink);
+                paginationList.appendChild(prevPageItem);
             }
-
-            paginationList.appendChild(paginationItem);
+    
+            for (let i = 1; i <= totalPages; i++) {
+                const paginationItem = document.createElement('li');
+    
+                if (i === paginaAtual) {
+                    const activeLink = document.createElement('a');
+                    activeLink.classList.add('active');
+                    activeLink.href = i === 1 ? '/noticias/' : `?pagina=${i}`;
+                    activeLink.title = `página ${i}`;
+                    activeLink.textContent = i;
+    
+                    paginationItem.appendChild(activeLink);
+                } else {
+                    const pageLink = document.createElement('a');
+                    pageLink.classList.add('page-link');
+                    pageLink.href = i === 1 ? '/noticias/' : `?pagina=${i}`;
+                    pageLink.title = `página ${i}`;
+                    pageLink.textContent = i;
+    
+                    paginationItem.appendChild(pageLink);
+                }
+    
+                paginationList.appendChild(paginationItem);
+            }
+    
+            // Adiciona o botão "Próxima página" se houver uma próxima página
+            if (paginaAtual < totalPages) {
+                const nextPageItem = document.createElement('li');
+                const nextPageLink = document.createElement('a');
+                nextPageLink.classList.add('page-link');
+                nextPageLink.style.fontSize = '20px';
+                nextPageLink.href = `?pagina=${paginaAtual + 1}`;
+                nextPageLink.title = 'próxima página';
+                nextPageLink.textContent = '>';
+    
+                nextPageItem.appendChild(nextPageLink);
+                paginationList.appendChild(nextPageItem);
+    
+                // Adiciona o wrapper ao contêiner de paginação
+                paginationContainer.appendChild(paginationList);
+            }
         }
-
-        // Adiciona o botão "Próxima página" se houver uma próxima página
-        if (paginaAtual < totalPages) {
-            const nextPageItem = document.createElement('li');
-            const nextPageLink = document.createElement('a');
-            nextPageLink.classList.add('page-link');
-            nextPageLink.style.fontSize = '20px';
-            nextPageLink.href = `?pagina=${paginaAtual + 1}`;
-            nextPageLink.title = 'próxima página';
-            nextPageLink.textContent = '>';
-
-            nextPageItem.appendChild(nextPageLink);
-            paginationList.appendChild(nextPageItem);
-        }
-
-        // Adiciona o wrapper ao contêiner de paginação
-        paginationContainer.appendChild(paginationList);
     }
 
     function updateURL() {
