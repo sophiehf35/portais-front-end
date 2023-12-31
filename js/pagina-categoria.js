@@ -208,14 +208,14 @@ function carregaCardsModeloHorizontal(config, slugDaPagina) {
                 if (i === paginaAtual) {
                     const activeLink = document.createElement('a');
                     activeLink.classList.add('active');
-                    activeLink.href = i === 1 ? '' : `?pagina=${i}`;
+                    activeLink.href = i === 1 ? '#' : `?pagina=${i}`;
                     activeLink.title = `página ${i}`;
                     activeLink.textContent = i;
                     paginationItem.appendChild(activeLink);
                 } else {
                     const pageLink = document.createElement('a');
                     pageLink.classList.add('page-link');
-                    pageLink.href = i === 1 ? '' : `?pagina=${i}`;
+                    pageLink.href = i === 1 ? `/${slugDaPagina}/` : `?pagina=${i}`;
                     pageLink.title = `página ${i}`;
                     pageLink.textContent = i;
                     paginationItem.appendChild(pageLink);
