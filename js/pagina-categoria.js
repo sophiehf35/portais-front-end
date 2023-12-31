@@ -194,7 +194,7 @@ function carregaCardsModeloHorizontal(config, slugDaPagina) {
                 const prevPageLink = document.createElement('a');
                 prevPageLink.classList.add('page-link');
                 prevPageLink.style.fontSize = '20px';
-                prevPageLink.href = paginaAtual === 2 ? '' : `?pagina=${paginaAtual - 1}`;
+                prevPageLink.href = paginaAtual === 2 ? `/${slugDaPagina}/` : `?pagina=${paginaAtual - 1}`;
                 prevPageLink.title = 'página anterior';
                 prevPageLink.textContent = '<';
     
@@ -205,14 +205,21 @@ function carregaCardsModeloHorizontal(config, slugDaPagina) {
             // Adiciona os links das páginas
             for (let i = 1; i <= totalPages; i++) {
                 const paginationItem = document.createElement('li');
-    
-                const pageLink = document.createElement('a');
-                pageLink.classList.add('page-link');
-                pageLink.href = i !== 1 ? `?pagina=${i}` : '';
-                pageLink.title = `página ${i}`;
-                pageLink.textContent = i;
-    
-                paginationItem.appendChild(pageLink);
+                if (i === paginaAtual) {
+                    const activeLink = document.createElement('a');
+                    activeLink.classList.add('active');
+                    activeLink.href = i === 1 ? '' : `?pagina=${i}`;
+                    activeLink.title = `página ${i}`;
+                    activeLink.textContent = i;
+                    paginationItem.appendChild(activeLink);
+                } else {
+                    const pageLink = document.createElement('a');
+                    pageLink.classList.add('page-link');
+                    pageLink.href = i === 1 ? '' : `?pagina=${i}`;
+                    pageLink.title = `página ${i}`;
+                    pageLink.textContent = i;
+                    paginationItem.appendChild(pageLink);
+                }
                 paginationList.appendChild(paginationItem);
             }
     
