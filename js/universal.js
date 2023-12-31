@@ -54,7 +54,10 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
         }
         carregaCardsModeloHorizontal(config, slugDaPagina);
         carregaConteudoDestaque(config);
-    } else if (config.paginas_categorias.slugs && config.paginas_categorias.slugs.some(categoria => slugDaPagina.startsWith(categoria))) {
+    } else if (
+        config.paginas_categorias.slugs &&
+        config.paginas_categorias.slugs.some(categoria => slugDaPagina.startsWith(`${categoria}-`))
+      ) {
     //PÁGINA DE ARTIGOS
        console.log('entrou');
        carregaArtigosRelacionados(config, document.querySelector("h1").dataset.slugCategoria, document.querySelector("h1").dataset.slug);
