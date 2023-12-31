@@ -56,7 +56,7 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
         carregaConteudoDestaque(config);
     } else if (
         config.paginas_categorias.slugs &&
-        config.paginas_categorias.slugs.some(categoria => slugDaPagina.startsWith(`${categoria}-`))
+        partesDoCaminho.some(parte => config.paginas_categorias.slugs.includes(parte))
       ) {
     //PÁGINA DE ARTIGOS
        console.log('entrou');
