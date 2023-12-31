@@ -202,27 +202,17 @@ function carregaCardsModeloHorizontal(config, slugDaPagina) {
                 paginationList.appendChild(prevPageItem);
             }
     
+            // Adiciona os links das páginas
             for (let i = 1; i <= totalPages; i++) {
                 const paginationItem = document.createElement('li');
     
-                if (i === paginaAtual) {
-                    const activeLink = document.createElement('a');
-                    activeLink.classList.add('active');
-                    activeLink.href = i === 1 ? '/noticias/' : `?pagina=${i}`;
-                    activeLink.title = `página ${i}`;
-                    activeLink.textContent = i;
+                const pageLink = document.createElement('a');
+                pageLink.classList.add('page-link');
+                pageLink.href = i === 1 ? '/noticias/' : `?pagina=${i}`;
+                pageLink.title = `página ${i}`;
+                pageLink.textContent = i;
     
-                    paginationItem.appendChild(activeLink);
-                } else {
-                    const pageLink = document.createElement('a');
-                    pageLink.classList.add('page-link');
-                    pageLink.href = i === 1 ? '/noticias/' : `?pagina=${i}`;
-                    pageLink.title = `página ${i}`;
-                    pageLink.textContent = i;
-    
-                    paginationItem.appendChild(pageLink);
-                }
-    
+                paginationItem.appendChild(pageLink);
                 paginationList.appendChild(paginationItem);
             }
     
@@ -238,10 +228,10 @@ function carregaCardsModeloHorizontal(config, slugDaPagina) {
     
                 nextPageItem.appendChild(nextPageLink);
                 paginationList.appendChild(nextPageItem);
-    
-                // Adiciona o wrapper ao contêiner de paginação
-                paginationContainer.appendChild(paginationList);
             }
+    
+            // Adiciona o wrapper ao contêiner de paginação
+            paginationContainer.appendChild(paginationList);
         }
     }
 
