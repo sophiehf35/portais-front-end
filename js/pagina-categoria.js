@@ -194,7 +194,7 @@ function carregaCardsModeloHorizontal(config, slugDaPagina) {
                 const prevPageLink = document.createElement('a');
                 prevPageLink.classList.add('page-link');
                 prevPageLink.style.fontSize = '20px';
-                prevPageLink.href = paginaAtual === 2 ? `?slug=${slugDaPagina}` : `?slug=${slugDaPagina}&pagina=${paginaAtual - 1}`;
+                prevPageLink.href = paginaAtual === 2 ? '' : `pagina=${paginaAtual - 1}`;
                 prevPageLink.title = 'página anterior';
                 prevPageLink.textContent = '<';
     
@@ -208,7 +208,7 @@ function carregaCardsModeloHorizontal(config, slugDaPagina) {
     
                 const pageLink = document.createElement('a');
                 pageLink.classList.add('page-link');
-                pageLink.href = i === 1 ? `?slug=${slugDaPagina}` : `?slug=${slugDaPagina}&pagina=${i}`;
+                pageLink.href = i === 1 ? '' : `pagina=${i}`;
                 pageLink.title = `página ${i}`;
                 pageLink.textContent = i;
     
@@ -222,7 +222,7 @@ function carregaCardsModeloHorizontal(config, slugDaPagina) {
                 const nextPageLink = document.createElement('a');
                 nextPageLink.classList.add('page-link');
                 nextPageLink.style.fontSize = '20px';
-                nextPageLink.href = `?slug=${slugDaPagina}&pagina=${paginaAtual + 1}`;
+                nextPageLink.href = `?pagina=${paginaAtual + 1}`;
                 nextPageLink.title = 'próxima página';
                 nextPageLink.textContent = '>';
     
