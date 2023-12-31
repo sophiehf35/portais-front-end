@@ -208,7 +208,7 @@ function carregaCardsModeloHorizontal(config, slugDaPagina) {
     
                 const pageLink = document.createElement('a');
                 pageLink.classList.add('page-link');
-                pageLink.href = i === 1 ? '' : `?pagina=${i}`;
+                pageLink.href = i !== 1 ? `?pagina=${i}` : '';
                 pageLink.title = `página ${i}`;
                 pageLink.textContent = i;
     
