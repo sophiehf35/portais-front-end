@@ -6,9 +6,11 @@ function carregaCardsModeloHorizontal(config, slugDaPagina) {
     function exibirArtigosNaPagina(pagina, slugDaPagina) {
         const startIndex = (pagina - 1) * numeroArtigosPorPagina;
         const endIndex = startIndex + numeroArtigosPorPagina;
+        console.log(data);
         const artigosFiltrados = data.filter(item => item.slug_categoria === slugDaPagina);
+        console.log(artigosFiltrados);
         const artigosDaPagina = artigosFiltrados.slice(startIndex, endIndex);
-
+        console.log(slugDaPagina);
         const cardHorizontalDeArtigosContainer = document.getElementById('cardHorizontalDeArtigos');
         cardHorizontalDeArtigosContainer.innerHTML = ''; // Limpa o conteúdo anterior
 
