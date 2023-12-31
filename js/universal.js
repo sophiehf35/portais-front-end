@@ -39,7 +39,6 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
     } else if (config.paginas_categorias && config.paginas_categorias.slugs && config.paginas_categorias.slugs.includes(slugDaPagina)) {
     //PÁGINA DE CATEGORIAS
         document.querySelector('h1').textContent = config.paginas_fixas[slugDaPagina].meta_titulo;
-        document.querySelector('#titulo_breadcumb').textContent = config.paginas_fixas[slugDaPagina].titulo_breadcumb;
         if (parametrosURL.has('pagina')) {
         //POSSUÍ PAGINAÇÃO
             setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina), config.dominio + '/' + slugDaPagina + '/?pagina=' + parametrosURL.get('pagina'));
@@ -58,7 +57,6 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
     } else if (config.paginas_fixas && config.paginas_fixas.slugs.includes(slugDaPagina) && slugDaPagina !== 'home') {
     //PÁGINAS FIXAS
         document.querySelector('h1').textContent = slugParaTitulo(slugDaPagina);
-        document.querySelector('#titulo_breadcumb').textContent = slugParaTitulo(slugDaPagina);
         setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina));
 
         if(slugDaPagina === 'fale-conosco') {

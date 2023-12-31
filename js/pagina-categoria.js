@@ -3,14 +3,35 @@ function carregaCardsModeloHorizontal(config, slugDaPagina) {
     const numeroArtigosPorPagina = config.numero_artigos_pagina_categoria;
     let data;
 
+    fetch('/configuracao/json/artigos.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Erro ao buscar dados. Código de status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(responseData => {
+            data = responseData;
+
+            // Verifica se há um parâmetro 'pagina' na URL e atualiza a página
+            const urlParams = new URLSearchParams(window.location.search);
+            const pageParam = urlParams.get('pagina');
+            if (pageParam && !isNaN(pageParam)) {
+                paginaAtual = parseInt(pageParam, 10);
+            }
+
+            // Exibe os artigos na página atual e a paginação
+            exibirArtigosNaPagina(paginaAtual, slugDaPagina);
+        })
+        .catch(error => {
+            console.error('Erro ao buscar dados:', error);
+        });
+
     function exibirArtigosNaPagina(pagina, slugDaPagina) {
         const startIndex = (pagina - 1) * numeroArtigosPorPagina;
         const endIndex = startIndex + numeroArtigosPorPagina;
-        console.log(data);
-        const artigosFiltrados = data.filter(item => item.slug_categoria === slugDaPagina);
-        console.log(artigosFiltrados);
-        const artigosDaPagina = artigosFiltrados.slice(startIndex, endIndex);
-        console.log(slugDaPagina);
+        const artigosDaPagina = data.filter(item => item.slug_categoria === slugDaPagina).slice(startIndex, endIndex);
+
         const cardHorizontalDeArtigosContainer = document.getElementById('cardHorizontalDeArtigos');
         cardHorizontalDeArtigosContainer.innerHTML = ''; // Limpa o conteúdo anterior
 
@@ -151,10 +172,11 @@ function carregaCardsModeloHorizontal(config, slugDaPagina) {
 
         // Adia as imagens (se necessário)
         AdiarImagens();
+        exibirPaginacao(artigosDaPagina);
     }
 
-    function exibirPaginacao() {
-        const totalPages = Math.ceil(data.length / numeroArtigosPorPagina);
+    function exibirPaginacao(artigosDaPagina) {
+        const totalPages = Math.ceil(artigosDaPagina.length / numeroArtigosPorPagina);
         const paginationContainer = document.querySelector('#divPaginacao');
 
         // Limpa a paginação antes de exibir as páginas
@@ -224,31 +246,6 @@ function carregaCardsModeloHorizontal(config, slugDaPagina) {
         params.set('pagina', paginaAtual);
         window.history.replaceState({}, '', `${window.location.pathname}?${params}`);
     }
-
-    fetch('/configuracao/json/artigos.json')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Erro ao buscar dados. Código de status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(responseData => {
-            data = responseData;
-
-            // Verifica se há um parâmetro 'pagina' na URL e atualiza a página
-            const urlParams = new URLSearchParams(window.location.search);
-            const pageParam = urlParams.get('pagina');
-            if (pageParam && !isNaN(pageParam)) {
-                paginaAtual = parseInt(pageParam, 10);
-            }
-
-            // Exibe os artigos na página atual e a paginação
-            exibirArtigosNaPagina(paginaAtual, slugDaPagina);
-            exibirPaginacao();
-        })
-        .catch(error => {
-            console.error('Erro ao buscar dados:', error);
-        });
 }
 
 /* FUNÇÃO PARA CRIAR SECTION E CARREGAR O CONTEÚDO EM DESTAQUE */
