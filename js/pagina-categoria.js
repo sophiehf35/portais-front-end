@@ -1,12 +1,13 @@
-function carregaCardsModeloHorizontal(config) {
+function carregaCardsModeloHorizontal(config, slugDaPagina) {
     let paginaAtual = 1;
     const numeroArtigosPorPagina = config.numero_artigos_pagina_categoria;
     let data;
 
-    function exibirArtigosNaPagina(pagina) {
+    function exibirArtigosNaPagina(pagina, slugDaPagina) {
         const startIndex = (pagina - 1) * numeroArtigosPorPagina;
         const endIndex = startIndex + numeroArtigosPorPagina;
-        const artigosDaPagina = data.slice(startIndex, endIndex);
+        const artigosFiltrados = data.filter(item => item.slug_categoria === slugDaPagina);
+        const artigosDaPagina = artigosFiltrados.slice(startIndex, endIndex);
 
         const cardHorizontalDeArtigosContainer = document.getElementById('cardHorizontalDeArtigos');
         cardHorizontalDeArtigosContainer.innerHTML = ''; // Limpa o conteúdo anterior
@@ -240,7 +241,7 @@ function carregaCardsModeloHorizontal(config) {
             }
 
             // Exibe os artigos na página atual e a paginação
-            exibirArtigosNaPagina(paginaAtual);
+            exibirArtigosNaPagina(paginaAtual, slugDaPagina);
             exibirPaginacao();
         })
         .catch(error => {

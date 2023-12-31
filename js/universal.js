@@ -46,7 +46,7 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
         } else {
             setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina) + '/');
         }
-        carregaCardsModeloHorizontal(config);
+        carregaCardsModeloHorizontal(config, slugDaPagina);
         carregaConteudoDestaque(config);
     } else if (config.paginas_categorias && config.paginas_categorias.slugs && config.paginas_categorias.slugs.some(categoria => slugDaPagina.includes(categoria))) {
     //PÁGINA DE ARTIGOS
