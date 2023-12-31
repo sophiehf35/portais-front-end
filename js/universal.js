@@ -32,6 +32,10 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
     console.log('slugDaPagina:', slugDaPagina);
     console.log('Categorias permitidas:', config.paginas_categorias.slugs);
 
+    config.paginas_categorias.slugs.forEach(categoria => {
+        console.log(`Comparando com ${categoria}: ${slugDaPagina.startsWith(categoria)}`);
+    });
+
     carregaLogo(config, document.getElementById("logo"));
 
     if (url.protocol + '//' + url.hostname + url.pathname === config.dominio + '/') {
