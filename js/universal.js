@@ -56,7 +56,6 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
        compartilhamentoDeImagens(config);
     } else if (config.paginas_fixas && config.paginas_fixas.slugs.includes(slugDaPagina) && slugDaPagina !== 'home') {
     //PÁGINAS FIXAS
-        document.querySelector('h1').textContent = slugParaTitulo(slugDaPagina);
         setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina));
 
         if(slugDaPagina === 'fale-conosco') {
