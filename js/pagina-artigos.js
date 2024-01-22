@@ -307,11 +307,11 @@ function carregaArtigosRelacionados(config, categoria, slugArtigo) {
             return response.json();
         })
         .then(data => {
-
+          console.log('json total' + data);
             // Verifica se o JSON contém a chave da categoria
             if (data.hasOwnProperty(categoria)) {
                 let relacionados = data[categoria];
-        
+                console.log('json total' + relacionados);
                 // Filtra os artigos relacionados excluindo o artigo atual
                 relacionados = relacionados.filter(artigo => artigo.slug !== slugArtigo);
 
@@ -496,10 +496,10 @@ function carregaConteudoDestaque(config) {
             return response.json();
         })
         .then(data => {
-
+            
             if (data.length > 0 && config.conteudo_destaque_pagina_artigo === 1) {
                 let link = '';
-            
+
                 data.forEach(conteudo => {
                     const imagem = (conteudo.tipo === 'artigos' ? `/usuarios/${conteudo.slug_tipo_autor}/${conteudo.slug_autor}/artigos/thumb/${conteudo.imagem_destaque}` : `/ferramentas/${conteudo.imagem_destaque}`);
                     const slugConteudo = (conteudo.tipo === 'artigos' ? `${conteudo.slug_categoria}/${conteudo.slug}` : `ferramenta/${conteudo.slug}`);
