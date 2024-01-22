@@ -307,11 +307,11 @@ function carregaArtigosRelacionados(config, categoria, slugArtigo) {
             return response.json();
         })
         .then(data => {
-            console.log(categoria);
+            
             // Verifica se o JSON contém a chave da categoria
             if (data.hasOwnProperty(categoria)) {
                 let relacionados = data[categoria];
-                console.log('entrou');
+                
                 // Filtra os artigos relacionados excluindo o artigo atual
                 relacionados = relacionados.filter(artigo => artigo.slug !== slugArtigo);
 
@@ -396,36 +396,38 @@ function carregaComentariosAvaliacoes() {
 
               const comentariosArtigo = data.filter(dados => dados.id_artigo === parseInt(document.querySelector("h1").dataset.id, 10) && dados.id_comentario_pai === 0);
               const lista_comentarios = comentariosArtigo.map(dados => {
-                  const estrelas = Array.from({
-                          length: 5
-                      }, (_, index) =>
-                      index < dados.avaliacao ?
-                      '<i class="icon_star voted"></i>' :
-                      '<i class="icon_star"></i>'
-                  ).join('');
-                  const imagemAvatar = sexo === '1' ? '<img src="../img/feminino_comentario.webp">' : '<img src="../img/masculino_comentario.webp">';
-                  const options = {
-                      weekday: 'long',
-                      day: 'numeric',
-                      month: 'long',
-                      year: 'numeric'
-                  };
-                  data_hora_criacao = new Date(dados.data_hora_criacao).toLocaleDateString('pt-BR', options);
-
-              return `
-                <div class="review-box clearfix">
-                    <figure class="rev-thumb">${imagemAvatar}</figure>
-                    <div class="rev-content">
-                        <div class="rating_pequeno">${estrelas}</div>
-                        <div class="rev-info">${dados.nome}</div>
-                        <div class="botao_responder_comentario responder" id="${dados.id}">Responder<i style="margin-left:5px" class="fa fa-reply"></i></div>
-                        <div class="rev-info">${data_hora_criacao}</div>
-                        <div class="rev-text">
-                            <p>${dados.comentario.charAt(0).toUpperCase() + dados.comentario.slice(1)}</p>
+                const estrelas = Array.from({
+                    length: 5
+                }, (_, index) =>
+                    index < dados.avaliacao ?
+                    '<i class="icon_star voted"></i>' :
+                    '<i class="icon_star"></i>'
+                ).join('');
+        
+                // Ajuste aqui para acessar o sexo corretamente
+                const imagemAvatar = dados.sexo === '1' ? '<img src="../img/feminino_comentario.webp">' : '<img src="../img/masculino_comentario.webp">';
+                const options = {
+                    weekday: 'long',
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric'
+                };
+                const data_hora_criacao = new Date(dados.data_hora_criacao).toLocaleDateString('pt-BR', options);
+        
+                return `
+                    <div class="review-box clearfix">
+                        <figure class="rev-thumb">${imagemAvatar}</figure>
+                        <div class="rev-content">
+                            <div class="rating_pequeno">${estrelas}</div>
+                            <div class="rev-info">${dados.nome}</div>
+                            <div class="botao_responder_comentario responder" id="${dados.id}">Responder<i style="margin-left:5px" class="fa fa-reply"></i></div>
+                            <div class="rev-info">${data_hora_criacao}</div>
+                            <div class="rev-text">
+                                <p>${dados.comentario.charAt(0).toUpperCase() + dados.comentario.slice(1)}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                ${ListarComentariosDeRespostas(data, dados.id, 30)}
+                    ${ListarComentariosDeRespostas(data, dados.id, 30)}
                 `;
               }).join('');
 
