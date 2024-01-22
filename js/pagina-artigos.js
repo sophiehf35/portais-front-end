@@ -395,6 +395,7 @@ function carregaComentariosAvaliacoes() {
           .then(data => {
               console.log(data);
               const comentariosArtigo = data.filter(dados => dados.id_artigo === parseInt(document.querySelector("h1").dataset.id, 10) && dados.id_comentario_pai === 0);
+              console.log(comentariosArtigo);
               const lista_comentarios = comentariosArtigo.map(dados => {
                 const estrelas = Array.from({
                     length: 5
