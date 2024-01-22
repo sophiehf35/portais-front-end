@@ -307,11 +307,11 @@ function carregaArtigosRelacionados(config, categoria, slugArtigo) {
             return response.json();
         })
         .then(data => {
-          console.log('json total' + data);
+            console.log(categoria);
             // Verifica se o JSON contém a chave da categoria
             if (data.hasOwnProperty(categoria)) {
                 let relacionados = data[categoria];
-                console.log('json total' + relacionados);
+                console.log('entrou');
                 // Filtra os artigos relacionados excluindo o artigo atual
                 relacionados = relacionados.filter(artigo => artigo.slug !== slugArtigo);
 
