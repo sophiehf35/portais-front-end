@@ -393,7 +393,7 @@ function carregaComentariosAvaliacoes() {
               return response.json();
           })
           .then(data => {
-
+              console.log(data);
               const comentariosArtigo = data.filter(dados => dados.id_artigo === parseInt(document.querySelector("h1").dataset.id, 10) && dados.id_comentario_pai === 0);
               const lista_comentarios = comentariosArtigo.map(dados => {
                 const estrelas = Array.from({
@@ -430,7 +430,7 @@ function carregaComentariosAvaliacoes() {
                     ${ListarComentariosDeRespostas(data, dados.id, 30)}
                 `;
               }).join('');
-
+              console.log('lista comentarios' + lista_comentarios);
               const secaoEnviaComentarios = document.getElementById('envia_comentarios');
               secaoEnviaComentarios.insertAdjacentHTML(
                   "beforebegin",
