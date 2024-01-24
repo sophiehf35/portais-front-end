@@ -43,7 +43,7 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
         //POSSUÍ PAGINAÇÃO
             setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina), config.dominio + '/' + slugDaPagina + '/?pagina=' + parametrosURL.get('pagina'));
         } else {
-            setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina) + '/');
+            setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina), config.dominio + '/' + slugDaPagina + '/');
         }
         carregaCardsModeloHorizontal(config, slugDaPagina);
         carregaConteudoDestaque(config);
@@ -111,7 +111,7 @@ function setaMetaTags(config, slugDaPagina, nomeDaPagina, linkCanonical = '') {
 
     const metaUrlOg = document.createElement('meta');
     metaUrlOg.setAttribute('property', 'og:url');
-    metaUrlOg.setAttribute('content', config.dominio);
+    metaUrlOg.setAttribute('content', (linkCanonical === '' ? config.dominio + '/' + slugDaPagina : linkCanonical));
     document.querySelector('meta[property="og:description"]').parentNode.insertBefore(metaUrlOg, document.querySelector('meta[property="og:description"]').nextSibling);
 
     const metaSitenameOg = document.createElement('meta');
