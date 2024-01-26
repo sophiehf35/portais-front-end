@@ -34,8 +34,10 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
     if (url.protocol + '//' + url.hostname + url.pathname === config.dominio + '/') {
     //PÁGINA HOME
         slugDaPagina = 'home';
-        setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina), config.dominio);
-        config.tipo_home === "portal" ? carregaConteudoHomePortal(config) : null;
+        if(config.tipo_home === "portal") {
+            carregaConteudoHomePortal(config);
+            setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina), config.dominio);
+        }
     } else if (config.paginas_categorias && config.paginas_categorias.slugs && config.paginas_categorias.slugs.includes(slugDaPagina)) {
     //PÁGINA DE CATEGORIAS
         document.querySelector('h1').textContent = config.paginas_fixas[slugDaPagina].meta_titulo;
