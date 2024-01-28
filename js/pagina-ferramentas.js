@@ -137,7 +137,7 @@ function carregaListaDeFerramentas(config, slugDaPagina) {
             tituloLink.href = '/' + item.slug_categoria + '/' + item.slug;
             const titulo = document.createElement('h2');
             titulo.classList.add('card-title', 'mb-3', 'h5');
-            titulo.textContent = item.titulo;
+            titulo.textContent = item.nome;
             tituloLink.appendChild(titulo);
             conteudo.appendChild(tituloLink);
             const descricao = document.createElement('p');
