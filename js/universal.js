@@ -47,8 +47,19 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
         } else {
             setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina), config.dominio + '/' + slugDaPagina + '/');
         }
-        carregaCardsModeloHorizontal(config, slugDaPagina);
+        carregaListaDeArtigos(config, slugDaPagina);
         carregaConteudoDestaque(config);
+    } else if (config.possui_ferramentas == 1) {
+        //PÁGINA DE FERRAMENTAS
+            document.querySelector('h1').textContent = config.paginas_fixas['ferramentas'].meta_titulo;
+            if (parametrosURL.has('pagina')) {
+            //POSSUÍ PAGINAÇÃO
+                setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina), config.dominio + '/' + slugDaPagina + '/?pagina=' + parametrosURL.get('pagina'));
+            } else {
+                setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina), config.dominio + '/' + slugDaPagina + '/');
+            }
+            carregaListaDeFerramentas(config);
+            carregaConteudoDestaque(config);
     } else if (config.paginas_categorias.slugs && config.paginas_categorias.slugs.some(categoria => caminho.includes(`/${categoria}/`))) {
     //PÁGINA DE ARTIGOS
        carregaArtigosRelacionados(config, document.querySelector("h1").dataset.slugCategoria, document.querySelector("h1").dataset.slug);

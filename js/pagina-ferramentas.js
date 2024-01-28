@@ -1,9 +1,9 @@
-function carregaListaDeArtigos(config, slugDaPagina) {
+function carregaListaDeFerramentas(config, slugDaPagina) {
     let paginaAtual = 1;
-    const numeroArtigosPorPagina = config.numero_artigos_pagina_categoria;
+    const numeroFerramentasPorPagina = config.numero_ferramentas_pagina_categoria;
     let data;
 
-    fetch('/configuracao/json/artigos.json')
+    fetch('/configuracao/json/ferramentas.json')
         .then(response => {
             if (!response.ok) {
                 throw new Error(`Erro ao buscar dados. Código de status: ${response.status}`);
@@ -20,24 +20,24 @@ function carregaListaDeArtigos(config, slugDaPagina) {
                 paginaAtual = parseInt(pageParam, 10);
             }
 
-            // Exibe os artigos na página atual e a paginação
-            exibirArtigosNaPagina(paginaAtual, slugDaPagina);
+            // Exibe as ferramentas na página atual e a paginação
+            exibirFerramentasNaPagina(paginaAtual);
             exibirPaginacao();
         })
         .catch(error => {
             console.error('Erro ao buscar dados:', error);
         });
 
-    function exibirArtigosNaPagina(pagina, slugDaPagina) {
-        const startIndex = (pagina - 1) * numeroArtigosPorPagina;
-        const endIndex = startIndex + numeroArtigosPorPagina;
-        const artigosDaPagina = data.filter(item => item.slug_categoria === slugDaPagina).slice(startIndex, endIndex);
+    function exibirFerramentasNaPagina(pagina) {
+        const startIndex = (pagina - 1) * numeroFerramentasPorPagina;
+        const endIndex = startIndex + numeroFerramentasPorPagina;
+        const ferramentasDaPagina = data.slice(startIndex, endIndex);
 
-        const cardHorizontalDeArtigosContainer = document.getElementById('cardHorizontalDeArtigos');
-        cardHorizontalDeArtigosContainer.innerHTML = ''; // Limpa o conteúdo anterior
+        const cardHorizontalDeFerramentasContainer = document.getElementById('cardHorizontalDeFerramentas');
+        cardHorizontalDeFerramentasContainer.innerHTML = '';
 
-        //SEÇÃO CARD HORIZONTAL DE ARTIGOS
-        artigosDaPagina.forEach(item => {
+        //SEÇÃO CARD HORIZONTAL DE FERRAMENTAS
+        ferramentasDaPagina.forEach(item => {
 
             const article = document.createElement('div');
             article.classList.add('card', 'mb-3', 'card-noticias');
@@ -54,37 +54,37 @@ function carregaListaDeArtigos(config, slugDaPagina) {
             hoverContainer.classList.add('hover', 'hover-3', 'text-white', 'secao-imagem');
             const imagem = document.createElement('img');
             imagem.src = 'data:image/webp;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
-            imagem.setAttribute('data-src', (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/' + item.diretorio_autor + '/artigos/thumb/' + item.imagem_destaque);
+            imagem.setAttribute('data-src', (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/' + item.diretorio_autor + '/ferramentas/thumb/' + item.imagem_destaque);
             imagem.setAttribute('data-srcset',
-                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/' + item.diretorio_autor + '/artigos/thumb/' + item.imagem_destaque +
+                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/' + item.diretorio_autor + '/ferramentas/thumb/' + item.imagem_destaque +
                 '?tr=w-250 250w, ' +
-                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/' + item.diretorio_autor + '/artigos/thumb/' + item.imagem_destaque +
+                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/' + item.diretorio_autor + '/ferramentas/thumb/' + item.imagem_destaque +
                 '?tr=w-300 300w, ' +
-                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/' + item.diretorio_autor + '/artigos/thumb/' + item.imagem_destaque +
+                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/' + item.diretorio_autor + '/ferramentas/thumb/' + item.imagem_destaque +
                 '?tr=w-350 350w, ' +
-                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/' + item.diretorio_autor + '/artigos/thumb/' + item.imagem_destaque +
+                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/' + item.diretorio_autor + '/ferramentas/thumb/' + item.imagem_destaque +
                 '?tr=w-400 400w, ' +
-                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/' + item.diretorio_autor + '/artigos/thumb/' + item.imagem_destaque +
+                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/' + item.diretorio_autor + '/ferramentas/thumb/' + item.imagem_destaque +
                 '?tr=w-450 450w, ' +
-                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/' + item.diretorio_autor + '/artigos/thumb/' + item.imagem_destaque +
+                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/' + item.diretorio_autor + '/ferramentas/thumb/' + item.imagem_destaque +
                 '?tr=w-500 500w, ' +
-                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/' + item.diretorio_autor + '/artigos/thumb/' + item.imagem_destaque +
+                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/' + item.diretorio_autor + '/ferramentas/thumb/' + item.imagem_destaque +
                 '?tr=w-550 550w, ' +
-                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/' + item.diretorio_autor + '/artigos/thumb/' + item.imagem_destaque +
+                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/' + item.diretorio_autor + '/ferramentas/thumb/' + item.imagem_destaque +
                 '?tr=w-600 600w, ' +
-                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/' + item.diretorio_autor + '/artigos/thumb/' + item.imagem_destaque +
+                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/' + item.diretorio_autor + '/ferramentas/thumb/' + item.imagem_destaque +
                 '?tr=w-650 650w, ' +
-                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/' + item.diretorio_autor + '/artigos/thumb/' + item.imagem_destaque +
+                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/' + item.diretorio_autor + '/ferramentas/thumb/' + item.imagem_destaque +
                 '?tr=w-700 700w, ' +
-                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/' + item.diretorio_autor + '/artigos/thumb/' + item.imagem_destaque +
+                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/' + item.diretorio_autor + '/ferramentas/thumb/' + item.imagem_destaque +
                 '?tr=w-750 750w, ' +
-                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/' + item.diretorio_autor + '/artigos/thumb/' + item.imagem_destaque +
+                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/' + item.diretorio_autor + '/ferramentas/thumb/' + item.imagem_destaque +
                 '?tr=w-800 800w, ' +
-                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/' + item.diretorio_autor + '/artigos/thumb/' + item.imagem_destaque +
+                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/' + item.diretorio_autor + '/ferramentas/thumb/' + item.imagem_destaque +
                 '?tr=w-850 850w, ' +
-                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/' + item.diretorio_autor + '/artigos/thumb/' + item.imagem_destaque +
+                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/' + item.diretorio_autor + '/ferramentas/thumb/' + item.imagem_destaque +
                 '?tr=w-900 900w, ' +
-                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/' + item.diretorio_autor + '/artigos/thumb/' + item.imagem_destaque +
+                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/' + item.diretorio_autor + '/ferramentas/thumb/' + item.imagem_destaque +
                 '?tr=w-950 950w'
             );
             imagem.setAttribute('sizes', '(max-width: 125px), ' +
@@ -167,7 +167,7 @@ function carregaListaDeArtigos(config, slugDaPagina) {
             row.appendChild(colTexto);
             article.appendChild(row);
 
-            cardHorizontalDeArtigosContainer.appendChild(article);
+            cardHorizontalDeFerramentasContainer.appendChild(article);
 
         });
 
@@ -176,8 +176,8 @@ function carregaListaDeArtigos(config, slugDaPagina) {
     }
 
     function exibirPaginacao() {
-        const artigosDaPagina = data.filter(item => item.slug_categoria === slugDaPagina);
-        const totalPages = Math.ceil(artigosDaPagina.length / numeroArtigosPorPagina);
+        const ferramentasDaPagina = data.filter(item => item.slug_categoria === slugDaPagina);
+        const totalPages = Math.ceil(ferramentasDaPagina.length / numeroFerramentasPorPagina);
         const paginationContainer = document.querySelector('#divPaginacao');
     
         // Verifica se há mais de uma página
@@ -265,7 +265,7 @@ function carregaConteudoDestaque(config) {
                 let link = '';
             
                 data.forEach(conteudo => {
-                    const imagem = (conteudo.tipo === 'artigos' ? `/usuarios/${conteudo.slug_tipo_autor}/${conteudo.slug_autor}/artigos/thumb/${conteudo.imagem_destaque}` : `/ferramentas/${conteudo.imagem_destaque}`);
+                    const imagem = (conteudo.tipo === 'artigos' ? `/usuarios/${conteudo.slug_tipo_autor}/${conteudo.slug_autor}/ferramentas/thumb/${conteudo.imagem_destaque}` : `/ferramentas/${conteudo.imagem_destaque}`);
                     const slugConteudo = (conteudo.tipo === 'artigos' ? `${conteudo.slug_categoria}/${conteudo.slug}` : `ferramenta/${conteudo.slug}`);
                     const categoria = (conteudo.tipo === 'artigos' ? conteudo.categoria.toUpperCase() : conteudo.tipo.toUpperCase());
             
