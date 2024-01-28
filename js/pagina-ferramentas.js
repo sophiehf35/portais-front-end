@@ -54,37 +54,37 @@ function carregaListaDeFerramentas(config, slugDaPagina) {
             hoverContainer.classList.add('hover', 'hover-3', 'text-white', 'secao-imagem');
             const imagem = document.createElement('img');
             imagem.src = 'data:image/webp;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
-            imagem.setAttribute('data-src', (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/admin/ferramentas/thumb/' + item.imagem_destaque);
+            imagem.setAttribute('data-src', (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/administradores/admin/ferramentas/thumb/' + item.imagem_destaque);
             imagem.setAttribute('data-srcset',
-                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/admin/ferramentas/thumb/' + item.imagem_destaque +
+                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/administradores/admin/ferramentas/thumb/' + item.imagem_destaque +
                 '?tr=w-250 250w, ' +
-                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/admin/ferramentas/thumb/' + item.imagem_destaque +
+                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/administradores/admin/ferramentas/thumb/' + item.imagem_destaque +
                 '?tr=w-300 300w, ' +
-                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/admin/ferramentas/thumb/' + item.imagem_destaque +
+                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/administradores/admin/ferramentas/thumb/' + item.imagem_destaque +
                 '?tr=w-350 350w, ' +
-                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/admin/ferramentas/thumb/' + item.imagem_destaque +
+                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/administradores/admin/ferramentas/thumb/' + item.imagem_destaque +
                 '?tr=w-400 400w, ' +
-                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/admin/ferramentas/thumb/' + item.imagem_destaque +
+                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/administradores/admin/ferramentas/thumb/' + item.imagem_destaque +
                 '?tr=w-450 450w, ' +
-                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/admin/ferramentas/thumb/' + item.imagem_destaque +
+                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/administradores/admin/ferramentas/thumb/' + item.imagem_destaque +
                 '?tr=w-500 500w, ' +
-                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/admin/ferramentas/thumb/' + item.imagem_destaque +
+                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/administradores/admin/ferramentas/thumb/' + item.imagem_destaque +
                 '?tr=w-550 550w, ' +
-                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/admin/ferramentas/thumb/' + item.imagem_destaque +
+                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/administradores/admin/ferramentas/thumb/' + item.imagem_destaque +
                 '?tr=w-600 600w, ' +
-                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/admin/ferramentas/thumb/' + item.imagem_destaque +
+                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/administradores/admin/ferramentas/thumb/' + item.imagem_destaque +
                 '?tr=w-650 650w, ' +
-                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/admin/ferramentas/thumb/' + item.imagem_destaque +
+                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/administradores/admin/ferramentas/thumb/' + item.imagem_destaque +
                 '?tr=w-700 700w, ' +
-                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/admin/ferramentas/thumb/' + item.imagem_destaque +
+                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/administradores/admin/ferramentas/thumb/' + item.imagem_destaque +
                 '?tr=w-750 750w, ' +
-                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/admin/ferramentas/thumb/' + item.imagem_destaque +
+                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/administradores/admin/ferramentas/thumb/' + item.imagem_destaque +
                 '?tr=w-800 800w, ' +
-                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/admin/ferramentas/thumb/' + item.imagem_destaque +
+                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/administradores/admin/ferramentas/thumb/' + item.imagem_destaque +
                 '?tr=w-850 850w, ' +
-                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/admin/ferramentas/thumb/' + item.imagem_destaque +
+                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/administradores/admin/ferramentas/thumb/' + item.imagem_destaque +
                 '?tr=w-900 900w, ' +
-                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/admin/ferramentas/thumb/' + item.imagem_destaque +
+                (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/usuarios/administradores/admin/ferramentas/thumb/' + item.imagem_destaque +
                 '?tr=w-950 950w'
             );
             imagem.setAttribute('sizes', '(max-width: 125px), ' +
@@ -144,23 +144,9 @@ function carregaListaDeFerramentas(config, slugDaPagina) {
             descricao.classList.add('card-text');
             descricao.textContent = item.descricao + ' [...]';
 
-            // Rodapé
-            const rodape = document.createElement('ul');
-            rodape.classList.add('rodape', 'mb-0', 'pt-xl-1', 'pt-xxl-4');
-            const liData = document.createElement('li');
-            const dataPublicacao = document.createElement('small');
-            dataPublicacao.textContent = calcularDiferencaTempo(item.data_hora_criacao);
-            liData.appendChild(dataPublicacao);
-            const liComentarios = document.createElement('li');
-            liComentarios.innerHTML = '<i class="ti-comment"></i>' + item.total_comentarios;
-
-            rodape.appendChild(liData);
-            rodape.appendChild(liComentarios);
-
             // Monta a estrutura do card
             cardBody.appendChild(conteudo);
             cardBody.appendChild(descricao);
-            cardBody.appendChild(rodape);
             colTexto.appendChild(cardBody);
 
             row.appendChild(colImagem);
