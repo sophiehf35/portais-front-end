@@ -134,7 +134,7 @@ function carregaListaDeFerramentas(config, slugDaPagina) {
             const conteudo = document.createElement('div');
             conteudo.classList.add('conteudo', 'mb-4', 'mb-lg-3', 'mb-xl-4');
             const tituloLink = document.createElement('a');
-            tituloLink.href = '/' + item.slug_categoria + '/' + item.slug;
+            tituloLink.href = '/ferramentas/' + item.slug;
             const titulo = document.createElement('h2');
             titulo.classList.add('card-title', 'mb-3', 'h5');
             titulo.textContent = item.nome;
