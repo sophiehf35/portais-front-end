@@ -49,7 +49,7 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
         }
         carregaListaDeArtigos(config, slugDaPagina);
         carregaConteudoDestaque(config);
-    } else if (config.possui_ferramentas == 1) {
+    } else if (config.possui_ferramentas == 1 && slugDaPagina == 'ferramentas') {
         //PÁGINA DE FERRAMENTAS
             document.querySelector('h1').textContent = config.paginas_fixas['ferramentas'].meta_titulo;
             if (parametrosURL.has('pagina')) {
