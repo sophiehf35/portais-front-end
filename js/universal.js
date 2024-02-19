@@ -361,68 +361,68 @@ function enviaContato(endereco_funcao, funcao, parametro1_da_funcao, parametro2_
     data.append("funcao", funcao);
     data.append("parametro1_da_funcao", parametro1_da_funcao);
     parametro2_da_funcao !== null ? data.append("parametro2_da_funcao", parametro2_da_funcao) : null;
-    
+
     //ADICIONA CAMPOS AO OBJETO DATA
     for (const campo in campos) {
         if (campos.hasOwnProperty(campo)) {
             data.append(campo, campos[campo]);
         }
     }
-  
+
     const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: data.toString(),
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: data.toString(),
     };
-  
+
     fetch(endereco_funcao, options)
-      .then((response) => {
-        if (!response.ok) {
-          console.error("Erro na solicitação: " + response.status);
-          return;
-        }
-        return response.json();
-      })
-      .then((data) => {
-        ocultaBarra(formContato, divBarra);
-        if (data.status == 1) {
-          exibirNotificacao("sucesso", data.mensagem, "", divNotificacao);
-        } else {
-          exibirNotificacao("erro", data.mensagem, "", divNotificacao);
-        }
-      })
-      .catch((error) => {
-        console.error("Ocorreu um erro durante a solicitação:", error);
-      });
-  }
+        .then((response) => {
+            if (!response.ok) {
+                console.error("Erro na solicitação: " + response.status);
+                return;
+            }
+            return response.json();
+        })
+        .then((data) => {
+            ocultaBarra(formContato, divBarra);
+            if (data.status == 1) {
+                exibirNotificacao("sucesso", data.mensagem, "", divNotificacao);
+            } else {
+                exibirNotificacao("erro", data.mensagem, "", divNotificacao);
+            }
+        })
+        .catch((error) => {
+            console.error("Ocorreu um erro durante a solicitação:", error);
+        });
+}
 
 function exibirNotificacao(tipo, mensagem, campo, divNotificacao) {
     var classeMensagem = "";
-  
+
     if (tipo == "erro") {
-      classeMensagem = "danger";
-      iconeMensagem = "#exclamation-triangle-fill";
-      campo.classList.add("is-invalid");
+        classeMensagem = "danger";
+        iconeMensagem = "#exclamation-triangle-fill";
+        campo.classList.add("is-invalid");
     } else if (tipo == "sucesso") {
-      classeMensagem = "success";
-      iconeMensagem = "#check-circle-fill";
+        classeMensagem = "success";
+        iconeMensagem = "#check-circle-fill";
     }
-  
+
     divNotificacao.innerHTML =
-      '<div class="alert alert-' +
-      classeMensagem +
-      ' alert-dismissible d-flex align-items-center" style="margin-bottom:0px;" role="alert"><svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="' +
-      tipo +
-      ':"><use xlink:href="/assets/svg/icones.svg' +
-      iconeMensagem +
-      '"></use></svg><div>' +
-      mensagem +
-      '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div></div>';
-  
-      divNotificacao.classList.add("d-block", "fade", "show");
-      divNotificacao.classList.remove("d-none");
+        '<div class="alert alert-' +
+        classeMensagem +
+        ' alert-dismissible d-flex align-items-center" style="margin-bottom:0px;" role="alert"><svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="' +
+        tipo +
+        ':"><use xlink:href="/assets/svg/icones.svg' +
+        iconeMensagem +
+        '"></use></svg><div>' +
+        mensagem +
+        '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div></div>';
+
+    divNotificacao.classList.add("d-block", "fade", "show");
+    divNotificacao.classList.remove("d-none");
     verificaFechamentoNotificacao(campo, divNotificacao);
 }
 
@@ -434,7 +434,7 @@ function verificaTipoAlerta(divNotificacao) {
                 return 'erro';
             } else if (tipoAlerta.classList.contains('alert-success')) {
                 return 'sucesso';
-            } 
+            }
         }
     }
     return 'nenhum';
@@ -453,16 +453,16 @@ function ocultaNotificacao(tipo, campo, divNotificacao) {
         divNotificacao.innerHTML = "";
     }
 
-  }
+}
 
-  function verificaFechamentoNotificacao(campo, divNotificacao) {
+function verificaFechamentoNotificacao(campo, divNotificacao) {
     const alerta = divNotificacao.querySelector(".alert");
-    alerta.addEventListener("closed.bs.alert", function () {
+    alerta.addEventListener("closed.bs.alert", function() {
         ocultaNotificacao(verificaTipoAlerta(divNotificacao), campo, divNotificacao);
     });
 }
 
-  function ocultaBarra(formContato, divBarra) {
+function ocultaBarra(formContato, divBarra) {
     divBarra.innerHTML = "";
     formContato.reset();
     //inputNomeContatoProfissional.focus();
@@ -470,8 +470,7 @@ function ocultaNotificacao(tipo, campo, divNotificacao) {
     //inputEmailContato.blur();
     divBarra.classList.remove("show");
     divBarra.classList.add("fade", "d-none");
-  }
-  
+}
 
 function criaBarraProgresso(duracao) {
     const progressBar = document.querySelector(".progress-bar");

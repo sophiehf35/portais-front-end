@@ -71,19 +71,6 @@ function validarFormularioContato(config) {
         );
       }, 600);
 
-      setTimeout(function () {
-        enviaContato(
-          config.endereco_funcao_php,
-          'adicionarContatoProfissional',
-          config.id,
-          divGeral.dataset.id,
-          campos,
-          divNotificacaoContatoProfissional,
-          divBarraContatoProfissional,
-          formContatoProfissional
-        );
-      }, 600);
-
     }
   });
   
