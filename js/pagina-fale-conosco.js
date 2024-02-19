@@ -37,6 +37,9 @@ function validarFormularioContato(config) {
     } else if (inputVerificaContato.value === "") {
       //VERIFICAÇÃO ANTI SPAM VAZIO
       exibirNotificacao("erro", "Erro, preencha a verificação anti spam", inputVerificaContato, divNotificacaoContato);
+    } else if (inputVerificaContato.value !== "4") {
+      //VERIFICAÇÃO ANTI SPAM VAZIO
+      exibirNotificacao("erro", "Erro, verificação anti spam inválida", inputVerificaContato, divNotificacaoContato);
     } else {
       //TODOS OS CAMPOS PREENCHIDOS
       divBarraContato.innerHTML =
@@ -52,7 +55,7 @@ function validarFormularioContato(config) {
         "telefone": inputTelefoneContato.value,
         "email": inputEmailContato.value,
         "mensagem": inputMensagemContato.value,
-        "verifica_contato": inputVerificaContato
+        "verifica_contato": inputVerificaContato.value
       };
 
       setTimeout(function () {
