@@ -81,7 +81,103 @@ function validarFormularioContatoProfissional(config) {
   
   }
 
-/* FUNÇÃO PARA VALIDAR E ENVIAR FORMULÁRIO DE CONTATO */
+/* FUNÇÃO PARA VALIDAR E ENVIAR FORMULÁRIO DE CONTATO PARA PROFISSIONAL */
+
+/* FUNÇÃO PARA VALIDAR E ENVIAR FORMULÁRIO DE AVALIAÇÃO DE PROFISSIONAL */
+const formAvaliacaoProfissional = document.querySelector("#formulario_de_avaliacao_profissional");
+
+const inputNomeAvaliacaoProfissional = formAvaliacaoProfissional.querySelector("#nome");
+const inputEmailAvaliacaoProfissional = formAvaliacaoProfissional.querySelector("#email");
+const inputSexoAvaliacaoProfissional = formAvaliacaoProfissional.querySelector("#sexo");
+const inputNotaAvaliacaoProfissional = formAvaliacaoProfissional.querySelector("#nota");
+const inputComentarioAvaliacaoProfissional = formAvaliacaoProfissional.querySelector("#comentario");
+
+const botaoEnviarAvaliacaoProfissional = document.querySelector("#envia_avaliacao_profissional");
+const divNotificacaoAvaliacaoProfissional = document.querySelector("#div_notificacao_avaliacao_profissional");
+const divBarraAvaliacaoProfissional = document.querySelector("#div_barra_avaliacao_profissional");
+
+function validarFormularioAvaliacaoProfissional(config) {
+    botaoEnviarAvaliacaoProfissional.addEventListener("click", function (event) {
+      event.preventDefault();
+      
+      if (inputNomeAvaliacaoProfissional.value === "") {
+        //CAMPO DO NOME VAZIO
+        exibirNotificacao("erro", "Erro, preencha seu nome", inputNomeAvaliacaoProfissional, divNotificacaoAvaliacaoProfissional);
+      } else if (inputEmailAvaliacaoProfissional.value === "") {
+        //CAMPO DO EMAIL VAZIO
+        exibirNotificacao("erro", "Erro, preencha seu email", inputEmailAvaliacaoProfissional, divNotificacaoAvaliacaoProfissional);
+      } else if (validarEmail(inputEmailAvaliacaoProfissional.value) !== true) {
+        //EMAIL INVÁLIDO
+        exibirNotificacao("erro", "Erro, preencha com um email válido", inputEmailAvaliacaoProfissional, divNotificacaoAvaliacaoProfissional);
+      } else if (inputSexoAvaliacaoProfissional.value === "") {
+        //CAMPO DO DEPARTAMENTO VAZIO
+        exibirNotificacao("erro", "Erro, selecione o seu sexo", inputSexoAvaliacaoProfissional, divNotificacaoAvaliacaoProfissional);
+      } else if (inputNotaAvaliacaoProfissional.value === "") {
+        //CAMPO DO DEPARTAMENTO VAZIO
+        exibirNotificacao("erro", "Erro , selecione sua nota", inputNotaAvaliacaoProfissional, divNotificacaoAvaliacaoProfissional);
+      } else if (inputComentarioAvaliacaoProfissional.value === "") {
+        //CAMPO DE MENSAGEM VAZIA
+        exibirNotificacao("erro", "Erro, preencha sua mensagem", inputComentarioAvaliacaoProfissional, divNotificacaoAvaliacaoProfissional);
+      } else {
+        //TODOS OS CAMPOS PREENCHIDOS
+        divBarraAvaliacaoProfissional.innerHTML =
+          '<div style="height: 1.5rem;" class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div></div>';
+    
+        divBarraAvaliacaoProfissional.classList.remove("d-none");
+        divBarraAvaliacaoProfissional.classList.add("d-block", "fade", "show");
+        criaBarraProgresso(1350);
+    
+        const campos = {
+          "nome": inputNomeAvaliacaoProfissional.value,
+          "email": inputEmailAvaliacaoProfissional.value,
+          "sexo": inputSexoAvaliacaoProfissional.value,
+          "avaliacao": inputNotaAvaliacaoProfissional.value,
+          "mensagem": inputComentarioAvaliacaoProfissional.value
+        };
+
+        setTimeout(function () {
+          enviaContato(
+            config.endereco_funcao_php,
+            'adicionarAvaliacaoProfissional',
+            config.id,
+            divGeral.dataset.id,
+            campos,
+            divNotificacaoAvaliacaoProfissional,
+            divBarraAvaliacaoProfissional,
+            formAvaliacaoProfissional
+          );
+        }, 600);
+
+      }
+    });
+    
+    inputNomeAvaliacaoProfissional.addEventListener("input", function () {
+      ocultaNotificacao(verificaTipoAlerta(divNotificacaoAvaliacaoProfissional), inputNomeAvaliacaoProfissional);
+    });
+    
+    inputEmailAvaliacaoProfissional.addEventListener("input", function () {
+      ocultaNotificacao(verificaTipoAlerta(divNotificacaoAvaliacaoProfissional), inputEmailAvaliacaoProfissional);
+    });
+    
+    inputSexoAvaliacaoProfissional.addEventListener("input", function () {
+      ocultaNotificacao(verificaTipoAlerta(divNotificacaoAvaliacaoProfissional), inputSexoAvaliacaoProfissional);
+    });
+    
+    inputNotaAvaliacaoProfissional.addEventListener("input", function () {
+      ocultaNotificacao(verificaTipoAlerta(divNotificacaoAvaliacaoProfissional), inputNotaAvaliacaoProfissional);
+    });
+    
+    inputComentarioAvaliacaoProfissional.addEventListener("input", function () {
+      ocultaNotificacao(verificaTipoAlerta(divNotificacaoAvaliacaoProfissional), inputComentarioAvaliacaoProfissional);
+    });
+    
+    inputNomeAvaliacaoProfissional.addEventListener("input", function (event) {
+      var valorCampo = this.value;
+      var valorFiltrado = valorCampo.replace(/[^a-zA-ZÀ-ÿ\s]/g, ""); // Permite apenas letras, incluindo letras acentuadas e espaços
+      this.value = valorFiltrado;
+    });
+}
+/* FUNÇÃO PARA VALIDAR E ENVIAR FORMULÁRIO DE AVALIAÇÃO DE PROFISSIONAL */
 
 /* FUNÇÃO DO CAMPO DE TELEFONE FIXO E CELULAR */
 window.addEventListener("DOMContentLoaded", function () {

@@ -69,7 +69,7 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
             //PÁGINAS DO PROFISSIONAL
             //carregaAvaliacoesProfissional();
             validarFormularioContatoProfissional(config);
-            //validarFormularioAvaliacaoProfissional(config);
+            validarFormularioAvaliacaoProfissional(config);
         }
 
     } else if (config.paginas_categorias.slugs && config.paginas_categorias.slugs.some(categoria => caminho.includes(`/${categoria}/`))) {

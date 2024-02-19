@@ -121,22 +121,22 @@ function validarFormularioComentario(config) {
       
       if (inputNomeComentario.value === "") {
         //CAMPO DO NOME VAZIO
-        exibirNotificacaoComentario("erro", "Erro, preencha seu nome", inputNomeComentario);
+        exibirNotificacao("erro", "Erro, preencha seu nome", inputNomeComentario, divNotificacaoComentario);
       } else if (inputEmailComentario.value === "") {
         //CAMPO DO EMAIL VAZIO
-        exibirNotificacaoComentario("erro", "Erro, preencha seu email", inputEmailComentario);
+        exibirNotificacao("erro", "Erro, preencha seu email", inputEmailComentario, divNotificacaoComentario);
       } else if (validarEmail(inputEmailComentario.value) !== true) {
         //EMAIL INVÁLIDO
-        exibirNotificacaoComentario("erro", "Erro, preencha com um email válido", inputEmailComentario);
+        exibirNotificacao("erro", "Erro, preencha com um email válido", inputEmailComentario, divNotificacaoComentario);
       } else if (inputSexoComentario.value === "") {
         //CAMPO DO DEPARTAMENTO VAZIO
-        exibirNotificacaoComentario("erro", "Erro, selecione o seu sexo", inputSexoComentario);
+        exibirNotificacao("erro", "Erro, selecione o seu sexo", inputSexoComentario, divNotificacaoComentario);
       } else if (inputAvaliacaoComentario.value === "") {
         //CAMPO DO DEPARTAMENTO VAZIO
-        exibirNotificacaoComentario("erro", "Erro , selecione sua nota", inputAvaliacaoComentario);
+        exibirNotificacao("erro", "Erro , selecione sua nota", inputAvaliacaoComentario, divNotificacaoComentario);
       } else if (inputMensagemComentario.value === "") {
         //CAMPO DE MENSAGEM VAZIA
-        exibirNotificacaoComentario("erro", "Erro, preencha sua mensagem", inputMensagemComentario);
+        exibirNotificacao("erro", "Erro, preencha sua mensagem", inputMensagemComentario, divNotificacaoComentario);
       } else {
         //TODOS OS CAMPOS PREENCHIDOS
         divBarraComentario.innerHTML =
@@ -172,23 +172,23 @@ function validarFormularioComentario(config) {
     });
     
     inputNomeComentario.addEventListener("input", function () {
-      ocultaNotificacaoComentario(verificaTipoAlerta(), inputNomeComentario);
+      ocultaNotificacao(verificaTipoAlerta(divNotificacaoComentario), inputNomeComentario);
     });
     
     inputEmailComentario.addEventListener("input", function () {
-      ocultaNotificacaoComentario(verificaTipoAlerta(), inputEmailComentario);
+      ocultaNotificacao(verificaTipoAlerta(divNotificacaoComentario), inputEmailComentario);
     });
     
     inputSexoComentario.addEventListener("input", function () {
-      ocultaNotificacaoComentario(verificaTipoAlerta(), inputSexoComentario);
+      ocultaNotificacao(verificaTipoAlerta(divNotificacaoComentario), inputSexoComentario);
     });
     
     inputAvaliacaoComentario.addEventListener("input", function () {
-      ocultaNotificacaoComentario(verificaTipoAlerta(), inputAvaliacaoComentario);
+      ocultaNotificacao(verificaTipoAlerta(divNotificacaoComentario), inputAvaliacaoComentario);
     });
     
     inputMensagemComentario.addEventListener("input", function () {
-      ocultaNotificacaoComentario(verificaTipoAlerta(), inputMensagemComentario);
+      ocultaNotificacao(verificaTipoAlerta(divNotificacaoComentario), inputMensagemComentario);
     });
     
     inputNomeComentario.addEventListener("input", function (event) {
