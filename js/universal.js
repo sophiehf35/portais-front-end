@@ -68,6 +68,7 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
         if(config.profissionais && config.profissionais.tipos && config.profissionais.tipos.includes(slugDaPagina)) {
             //PÁGINAS DO PROFISSIONAL
             //carregaAvaliacoesProfissional();
+            console.log('entrou no universal');
             validarFormularioContatoProfissional(config);
             //validarFormularioAvaliacaoProfissional(config);
         }
