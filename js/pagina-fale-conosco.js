@@ -18,25 +18,25 @@ function validarFormularioContato(config) {
     
     if (inputNomeContato.value === "") {
       //CAMPO DO NOME VAZIO
-      exibirNotificacaoContato("erro", "Erro, preencha seu nome", inputNomeContato);
+      exibirNotificacao("erro", "Erro, preencha seu nome", inputNomeContato, divNotificacaoContato);
     } else if (inputTipoPessoaContato.value === "") {
       //CAMPO DO TIPO DE PESSOA VAZIO
-      exibirNotificacaoContato("erro", "Erro, escolha uma opção", inputTipoPessoaContato);
+      exibirNotificacao("erro", "Erro, escolha uma opção", inputTipoPessoaContato, divNotificacaoContato);
     } else if (inputTelefoneContato.value === "") {
       //CAMPO DO TELEFONE VAZIO
-      exibirNotificacaoContato("erro", "Erro , preencha seu telefone", inputTelefoneContato);
+      exibirNotificacao("erro", "Erro , preencha seu telefone", inputTelefoneContato, divNotificacaoContato);
     } else if (inputEmailContato.value === "") {
       //CAMPO DO EMAIL VAZIO
-      exibirNotificacaoContato("erro", "Erro, preencha seu email", inputEmailContato);
+      exibirNotificacao("erro", "Erro, preencha seu email", inputEmailContato, divNotificacaoContato);
     } else if (validarEmail(inputEmailContato.value) !== true) {
       //EMAIL INVÁLIDO
-      exibirNotificacaoContato("erro", "Erro, preencha com um email válido", inputEmailContato);
+      exibirNotificacao("erro", "Erro, preencha com um email válido", inputEmailContato, divNotificacaoContato);
     } else if (inputMensagemContato.value === "") {
       //CAMPO DE MENSAGEM VAZIA
-      exibirNotificacaoContato("erro", "Erro, preencha sua mensagem", inputMensagemContato);
+      exibirNotificacao("erro", "Erro, preencha sua mensagem", inputMensagemContato, divNotificacaoContato);
     } else if (inputVerificaContato.value === "") {
       //VERIFICAÇÃO ANTI SPAM VAZIO
-      exibirNotificacaoContato("erro", "Erro, preencha a verificação anti spam", inputVerificaContato);
+      exibirNotificacao("erro", "Erro, preencha a verificação anti spam", inputVerificaContato, divNotificacaoContato);
     } else {
       //TODOS OS CAMPOS PREENCHIDOS
       divBarraContato.innerHTML =
@@ -46,152 +46,54 @@ function validarFormularioContato(config) {
       divBarraContato.classList.add("d-block", "fade", "show");
       criaBarraProgresso(1350);
   
+      const campos = {
+        "nome": inputNomeContato.value,
+        "tipo": inputTipoPessoaContato.value,
+        "telefone": inputTelefoneContato.value,
+        "email": inputEmailContato.value,
+        "mensagem": inputMensagemContato.value,
+        "verifica_contato": inputVerificaContato
+      };
+
       setTimeout(function () {
         enviaContato(
+          config.endereco_funcao_php,
+          'adicionarContatoFaleConosco',
           config.id,
-          inputNomeContato.value,
-          inputTipoPessoaContato.value,
-          inputTelefoneContato.value,
-          inputEmailContato.value,
-          inputMensagemContato.value,
-          inputVerificaContato.value
+          campos,
+          divNotificacaoContato,
+          divBarraContato,
+          formContato
         );
       }, 600);
+
     }
   });
   
-  inputNomeContato.addEventListener("focus", function () {
-    ocultaNotificacaoContato(verificaTipoAlerta(), inputNomeContato);
+  inputNomeContato.addEventListener("input", function () {
+    ocultaNotificacao(verificaTipoAlerta(divNotificacaoContato), inputNomeContato, divNotificacaoContato);
   });
   
-  inputTipoPessoaContato.addEventListener("focus", function () {
-    ocultaNotificacaoContato(verificaTipoAlerta(), inputTipoPessoaContato);
+  inputTipoPessoaContato.addEventListener("input", function () {
+    ocultaNotificacao(verificaTipoAlerta(divNotificacaoContato), inputTipoPessoaContato, divNotificacaoContato);
   });
   
-  inputTelefoneContato.addEventListener("focus", function () {
-    ocultaNotificacaoContato(verificaTipoAlerta(), inputTelefoneContato);
+  inputTelefoneContato.addEventListener("input", function () {
+    ocultaNotificacao(verificaTipoAlerta(divNotificacaoContato), inputTelefoneContato, divNotificacaoContato);
   });
   
-  inputEmailContato.addEventListener("focus", function () {
-    ocultaNotificacaoContato(verificaTipoAlerta(), inputEmailContato);
+  inputEmailContato.addEventListener("input", function () {
+    ocultaNotificacao(verificaTipoAlerta(divNotificacaoContato), inputEmailContato, divNotificacaoContato);
   });
   
-  inputMensagemContato.addEventListener("focus", function () {
-    ocultaNotificacaoContato(verificaTipoAlerta(), inputMensagemContato);
+  inputMensagemContato.addEventListener("input", function () {
+    ocultaNotificacao(verificaTipoAlerta(divNotificacaoContato), inputMensagemContato, divNotificacaoContato);
   });
 
-  inputVerificaContato.addEventListener("focus", function () {
-    ocultaNotificacaoContato(verificaTipoAlerta(), inputVerificaContato);
+  inputVerificaContato.addEventListener("input", function () {
+    ocultaNotificacao(verificaTipoAlerta(divNotificacaoContato), inputVerificaContato, divNotificacaoContato);
   });
 
-}
-
-function enviaContato(id_site, nome, tipo_pessoa, telefone, email, mensagem, verifica_contato) {
-  const data = new URLSearchParams();
-  data.append("funcao", "enviaContatoFaleConosco");
-  data.append("parametro1_da_funcao", id_site);
-  data.append("nome", nome);
-  data.append("tipo_pessoa", tipo_pessoa);
-  data.append("telefone", telefone);
-  data.append("email", email);
-  data.append("mensagem", mensagem);
-  data.append("verifica_contato", verifica_contato);
-
-  const options = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: data.toString(),
-  };
-
-  fetch(config.endereco_funcao_php, options)
-    .then((response) => {
-      if (!response.ok) {
-        console.error("Erro na solicitação: " + response.status);
-        return;
-      }
-      return response.json();
-    })
-    .then((data) => {
-      ocultaBarraContato();
-      if (data.status == 1) {
-        exibirNotificacaoContato(
-          "sucesso",
-          "Parabéns, contato enviado com sucesso, em breve será respondido."
-        );
-      } else {
-        exibirNotificacaoContato("erro", data.mensagem, "");
-      }
-    })
-    .catch((error) => {
-      console.error("Ocorreu um erro durante a solicitação:", error);
-    });
-}
-
-function exibirNotificacaoContato(tipo, mensagem, campo) {
-  var classeMensagem = "";
-
-  if (tipo == "erro") {
-    classeMensagem = "danger";
-    iconeMensagem = "#exclamation-triangle-fill";
-    campo.classList.add("is-invalid");
-  } else if (tipo == "sucesso") {
-    classeMensagem = "success";
-    iconeMensagem = "#check-circle-fill";
-  }
-
-  divNotificacaoContato.innerHTML =
-    '<div class="alert alert-' +
-    classeMensagem +
-    ' alert-dismissible d-flex align-items-center" style="margin-bottom:0px;" role="alert"><svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="' +
-    tipo +
-    ':"><use xlink:href="/assets/svg/icones.svg' +
-    iconeMensagem +
-    '"></use></svg><div>' +
-    mensagem +
-    '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div></div>';
-
-  divNotificacaoContato.classList.add("d-block", "fade", "show");
-  divNotificacaoContato.classList.remove("d-none");
-  verificaFechamentoNotificacao("contato", campo);
-}
-
-function ocultaNotificacaoContato(tipo, campo) {
-  if (tipo == "erro") {
-      campo.classList.remove("is-invalid");
-      divNotificacaoContato.classList.remove("show");
-      divNotificacaoContato.classList.add("fade", "d-none");
-      divNotificacaoContato.innerHTML = "";
-  } else if (tipo == "sucesso") {
-      divNotificacaoContato.classList.remove("show");
-      divNotificacaoContato.classList.add("fade", "d-none");
-      divNotificacaoContato.innerHTML = "";
-  }
-}
-
-function ocultaBarraContato() {
-  divBarraContato.innerHTML = "";
-  formContato.reset();
-  inputNomeContato.focus();
-  inputEmailContato.focus();
-  inputEmailContato.blur();
-  divBarraContato.classList.remove("show");
-  divBarraContato.classList.add("fade", "d-none");
-}
-
-function verificaTipoAlerta() {
-    if (divNotificacaoContato) {
-        var tipoAlerta = divNotificacaoContato.querySelector('.alert');
-        if (tipoAlerta) {
-            if (tipoAlerta.classList.contains('alert-danger')) {
-                return 'erro';
-            } else if (tipoAlerta.classList.contains('alert-success')) {
-                return 'sucesso';
-            } 
-        }
-    }
-    return 'nenhum';
 }
 /* FUNÇÃO PARA VALIDAR E ENVIAR FORMULÁRIO DE CONTATO */
 
