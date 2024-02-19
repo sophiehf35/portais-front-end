@@ -356,12 +356,12 @@ function validarEmail(email) {
     return regex.test(email);
 }
 
-function enviaContato(endereco_funcao, funcao, id_site, id_profissional, campos, divNotificacao, divBarra, formContato) {
+function enviaContato(endereco_funcao, funcao, parametro1_da_funcao, parametro2_da_funcao, campos, divNotificacao, divBarra, formContato) {
     const data = new URLSearchParams();
     data.append("funcao", funcao);
-    data.append("parametro1_da_funcao", id_site);
-    data.append("parametro2_da_funcao", id_profissional);
-
+    data.append("parametro1_da_funcao", parametro1_da_funcao);
+    parametro2_da_funcao !== null ? data.append("parametro2_da_funcao", parametro2_da_funcao) : null;
+    
     //ADICIONA CAMPOS AO OBJETO DATA
     for (const campo in campos) {
         if (campos.hasOwnProperty(campo)) {
