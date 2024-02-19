@@ -455,14 +455,8 @@ function verificaTipoAlerta(divNotificacao) {
     return 'nenhum';
 }
 
-function verificaFechamentoNotificacao(campo, divNotificacao) {
-    const alerta = divNotificacao.querySelector(".alert");
-    alerta.addEventListener("closed.bs.alert", function () {
-        ocultaNotificacao(verificaTipoAlerta(divNotificacao), campo, divNotificacao);
-    });
-}
-
 function ocultaNotificacao(tipo, campo, divNotificacao) {
+    console.log(tipo);
     if (tipo == "erro") {
         campo.classList.remove("is-invalid");
         divNotificacao.classList.remove("show");
@@ -474,6 +468,13 @@ function ocultaNotificacao(tipo, campo, divNotificacao) {
         divNotificacao.innerHTML = "";
     }
   }
+
+  function verificaFechamentoNotificacao(campo, divNotificacao) {
+    const alerta = divNotificacao.querySelector(".alert");
+    alerta.addEventListener("closed.bs.alert", function () {
+        ocultaNotificacao(verificaTipoAlerta(divNotificacao), campo, divNotificacao);
+    });
+}
 
   function ocultaBarra(divBarra) {
     divBarra.innerHTML = "";
