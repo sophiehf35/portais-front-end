@@ -172,23 +172,23 @@ function validarFormularioComentario(config) {
     });
     
     inputNomeComentario.addEventListener("input", function () {
-      ocultaNotificacao(verificaTipoAlerta(divNotificacaoComentario), inputNomeComentario);
+      ocultaNotificacao(verificaTipoAlerta(divNotificacaoComentario), inputNomeComentario, divNotificacaoComentario);
     });
     
     inputEmailComentario.addEventListener("input", function () {
-      ocultaNotificacao(verificaTipoAlerta(divNotificacaoComentario), inputEmailComentario);
+      ocultaNotificacao(verificaTipoAlerta(divNotificacaoComentario), inputEmailComentario, divNotificacaoComentario);
     });
     
     inputSexoComentario.addEventListener("input", function () {
-      ocultaNotificacao(verificaTipoAlerta(divNotificacaoComentario), inputSexoComentario);
+      ocultaNotificacao(verificaTipoAlerta(divNotificacaoComentario), inputSexoComentario, divNotificacaoComentario);
     });
     
     inputAvaliacaoComentario.addEventListener("input", function () {
-      ocultaNotificacao(verificaTipoAlerta(divNotificacaoComentario), inputAvaliacaoComentario);
+      ocultaNotificacao(verificaTipoAlerta(divNotificacaoComentario), inputAvaliacaoComentario, divNotificacaoComentario);
     });
     
     inputMensagemComentario.addEventListener("input", function () {
-      ocultaNotificacao(verificaTipoAlerta(divNotificacaoComentario), inputMensagemComentario);
+      ocultaNotificacao(verificaTipoAlerta(divNotificacaoComentario), inputMensagemComentario, divNotificacaoComentario);
     });
     
     inputNomeComentario.addEventListener("input", function (event) {

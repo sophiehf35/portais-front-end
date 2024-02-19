@@ -356,7 +356,6 @@ function validarEmail(email) {
     return regex.test(email);
 }
 
-
 function enviaContato(endereco_funcao, funcao, id_site, id_profissional, campos, divNotificacao, divBarra, formContato) {
     const data = new URLSearchParams();
     data.append("funcao", funcao);

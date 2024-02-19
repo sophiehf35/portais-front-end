@@ -21,7 +21,7 @@ function validarFormularioContatoProfissional(config) {
         exibirNotificacao("erro", "Erro, preencha seu nome", inputNomeContatoProfissional, divNotificacaoContatoProfissional);
       } else if (inputTelefoneContatoProfissional.value === "") {
         //CAMPO DO TELEFONE VAZIO
-        exibirNotificacao("erro", "Erro , preencha seu telefone", inputTelefoneContatoProfissional, divNotificacaoContatoProfissional);
+        exibirNotificacao("erro", "Erro, preencha seu telefone", inputTelefoneContatoProfissional, divNotificacaoContatoProfissional);
       } else if (inputMensagemContatoProfissional.value === "") {
         //CAMPO DE MENSAGEM VAZIA
         exibirNotificacao("erro", "Erro, preencha sua mensagem", inputMensagemContatoProfissional, divNotificacaoContatoProfissional);
@@ -150,25 +150,25 @@ function validarFormularioAvaliacaoProfissional(config) {
 
       }
     });
-    
+
     inputNomeAvaliacaoProfissional.addEventListener("input", function () {
-      ocultaNotificacao(verificaTipoAlerta(divNotificacaoAvaliacaoProfissional), inputNomeAvaliacaoProfissional);
+      ocultaNotificacao(verificaTipoAlerta(divNotificacaoAvaliacaoProfissional), inputNomeAvaliacaoProfissional, divNotificacaoAvaliacaoProfissional);
     });
     
     inputEmailAvaliacaoProfissional.addEventListener("input", function () {
-      ocultaNotificacao(verificaTipoAlerta(divNotificacaoAvaliacaoProfissional), inputEmailAvaliacaoProfissional);
+      ocultaNotificacao(verificaTipoAlerta(divNotificacaoAvaliacaoProfissional), inputEmailAvaliacaoProfissional, divNotificacaoAvaliacaoProfissional);
     });
     
     inputSexoAvaliacaoProfissional.addEventListener("input", function () {
-      ocultaNotificacao(verificaTipoAlerta(divNotificacaoAvaliacaoProfissional), inputSexoAvaliacaoProfissional);
+      ocultaNotificacao(verificaTipoAlerta(divNotificacaoAvaliacaoProfissional), inputSexoAvaliacaoProfissional, divNotificacaoAvaliacaoProfissional);
     });
     
     inputNotaAvaliacaoProfissional.addEventListener("input", function () {
-      ocultaNotificacao(verificaTipoAlerta(divNotificacaoAvaliacaoProfissional), inputNotaAvaliacaoProfissional);
+      ocultaNotificacao(verificaTipoAlerta(divNotificacaoAvaliacaoProfissional), inputNotaAvaliacaoProfissional, divNotificacaoAvaliacaoProfissional);
     });
     
     inputComentarioAvaliacaoProfissional.addEventListener("input", function () {
-      ocultaNotificacao(verificaTipoAlerta(divNotificacaoAvaliacaoProfissional), inputComentarioAvaliacaoProfissional);
+      ocultaNotificacao(verificaTipoAlerta(divNotificacaoAvaliacaoProfissional), inputComentarioAvaliacaoProfissional, divNotificacaoAvaliacaoProfissional);
     });
     
     inputNomeAvaliacaoProfissional.addEventListener("input", function (event) {
