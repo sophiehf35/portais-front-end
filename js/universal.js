@@ -38,6 +38,7 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
             carregaConteudoHomePortal(config);
             setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina), config.dominio);
         }
+
     } else if (config.paginas_categorias && config.paginas_categorias.slugs && config.paginas_categorias.slugs.includes(slugDaPagina)) {
     //PÁGINA DE CATEGORIAS
         document.querySelector('h1').textContent = config.paginas_fixas[slugDaPagina].meta_titulo;
@@ -49,17 +50,28 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
         }
         carregaListaDeArtigos(config, slugDaPagina);
         carregaConteudoDestaque(config);
+
     } else if (config.possui_ferramentas == 1 && slugDaPagina == 'ferramentas') {
-        //PÁGINA DE FERRAMENTAS
-            document.querySelector('h1').textContent = config.paginas_fixas['ferramentas'].meta_titulo;
-            if (parametrosURL.has('pagina')) {
-            //POSSUÍ PAGINAÇÃO
-                setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina), config.dominio + '/' + slugDaPagina + '/?pagina=' + parametrosURL.get('pagina'));
-            } else {
-                setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina), config.dominio + '/' + slugDaPagina + '/');
-            }
-            carregaListaDeFerramentas(config);
-            carregaConteudoDestaque(config);
+    //PÁGINA DE FERRAMENTAS
+        document.querySelector('h1').textContent = config.paginas_fixas['ferramentas'].meta_titulo;
+        if (parametrosURL.has('pagina')) {
+        //POSSUÍ PAGINAÇÃO
+            setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina), config.dominio + '/' + slugDaPagina + '/?pagina=' + parametrosURL.get('pagina'));
+        } else {
+            setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina), config.dominio + '/' + slugDaPagina + '/');
+        }
+        carregaListaDeFerramentas(config);
+        carregaConteudoDestaque(config);
+
+    } else if (caminho.includes('/profissionais/')) {
+    //PÁGINAS DE PROFISSIONAIS
+        if(config.profissionais && config.profissionais.tipos && config.profissionais.tipos.includes(slugDaPagina)) {
+            //PÁGINAS DO PROFISSIONAL
+            //carregaAvaliacoesProfissional();
+            validarFormularioContatoProfissional(config);
+            //validarFormularioAvaliacaoProfissional(config);
+        }
+
     } else if (config.paginas_categorias.slugs && config.paginas_categorias.slugs.some(categoria => caminho.includes(`/${categoria}/`))) {
     //PÁGINA DE ARTIGOS
        carregaArtigosRelacionados(config, document.querySelector("h1").dataset.slugCategoria, document.querySelector("h1").dataset.slug);
@@ -67,6 +79,7 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
        carregaComentariosAvaliacoes();
        validarFormularioComentario(config);
        compartilhamentoDeImagens(config);
+
     } else if (config.paginas_fixas && config.paginas_fixas.slugs.includes(slugDaPagina) && slugDaPagina !== 'home') {
     //PÁGINAS FIXAS
         setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina));
@@ -343,6 +356,77 @@ function validarEmail(email) {
     return regex.test(email);
 }
 
+
+function enviaContato(funcao, id_site, campos, divNotificacao, divBarra) {
+    const data = new URLSearchParams();
+    data.append("funcao", funcao);
+    data.append("parametro1_da_funcao", id_site);
+
+    //ADICIONA CAMPOS AO OBJETO DATA
+    for (const campo in campos) {
+        if (campos.hasOwnProperty(campo)) {
+            data.append(campo, campos[campo]);
+        }
+    }
+  
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: data.toString(),
+    };
+  
+    fetch(config.endereco_funcao_php, options)
+      .then((response) => {
+        if (!response.ok) {
+          console.error("Erro na solicitação: " + response.status);
+          return;
+        }
+        return response.json();
+      })
+      .then((data) => {
+        ocultaBarra(divBarra);
+        if (data.status == 1) {
+          exibirNotificacao("sucesso", "Parabéns, contato enviado com sucesso, em breve será respondido.", "", divNotificacao);
+        } else {
+          exibirNotificacao("erro", data.mensagem, "", divNotificacao);
+        }
+      })
+      .catch((error) => {
+        console.error("Ocorreu um erro durante a solicitação:", error);
+      });
+  }
+
+function exibirNotificacao(tipo, mensagem, campo, divNotificacao) {
+    var classeMensagem = "";
+  
+    if (tipo == "erro") {
+      classeMensagem = "danger";
+      iconeMensagem = "#exclamation-triangle-fill";
+      campo.classList.add("is-invalid");
+    } else if (tipo == "sucesso") {
+      classeMensagem = "success";
+      iconeMensagem = "#check-circle-fill";
+    }
+  
+    divNotificacao.innerHTML =
+      '<div class="alert alert-' +
+      classeMensagem +
+      ' alert-dismissible d-flex align-items-center" style="margin-bottom:0px;" role="alert"><svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="' +
+      tipo +
+      ':"><use xlink:href="/assets/svg/icones.svg' +
+      iconeMensagem +
+      '"></use></svg><div>' +
+      mensagem +
+      '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div></div>';
+  
+      divNotificacao.classList.add("d-block", "fade", "show");
+      divNotificacao.classList.remove("d-none");
+    verificaFechamentoNotificacao(divNotificacao, campo);
+}
+
+/*
 function verificaFechamentoNotificacao(notificacao, campo) {
     const alerta = document.querySelector(
         "#div_notificacao_" + notificacao + " .alert"
@@ -355,6 +439,52 @@ function verificaFechamentoNotificacao(notificacao, campo) {
         }
     });
 }
+*/
+
+function verificaTipoAlerta(divNotificacao) {
+    if (divNotificacao) {
+        var tipoAlerta = divNotificacao.querySelector('.alert');
+        if (tipoAlerta) {
+            if (tipoAlerta.classList.contains('alert-danger')) {
+                return 'erro';
+            } else if (tipoAlerta.classList.contains('alert-success')) {
+                return 'sucesso';
+            } 
+        }
+    }
+    return 'nenhum';
+}
+
+function verificaFechamentoNotificacao(campo, divNotificacao) {
+    const alerta = divNotificacao.querySelector(".alert");
+    alerta.addEventListener("closed.bs.alert", function () {
+        ocultaNotificacao(verificaTipoAlerta(divNotificacao), campo, divNotificacao);
+    });
+}
+
+function ocultaNotificacao(tipo, campo, divNotificacao) {
+    if (tipo == "erro") {
+        campo.classList.remove("is-invalid");
+        divNotificacao.classList.remove("show");
+        divNotificacao.classList.add("fade", "d-none");
+        divNotificacao.innerHTML = "";
+    } else if (tipo == "sucesso") {
+        divNotificacao.classList.remove("show");
+        divNotificacao.classList.add("fade", "d-none");
+        divNotificacao.innerHTML = "";
+    }
+  }
+
+  function ocultaBarra(divBarra) {
+    divBarra.innerHTML = "";
+    formContato.reset();
+    inputNomeContatoProfissional.focus();
+    inputEmailContato.focus();
+    inputEmailContato.blur();
+    divBarra.classList.remove("show");
+    divBarra.classList.add("fade", "d-none");
+  }
+  
 
 function criaBarraProgresso(duracao) {
     const progressBar = document.querySelector(".progress-bar");
