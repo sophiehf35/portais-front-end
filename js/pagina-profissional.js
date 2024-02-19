@@ -131,8 +131,8 @@ function validarFormularioAvaliacaoProfissional(config) {
           "nome": inputNomeAvaliacaoProfissional.value,
           "email": inputEmailAvaliacaoProfissional.value,
           "sexo": inputSexoAvaliacaoProfissional.value,
-          "avaliacao": inputNotaAvaliacaoProfissional.value,
-          "mensagem": inputComentarioAvaliacaoProfissional.value
+          "nota": inputNotaAvaliacaoProfissional.value,
+          "comentario": inputComentarioAvaliacaoProfissional.value
         };
 
         setTimeout(function () {
