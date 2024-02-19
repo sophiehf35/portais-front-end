@@ -357,10 +357,11 @@ function validarEmail(email) {
 }
 
 
-function enviaContato(funcao, id_site, campos, divNotificacao, divBarra) {
+function enviaContato(funcao, id_site, id_profissional, campos, divNotificacao, divBarra) {
     const data = new URLSearchParams();
     data.append("funcao", funcao);
     data.append("parametro1_da_funcao", id_site);
+    data.append("parametro2_da_funcao", id_profissional);
 
     //ADICIONA CAMPOS AO OBJETO DATA
     for (const campo in campos) {
@@ -426,21 +427,6 @@ function exibirNotificacao(tipo, mensagem, campo, divNotificacao) {
     verificaFechamentoNotificacao(campo, divNotificacao);
 }
 
-/*
-function verificaFechamentoNotificacao(notificacao, campo) {
-    const alerta = document.querySelector(
-        "#div_notificacao_" + notificacao + " .alert"
-    );
-    alerta.addEventListener("closed.bs.alert", function () {
-        if (notificacao === "comentario") {
-            ocultaNotificacaoComentario(verificaTipoAlerta(), campo);
-        } else if (notificacao === "contato") {
-            ocultaNotificacaoContato(verificaTipoAlerta(), campo);
-        }
-    });
-}
-*/
-
 function verificaTipoAlerta(divNotificacao) {
     if (divNotificacao) {
         var tipoAlerta = divNotificacao.querySelector('.alert');
@@ -467,7 +453,7 @@ function ocultaNotificacao(tipo, campo, divNotificacao) {
         divNotificacao.classList.add("fade", "d-none");
         divNotificacao.innerHTML = "";
     }
-    
+
   }
 
   function verificaFechamentoNotificacao(campo, divNotificacao) {

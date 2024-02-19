@@ -1,14 +1,15 @@
 /* FUNÇÃO PARA VALIDAR E ENVIAR FORMULÁRIO DE CONTATO PARA PROFISSIONAL */
-const formContatoProfissional = document.querySelector("#formulario_de_contato_profissional");
+const formContatoProfissional = document.getElementById("formulario_de_contato_profissional");
 
-const inputNomeContatoProfissional = formContatoProfissional.querySelector("#nome_usuario");
-const inputTelefoneContatoProfissional = formContatoProfissional.querySelector("#telefone_usuario");
-const inputMensagemContatoProfissional = formContatoProfissional.querySelector("#mensagem_usuario");
-const inputVerificaContatoProfissional = formContatoProfissional.querySelector("#anti_spam_contato_profissional");
+const inputNomeContatoProfissional = formContatoProfissional.getElementById("nome_usuario");
+const inputTelefoneContatoProfissional = formContatoProfissional.getElementById("telefone_usuario");
+const inputMensagemContatoProfissional = formContatoProfissional.getElementById("mensagem_usuario");
+const inputVerificaContatoProfissional = formContatoProfissional.getElementById("anti_spam_contato_profissional");
 
-const botaoEnviarContatoProfissional = document.querySelector("#enviar_contato_profissional");
-const divNotificacaoContatoProfissional = document.querySelector("#div_notificacao_contato_profissional");
-const divBarraContatoProfissional = document.querySelector("#div_notificacao_contato_profissional");
+const botaoEnviarContatoProfissional = document.getElementById("enviar_contato_profissional");
+const divNotificacaoContatoProfissional = document.getElementById("div_notificacao_contato_profissional");
+const divBarraContatoProfissional = document.getElementById("div_notificacao_contato_profissional");
+const divGeral = document.getElementById("geral");
 
 function validarFormularioContatoProfissional(config) {
     botaoEnviarContatoProfissional.addEventListener("click", function (event) {
@@ -26,6 +27,9 @@ function validarFormularioContatoProfissional(config) {
       } else if (inputVerificaContatoProfissional.value === "") {
         //VERIFICAÇÃO ANTI SPAM VAZIO
         exibirNotificacao("erro", "Erro, preencha a verificação anti spam", inputVerificaContatoProfissional, divNotificacaoContatoProfissional);
+      } else if (inputVerificaContatoProfissional.value !== "4") {
+        //VERIFICAÇÃO ANTI SPAM VAZIO
+        exibirNotificacao("erro", "Erro, verificação anti spam inválida", inputVerificaContatoProfissional, divNotificacaoContatoProfissional);
       } else {
         //TODOS OS CAMPOS PREENCHIDOS
         divBarraContatoProfissional.innerHTML =
@@ -44,7 +48,9 @@ function validarFormularioContatoProfissional(config) {
 
         setTimeout(function () {
           enviaContato(
+            'adicionarContatoProfissional',
             config.id,
+            divGeral.dataset.id,
             campos,
             divNotificacaoContatoProfissional,
             divBarraContatoProfissional
