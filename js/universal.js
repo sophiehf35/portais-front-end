@@ -9,7 +9,7 @@ let configPromise;
 
 function defineVariaveisUniversais(slugDaPagina) {
     if (!configPromise) {
-        configPromise = fetch('../configuracao/json/universal.json')
+        configPromise = fetch(url.protocol + '//' + url.hostname + '/configuracao/json/universal.json')
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`Erro ao buscar dados. Código de status: ${response.status}`);
