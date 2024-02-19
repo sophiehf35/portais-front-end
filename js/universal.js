@@ -357,7 +357,7 @@ function validarEmail(email) {
 }
 
 
-function enviaContato(funcao, id_site, id_profissional, campos, divNotificacao, divBarra) {
+function enviaContato(endereco_funcao, funcao, id_site, id_profissional, campos, divNotificacao, divBarra) {
     const data = new URLSearchParams();
     data.append("funcao", funcao);
     data.append("parametro1_da_funcao", id_site);
@@ -378,7 +378,7 @@ function enviaContato(funcao, id_site, id_profissional, campos, divNotificacao, 
       body: data.toString(),
     };
   
-    fetch(config.endereco_funcao_php, options)
+    fetch(endereco_funcao, options)
       .then((response) => {
         if (!response.ok) {
           console.error("Erro na solicitação: " + response.status);
