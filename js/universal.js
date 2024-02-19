@@ -466,9 +466,9 @@ function ocultaNotificacao(tipo, campo, divNotificacao) {
   function ocultaBarra(formContato, divBarra) {
     divBarra.innerHTML = "";
     formContato.reset();
-    inputNomeContatoProfissional.focus();
-    inputEmailContato.focus();
-    inputEmailContato.blur();
+    //inputNomeContatoProfissional.focus();
+    //inputEmailContato.focus();
+    //inputEmailContato.blur();
     divBarra.classList.remove("show");
     divBarra.classList.add("fade", "d-none");
   }
