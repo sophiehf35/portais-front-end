@@ -38,7 +38,7 @@ function validarFormularioContatoProfissional(config) {
     
         divBarraContatoProfissional.classList.remove("d-none");
         divBarraContatoProfissional.classList.add("d-block", "fade", "show");
-        
+        divLegenda.remove();
         criaBarraProgresso(1350);
     
         const campos = {
