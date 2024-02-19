@@ -10,6 +10,7 @@ const botaoEnviarContatoProfissional = document.querySelector("#enviar_contato_p
 const divNotificacaoContatoProfissional = document.querySelector("#div_notificacao_contato_profissional");
 const divBarraContatoProfissional = document.querySelector("#div_notificacao_contato_profissional");
 const divGeral = document.querySelector("#geral");
+const divLegenda = document.querySelector("#legenda_formulario_contato_profissional");
 
 function validarFormularioContatoProfissional(config) {
     botaoEnviarContatoProfissional.addEventListener("click", function (event) {
@@ -37,6 +38,7 @@ function validarFormularioContatoProfissional(config) {
     
         divBarraContatoProfissional.classList.remove("d-none");
         divBarraContatoProfissional.classList.add("d-block", "fade", "show");
+        
         criaBarraProgresso(1350);
     
         const campos = {

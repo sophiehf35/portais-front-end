@@ -389,7 +389,7 @@ function enviaContato(endereco_funcao, funcao, id_site, id_profissional, campos,
       .then((data) => {
         ocultaBarra(formContato, divBarra);
         if (data.status == 1) {
-          exibirNotificacao("sucesso", "Parabéns, contato enviado com sucesso, em breve será respondido.", "", divNotificacao);
+          exibirNotificacao("sucesso", data.mensagem, "", divNotificacao);
         } else {
           exibirNotificacao("erro", data.mensagem, "", divNotificacao);
         }
