@@ -146,36 +146,48 @@ function validarFormularioComentario(config) {
         divBarraComentario.classList.add("d-block", "fade", "show");
         criaBarraProgresso(1350);
     
+        const campos = {
+          "id": id_comentario,
+          "nome": inputNomeComentario.value,
+          "email": inputEmailComentario.value,
+          "sexo": inputSexoComentario.value,
+          "avaliacao": inputAvaliacaoComentario.value,
+          "mensagem": inputMensagemComentario.value
+        };
+
         setTimeout(function () {
-          enviaComentario(
+          enviaContato(
+            config.endereco_funcao_php,
+            'adicionarComentariosPaginaDeArtigos',
             config.id,
-            inputNomeComentario.value,
-            inputEmailComentario.value,
-            inputSexoComentario.value,
-            inputAvaliacaoComentario.value,
-            inputMensagemComentario.value
+            id_artigo,
+            campos,
+            divNotificacaoComentario,
+            divBarraComentario,
+            formComentario
           );
         }, 600);
+
       }
     });
     
-    inputNomeComentario.addEventListener("focus", function () {
+    inputNomeComentario.addEventListener("input", function () {
       ocultaNotificacaoComentario(verificaTipoAlerta(), inputNomeComentario);
     });
     
-    inputEmailComentario.addEventListener("focus", function () {
+    inputEmailComentario.addEventListener("input", function () {
       ocultaNotificacaoComentario(verificaTipoAlerta(), inputEmailComentario);
     });
     
-    inputSexoComentario.addEventListener("focus", function () {
+    inputSexoComentario.addEventListener("input", function () {
       ocultaNotificacaoComentario(verificaTipoAlerta(), inputSexoComentario);
     });
     
-    inputAvaliacaoComentario.addEventListener("focus", function () {
+    inputAvaliacaoComentario.addEventListener("input", function () {
       ocultaNotificacaoComentario(verificaTipoAlerta(), inputAvaliacaoComentario);
     });
     
-    inputMensagemComentario.addEventListener("focus", function () {
+    inputMensagemComentario.addEventListener("input", function () {
       ocultaNotificacaoComentario(verificaTipoAlerta(), inputMensagemComentario);
     });
     
@@ -184,115 +196,6 @@ function validarFormularioComentario(config) {
       var valorFiltrado = valorCampo.replace(/[^a-zA-ZÀ-ÿ\s]/g, ""); // Permite apenas letras, incluindo letras acentuadas e espaços
       this.value = valorFiltrado;
     });
-}
-
-function enviaComentario(id_site, nome, email, sexo, avaliacao, mensagem) {
-  const data = new URLSearchParams();
-  data.append("funcao", "AdicionarComentariosPaginaDeArtigos");
-  data.append("parametro1_da_funcao", id_site);
-  data.append("parametro2_da_funcao", id_artigo);
-  data.append("id", id_comentario);
-  data.append("nome", nome);
-  data.append("email", email);
-  data.append("sexo", sexo);
-  data.append("avaliacao", avaliacao);
-  data.append("mensagem", mensagem);
-
-  const options = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: data.toString(),
-  };
-
-  fetch(config.endereco_funcao_php, options)
-    .then((response) => {
-      if (!response.ok) {
-        console.error("Erro na solicitação: " + response.status);
-        return;
-      }
-      return response.json();
-    })
-    .then((data) => {
-      ocultaBarraComentario();
-      if (data.status == 1) {
-        exibirNotificacaoComentario(
-          "sucesso",
-          "Parabéns, comentário enviado com sucesso, em breve será revisado."
-        );
-      } else {
-        exibirNotificacaoComentario("erro", data.mensagem, "");
-      }
-    })
-    .catch((error) => {
-      console.error("Ocorreu um erro durante a solicitação:", error);
-    });
-}
-
-function exibirNotificacaoComentario(tipo, mensagem, campo) {
-  var classeMensagem = "";
-
-  if (tipo == "erro") {
-    classeMensagem = "danger";
-    iconeMensagem = "#exclamation-triangle-fill";
-    campo.classList.add("is-invalid");
-  } else if (tipo == "sucesso") {
-    classeMensagem = "success";
-    iconeMensagem = "#check-circle-fill";
-  }
-
-  divNotificacaoComentario.innerHTML =
-    '<div class="alert alert-' +
-    classeMensagem +
-    ' alert-dismissible d-flex align-items-center" style="margin-bottom:0px;" role="alert"><svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="' +
-    tipo +
-    ':"><use xlink:href="/assets/svg/icones.svg' +
-    iconeMensagem +
-    '"></use></svg><div>' +
-    mensagem +
-    '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div></div>';
-
-  divNotificacaoComentario.classList.add("d-block", "fade", "show");
-  divNotificacaoComentario.classList.remove("d-none");
-  verificaFechamentoNotificacao("comentario", campo);
-}
-
-function ocultaNotificacaoComentario(tipo, campo) {
-  if (tipo == "erro") {
-      campo.classList.remove("is-invalid");
-      divNotificacaoComentario.classList.remove("show");
-      divNotificacaoComentario.classList.add("fade", "d-none");
-      divNotificacaoComentario.innerHTML = "";
-  } else if (tipo == "sucesso") {
-      divNotificacaoComentario.classList.remove("show");
-      divNotificacaoComentario.classList.add("fade", "d-none");
-      divNotificacaoComentario.innerHTML = "";
-  }
-}
-
-function ocultaBarraComentario() {
-  divBarraComentario.innerHTML = "";
-  formComentario.reset();
-  inputNomeComentario.focus();
-  inputEmailComentario.focus();
-  inputEmailComentario.blur();
-  divBarraComentario.classList.remove("show");
-  divBarraComentario.classList.add("fade", "d-none");
-}
-
-function verificaTipoAlerta() {
-    if (divNotificacaoComentario) {
-        var tipoAlerta = divNotificacaoComentario.querySelector('.alert');
-        if (tipoAlerta) {
-            if (tipoAlerta.classList.contains('alert-danger')) {
-                return 'erro';
-            } else if (tipoAlerta.classList.contains('alert-success')) {
-                return 'sucesso';
-            } 
-        }
-    }
-    return 'nenhum';
 }
 /* FUNÇÃO PARA VALIDAR E ENVIAR FORMULÁRIO DE COMENTÁRIO */
 
