@@ -68,7 +68,6 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
         if(config.profissionais && config.profissionais.tipos.some(tipos => caminho.includes(`/${tipos}/`))) {
             //PÁGINAS DO PROFISSIONAL
             //carregaAvaliacoesProfissional();
-            console.log('entrou2 no universal');
             validarFormularioContatoProfissional(config);
             //validarFormularioAvaliacaoProfissional(config);
         }
@@ -424,7 +423,7 @@ function exibirNotificacao(tipo, mensagem, campo, divNotificacao) {
   
       divNotificacao.classList.add("d-block", "fade", "show");
       divNotificacao.classList.remove("d-none");
-    verificaFechamentoNotificacao(divNotificacao, campo);
+    verificaFechamentoNotificacao(campo, divNotificacao);
 }
 
 /*
