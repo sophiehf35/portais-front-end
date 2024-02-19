@@ -357,7 +357,7 @@ function validarEmail(email) {
 }
 
 
-function enviaContato(endereco_funcao, funcao, id_site, id_profissional, campos, divNotificacao, divBarra) {
+function enviaContato(endereco_funcao, funcao, id_site, id_profissional, campos, divNotificacao, divBarra, formContato) {
     const data = new URLSearchParams();
     data.append("funcao", funcao);
     data.append("parametro1_da_funcao", id_site);
@@ -387,7 +387,7 @@ function enviaContato(endereco_funcao, funcao, id_site, id_profissional, campos,
         return response.json();
       })
       .then((data) => {
-        ocultaBarra(divBarra);
+        ocultaBarra(formContato, divBarra);
         if (data.status == 1) {
           exibirNotificacao("sucesso", "Parabéns, contato enviado com sucesso, em breve será respondido.", "", divNotificacao);
         } else {
@@ -463,7 +463,7 @@ function ocultaNotificacao(tipo, campo, divNotificacao) {
     });
 }
 
-  function ocultaBarra(divBarra) {
+  function ocultaBarra(formContato, divBarra) {
     divBarra.innerHTML = "";
     formContato.reset();
     inputNomeContatoProfissional.focus();

@@ -54,7 +54,8 @@ function validarFormularioContatoProfissional(config) {
             divGeral.dataset.id,
             campos,
             divNotificacaoContatoProfissional,
-            divBarraContatoProfissional
+            divBarraContatoProfissional,
+            formContatoProfissional
           );
         }, 600);
       }
