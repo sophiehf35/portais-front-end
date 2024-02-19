@@ -456,7 +456,7 @@ function verificaTipoAlerta(divNotificacao) {
 }
 
 function ocultaNotificacao(tipo, campo, divNotificacao) {
-    console.log(tipo);
+
     if (tipo == "erro") {
         campo.classList.remove("is-invalid");
         divNotificacao.classList.remove("show");
@@ -467,6 +467,7 @@ function ocultaNotificacao(tipo, campo, divNotificacao) {
         divNotificacao.classList.add("fade", "d-none");
         divNotificacao.innerHTML = "";
     }
+    
   }
 
   function verificaFechamentoNotificacao(campo, divNotificacao) {

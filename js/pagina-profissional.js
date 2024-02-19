@@ -53,19 +53,19 @@ function validarFormularioContatoProfissional(config) {
       }
     });
     
-    inputNomeContatoProfissional.addEventListener("focus", function () {
+    inputNomeContatoProfissional.addEventListener("input", function () {
       ocultaNotificacao(verificaTipoAlerta(divNotificacaoContatoProfissional), inputNomeContatoProfissional, divNotificacaoContatoProfissional);
     });
     
-    inputTelefoneContatoProfissional.addEventListener("focus", function () {
+    inputTelefoneContatoProfissional.addEventListener("input", function () {
       ocultaNotificacao(verificaTipoAlerta(divNotificacaoContatoProfissional), inputTelefoneContatoProfissional, divNotificacaoContatoProfissional);
     });
     
-    inputMensagemContatoProfissional.addEventListener("focus", function () {
+    inputMensagemContatoProfissional.addEventListener("input", function () {
       ocultaNotificacao(verificaTipoAlerta(divNotificacaoContatoProfissional), inputMensagemContatoProfissional, divNotificacaoContatoProfissional);
     });
   
-    inputVerificaContatoProfissional.addEventListener("focus", function () {
+    inputVerificaContatoProfissional.addEventListener("input", function () {
       ocultaNotificacao(verificaTipoAlerta(divNotificacaoContatoProfissional), inputVerificaContatoProfissional, divNotificacaoContatoProfissional);
     });
   
