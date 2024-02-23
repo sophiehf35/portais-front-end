@@ -530,7 +530,7 @@
             .then(dados => {
                 if (dados) {
 
-                    let atuacoes = dados.map((id, nome) => {
+                    let areas_de_atuacao = dados.map((id, nome) => {
                         return {
                             text: nome,
                             value: id,
@@ -538,12 +538,12 @@
                     });
                     
                     // Inserindo a entrada com texto vazio e placeholder true
-                    atuacoes.unshift({
+                    areas_de_atuacao.unshift({
                         text: "",
                         placeholder: true
                     });
 
-                    area_de_atuacao_principal.setData(atuacoes);
+                    area_de_atuacao_principal.setData(areas_de_atuacao);
 
                     $('#area_de_atuacao_principal').change(function() {
                         if ($('#area_de_atuacao_principal').val() != '') {
