@@ -30,6 +30,7 @@ function defineVariaveisUniversais(slugDaPagina) {
 defineVariaveisUniversais(slugDaPagina).then(config => {
 
     carregaLogo(config, document.getElementById("logo"));
+    carregaBotaoSuperior(config);
 
     if (url.protocol + '//' + url.hostname + url.pathname === config.dominio + '/') {
     //PÁGINA HOME
@@ -208,6 +209,13 @@ function setaClarity(config) {
         scriptClarity.text = `(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)})(window,document,"clarity","script","${config.codigo_clarity}");`;
     
         document.body.appendChild(scriptClarity);
+    }
+}
+
+function carregaBotaoSuperior(config) {
+    if(config.botao_superior_direito === 1) {
+        const botaoSuperior = '<ul id="top_menu"><li><a href="' + config.link_botao_superior_direito + '" class="btn_add fe-pulse">' + config.texto_botao_superior_direito + '</a></li></ul>';
+        document.querySelector('#menu.offcanvas-body').insertAdjacentHTML("beforeend", botaoSuperior);
     }
 }
 

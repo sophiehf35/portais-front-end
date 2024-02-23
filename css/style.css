@@ -712,7 +712,7 @@ a.box_cat_home ul li,header.header.sticky .logo_sticky {
 
 ul#top_menu {
     float: right;
-    margin: 5px 0 0 10px;
+    margin: 0px;
     padding: 0;
     font-size: .8125rem
 }
