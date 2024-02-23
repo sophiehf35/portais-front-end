@@ -625,7 +625,6 @@
 
 }
 
-document.addEventListener('DOMContentLoaded', function() {
 /* INÍCIO MÁSCARAS */
 
 /* CAMPO DE TELEFONE CELULAR */
@@ -844,6 +843,4 @@ function validacao_de_cep(value, element) {
     }
     return this.optional(element) || /^[0-9]{5}-[0-9]{3}$/.test(value);
 }
-
-});
 /* FIM FUNÇÕES AUXILIARES */
