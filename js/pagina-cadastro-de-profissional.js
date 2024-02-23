@@ -530,17 +530,10 @@
             .then(dados => {
                 if (dados) {
 
-                    let areas_de_atuacao = dados.map((id, nome) => {
-                        return {
-                            text: nome,
-                            value: id,
-                        };
-                    });
-                    
-                    // Inserindo a entrada com texto vazio e placeholder true
-                    areas_de_atuacao.unshift({
-                        text: "",
-                        placeholder: true
+                    let areas_de_atuacao = [];
+                    areas_de_atuacao.push({ text: "", placeholder: true }); // Adiciona a opção vazia no início
+                    data.forEach(item => {
+                        areas_de_atuacao.push({ text: item.nome, value: item.id });
                     });
 
                     area_de_atuacao_principal.setData(areas_de_atuacao);
