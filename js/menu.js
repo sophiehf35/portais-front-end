@@ -1,4 +1,4 @@
-function carregaMenu() {
+function carregaMenu(config) {
     fetch('/configuracao/json/menu-superior-principal.json')
         .then(response => {
             if (!response.ok) {
@@ -14,6 +14,10 @@ function carregaMenu() {
             menuHTML += '</div>';
             menuHTML += '<div class="offcanvas-body">';
             menuHTML += '<ul class="navbar-nav justify-content-end flex-grow-1 pe-3">';
+            
+            if(config.botao_superior_direito === 1) {
+                menuHTML += '<ul id="top_menu"><li><a href="' + config.link_botao_superior_direito + '" class="btn_add fe-pulse">' + config.texto_botao_superior_direito + '</a></li></ul>';
+            }
             
             for (var chave in menu) {
                 if (menu.hasOwnProperty(chave)) {
