@@ -213,10 +213,12 @@ function setaClarity(config) {
 }
 
 function carregaBotaoSuperior(config) {
-    if(config.botao_superior_direito === 1) {
-        const botaoSuperior = '<ul id="top_menu"><li><a href="' + config.link_botao_superior_direito + '" class="btn_add fe-pulse">' + config.texto_botao_superior_direito + '</a></li></ul>';
-        document.querySelector('#menu.offcanvas-body').insertAdjacentHTML("beforeend", botaoSuperior);
-    }
+    document.addEventListener('DOMContentLoaded', function() {
+        if(config.botao_superior_direito === 1) {
+            const botaoSuperior = '<ul id="top_menu"><li><a href="' + config.link_botao_superior_direito + '" class="btn_add fe-pulse">' + config.texto_botao_superior_direito + '</a></li></ul>';
+            document.querySelector('#menu.offcanvas-body').insertAdjacentHTML("beforeend", botaoSuperior);
+        }
+    });
 }
 
 function carregaLogo(config, logoContainer) {
