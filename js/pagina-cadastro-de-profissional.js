@@ -532,7 +532,7 @@
 
                     let areas_de_atuacao = [];
                     areas_de_atuacao.push({ text: "", placeholder: true }); // Adiciona a opção vazia no início
-                    data.forEach(item => {
+                    dados.forEach(item => {
                         areas_de_atuacao.push({ text: item.nome, value: item.id });
                     });
 
