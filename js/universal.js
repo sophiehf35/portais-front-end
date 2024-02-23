@@ -71,6 +71,10 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
             validarFormularioAvaliacaoProfissional(config);
         }
 
+    } else if (config.permite_profissionais == 1 && slugDaPagina == 'cadastro-de-profissional') {
+        //PÁGINA CADASTRO DE PROFISSIONAL
+        validarFormularioCadastroProfissional(config);
+    
     } else if (config.paginas_categorias.slugs && config.paginas_categorias.slugs.some(categoria => caminho.includes(`/${categoria}/`))) {
     //PÁGINA DE ARTIGOS
        carregaArtigosRelacionados(config, document.querySelector("h1").dataset.slugCategoria, document.querySelector("h1").dataset.slug);

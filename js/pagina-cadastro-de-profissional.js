@@ -1,5 +1,7 @@
-$(document).ready(function() {
-    
+
+
+    function validarFormularioCadastroProfissional(config) {
+
     /* INICIO CRIA SELECT TIPO PROFISSIONAL */
     let tipo_de_profissional = new SlimSelect({
         select: '#tipo_de_profissional',
@@ -144,7 +146,7 @@ $(document).ready(function() {
                 },
                 cpf: true,
                 remote: {
-                    url: pasta_funcoes + "profissionais/pagina_cadastro_de_profissional/",
+                    url: config.endereco_funcao_php,
                     async: false,
                     cache: false,
                     type: "POST",
@@ -159,7 +161,7 @@ $(document).ready(function() {
                 },
                 cnpj: true,
                 remote: {
-                    url: pasta_funcoes + "profissionais/pagina_cadastro_de_profissional/",
+                    url: config.endereco_funcao_php,
                     async: false,
                     cache: false,
                     type: "POST",
@@ -215,7 +217,7 @@ $(document).ready(function() {
                 required: true,
                 email: true,
                 remote: {
-                    url: pasta_funcoes + "profissionais/pagina_cadastro_de_profissional/",
+                    url: config.endereco_funcao_php,
                     async: false,
                     cache: false,
                     type: "POST",
@@ -243,7 +245,7 @@ $(document).ready(function() {
                 required: true,
                 cep: true,
                 remote: {
-                    url: pasta_funcoes + "profissionais/pagina_cadastro_de_profissional/",
+                    url: config.endereco_funcao_php,
                     async: false,
                     cache: false,
                     type: "POST",
@@ -394,7 +396,7 @@ $(document).ready(function() {
         //REPETE DUAS VEZES PARA VALIDAR OS REMOTES
         if (form.valid() && form.valid()) {
             $.ajax({
-                url: pasta_funcoes + "profissionais/pagina_cadastro_de_profissional/",
+                url: config.endereco_funcao_php,
                 method: "POST",
                 data: {
                     funcao: 'CadastraProfissional',
@@ -502,8 +504,69 @@ $(document).ready(function() {
     /* FIM FUNÇÃO REMOVER ERRO AO ACESSAR O CAMPO */
     
     
-    /* INICIO FUNÇÕES PARA CARREGAR DADOS DO BANCO */
-    
+    /* INICIO FUNÇÕES PARA CARREGAR DADOS */
+    function carrega_tipo_de_profissional() {
+        
+        let dados = config.profissionais.tipos.map((tipo) => {
+            return {
+                text: tipo.charAt(0).toUpperCase() + tipo.slice(1),
+                value: tipo,
+            };
+        });
+        
+        // Inserindo a entrada com texto vazio e placeholder true
+        dados.unshift({
+            text: "",
+            placeholder: true
+        });
+
+        tipo_de_profissional.setData(dados);
+
+    };
+
+    function carrega_atuacao() {
+        fetch('/configuracao/json/profissionais-atuacao.json')
+            .then(response => response.json())
+            .then(dados => {
+                if (dados) {
+
+                    let atuacoes = dados.map((id, nome) => {
+                        return {
+                            text: nome,
+                            value: id,
+                        };
+                    });
+                    
+                    // Inserindo a entrada com texto vazio e placeholder true
+                    atuacoes.unshift({
+                        text: "",
+                        placeholder: true
+                    });
+
+                    area_de_atuacao_principal.setData(atuacoes);
+
+                    $('#area_de_atuacao_principal').change(function() {
+                        if ($('#area_de_atuacao_principal').val() != '') {
+                            var id_area_de_atuacao_principal = $("#area_de_atuacao_principal").children("option").filter(":selected").val();
+            
+                            var outras_areas = areas_de_atuacao.filter(function(item) {
+                                return item.value != id_area_de_atuacao_principal
+                            });
+            
+                            area_de_atuacao_outras.setData(outras_areas);
+                            area_de_atuacao_outras.enable();
+                        } else {
+                            area_de_atuacao_outras.disable();
+                        }
+                    });
+
+                }
+            })
+            .catch(error => console.error('Erro ao carregar atuçoes:', error));
+    };
+
+
+    /*
     function carrega_tipo_de_profissional() {
         $.getJSON(pasta_funcoes + "profissionais/pagina_cadastro_de_profissional/?funcao=CarregaTipoDeProfissional", function(dados) {
             tipo_de_profissional.setData(dados);
@@ -532,7 +595,8 @@ $(document).ready(function() {
         });
         
     }
-    /* FIM FUNÇÕES PARA CARREGAR DADOS DO BANCO */
+    */
+    /* FIM FUNÇÕES PARA CARREGAR DADOS */
     
     
     /* INÍCIO CARREGA CAMPOS DE SELECT QUE BUSCAM DADOS DO DB - APÓS O CARREGAMENTO DA PÁGINA */
@@ -559,10 +623,9 @@ $(document).ready(function() {
         carrega_atuacao();
     }
 
+}
 
-})
-
-
+document.addEventListener('DOMContentLoaded', function() {
 /* INÍCIO MÁSCARAS */
 
 /* CAMPO DE TELEFONE CELULAR */
@@ -782,4 +845,5 @@ function validacao_de_cep(value, element) {
     return this.optional(element) || /^[0-9]{5}-[0-9]{3}$/.test(value);
 }
 
+});
 /* FIM FUNÇÕES AUXILIARES */
