@@ -359,7 +359,7 @@ function validarEmail(email) {
     return regex.test(email);
 }
 
-function enviaContato(endereco_funcao, funcao, parametro1_da_funcao, parametro2_da_funcao, campos, divNotificacao, divBarra, formContato) {
+function enviaDados(endereco_funcao, funcao, parametro1_da_funcao, parametro2_da_funcao, campos, divNotificacao, divBarra, form) {
     const data = new URLSearchParams();
     data.append("funcao", funcao);
     data.append("parametro1_da_funcao", parametro1_da_funcao);
@@ -389,7 +389,7 @@ function enviaContato(endereco_funcao, funcao, parametro1_da_funcao, parametro2_
             return response.json();
         })
         .then((data) => {
-            ocultaBarra(formContato, divBarra);
+            ocultaBarra(form, divBarra);
             if (data.status == 1) {
                 exibirNotificacao("sucesso", data.mensagem, "", divNotificacao);
             } else {

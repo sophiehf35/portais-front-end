@@ -59,7 +59,7 @@ function validarFormularioContato(config) {
       };
 
       setTimeout(function () {
-        enviaContato(
+        enviaDados(
           config.endereco_funcao_php,
           'adicionarContatoFaleConosco',
           config.id,

@@ -156,7 +156,7 @@ function validarFormularioComentario(config) {
         };
 
         setTimeout(function () {
-          enviaContato(
+            enviaDados(
             config.endereco_funcao_php,
             'adicionarComentariosPaginaDeArtigos',
             config.id,

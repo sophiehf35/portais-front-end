@@ -49,7 +49,7 @@ function validarFormularioContatoProfissional(config) {
         };
 
         setTimeout(function () {
-          enviaContato(
+          enviaDados(
             config.endereco_funcao_php,
             'adicionarContatoProfissional',
             config.id,
@@ -136,7 +136,7 @@ function validarFormularioAvaliacaoProfissional(config) {
         };
 
         setTimeout(function () {
-          enviaContato(
+          enviaDados(
             config.endereco_funcao_php,
             'adicionarAvaliacaoProfissional',
             config.id,
