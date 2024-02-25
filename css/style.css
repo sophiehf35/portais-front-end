@@ -2064,7 +2064,7 @@ a.box_cat_home {
 }
 
 .add_bottom_30,.step,.strip,a.box_feat {
-    margin-bottom: 30px
+    margin-bottom: 20px
 }
 
 a.box_cat_home i {
@@ -6268,7 +6268,7 @@ ul.bullets li:before {
     }
 
     .step {
-        margin-bottom: 35px
+        margin-bottom: 25px
     }
 
     .box_account .form_container a.social_bt {
