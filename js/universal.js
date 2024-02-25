@@ -465,9 +465,9 @@ function verificaFechamentoNotificacao(campo, divNotificacao) {
     });
 }
 
-function ocultaBarra(formContato, divBarra) {
+function ocultaBarra(form, divBarra) {
     divBarra.innerHTML = "";
-    formContato.reset();
+    form.reset();
     //inputNomeContatoProfissional.focus();
     //inputEmailContato.focus();
     //inputEmailContato.blur();
