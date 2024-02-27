@@ -389,11 +389,15 @@ function enviaDados(endereco_funcao, funcao, parametro1_da_funcao, parametro2_da
             return response.json();
         })
         .then((data) => {
-            ocultaBarra(form, divBarra);
+            if (form !== null && divBarra !== null) {
+                ocultaBarra(form, divBarra);
+            }
             if (data.status == 1) {
                 exibirNotificacao("sucesso", data.mensagem, "", divNotificacao);
-            } else {
+            } else if (data.status == 2) {
                 exibirNotificacao("erro", data.mensagem, "", divNotificacao);
+            } else if (data.status == 3) {
+                exibirNotificacao("informacao", data.mensagem, "", divNotificacao);
             }
         })
         .catch((error) => {
