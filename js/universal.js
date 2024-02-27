@@ -69,6 +69,8 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
             //carregaAvaliacoesProfissional();
             validarFormularioContatoProfissional(config);
             validarFormularioAvaliacaoProfissional(config);
+        } else if(slugDaPagina == 'confirma-cadastro-de-profissional') {
+            verificaEmailConfirmacaoDeProfissional(config);
         }
 
     } else if (config.permite_profissionais == 1 && slugDaPagina == 'cadastro-de-profissional') {
