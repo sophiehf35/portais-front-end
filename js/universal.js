@@ -382,7 +382,7 @@ function enviaDados(endereco_funcao, funcao, parametro1_da_funcao, parametro2_da
         body: data.toString(),
     };
 
-    fetch(endereco_funcao, options)
+    return fetch(endereco_funcao, options)
         .then((response) => {
             if (!response.ok) {
                 console.error("Erro na solicitação: " + response.status);
