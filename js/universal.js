@@ -394,6 +394,7 @@ function enviaDados(endereco_funcao, funcao, parametro1_da_funcao, parametro2_da
             if (form !== null && divBarra !== null) {
                 ocultaBarra(form, divBarra);
             }
+            console.log(data);
             if (data.status == 1) {
                 exibirNotificacao("sucesso", data.mensagem, "", divNotificacao);
             } else if (data.status == 2) {
