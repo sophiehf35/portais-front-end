@@ -419,6 +419,9 @@ function exibirNotificacao(tipo, mensagem, campo, divNotificacao) {
     } else if (tipo == "sucesso") {
         classeMensagem = "success";
         iconeMensagem = "#check-circle-fill";
+    } else if (tipo == "informacao") {
+        classeMensagem = "primary";
+        iconeMensagem = "#info-fill";
     }
 
     divNotificacao.innerHTML =
