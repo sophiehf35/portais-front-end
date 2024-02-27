@@ -401,6 +401,7 @@ function enviaDados(endereco_funcao, funcao, parametro1_da_funcao, parametro2_da
             } else if (data.status == 3) {
                 exibirNotificacao("informacao", data.mensagem, "", divNotificacao);
             }
+            return data;
         })
         .catch((error) => {
             console.error("Ocorreu um erro durante a solicitação:", error);
