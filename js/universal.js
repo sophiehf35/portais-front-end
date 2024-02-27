@@ -415,7 +415,7 @@ function exibirNotificacao(tipo, mensagem, campo, divNotificacao) {
     if (tipo == "erro") {
         classeMensagem = "danger";
         iconeMensagem = "#exclamation-triangle-fill";
-        campo.classList.add("is-invalid");
+        campo !== '' ?  campo.classList.add("is-invalid") : null;
     } else if (tipo == "sucesso") {
         classeMensagem = "success";
         iconeMensagem = "#check-circle-fill";
@@ -437,7 +437,7 @@ function exibirNotificacao(tipo, mensagem, campo, divNotificacao) {
 
     divNotificacao.classList.add("d-block", "fade", "show");
     divNotificacao.classList.remove("d-none");
-    verificaFechamentoNotificacao(campo, divNotificacao);
+    campo !== '' ?  verificaFechamentoNotificacao(campo, divNotificacao) : null;
 }
 
 function verificaTipoAlerta(divNotificacao) {
