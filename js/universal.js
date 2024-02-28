@@ -64,8 +64,6 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
 
     } else if (caminho.includes('/profissionais/')) {
     //PÁGINAS DE PROFISSIONAIS
-        console.log(caminho);
-        console.log(config.profissionais.tipos);
         if (config.profissionais && config.profissionais.tipos.some(tipo => tipo.slug_diretorio && caminho.includes(`/${tipo.slug_diretorio}/`))) {
             //PÁGINAS DO PROFISSIONAL
             //carregaAvaliacoesProfissional();
