@@ -64,11 +64,9 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
 
     } else if (caminho.includes('/profissionais/')) {
     //PÁGINAS DE PROFISSIONAIS
-        console.log(config.profissionais.tipos);
-        if(config.profissionais && config.profissionais.tipos.some(tipos => caminho.includes(`/${tipos}/`))) {
+        if (config.profissionais && config.profissionais.tipos.some(tipo => tipo.slug_diretorio && caminho.includes(`/${tipo.slug_diretorio}/`))) {
             //PÁGINAS DO PROFISSIONAL
             //carregaAvaliacoesProfissional();
-            console.log('entrou');
             validarFormularioContatoProfissional(config);
             validarFormularioAvaliacaoProfissional(config);
         } else if(slugDaPagina == 'confirma-cadastro-de-profissional') {
