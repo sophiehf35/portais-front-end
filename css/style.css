@@ -7267,7 +7267,6 @@ figure.figure_container {
 .btn3d {
     transition: 80ms linear;
     position: relative;
-    margin-top: 15px;
     top: 0
 }
 
