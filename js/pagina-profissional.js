@@ -179,6 +179,11 @@ function validarFormularioAvaliacaoProfissional(config) {
 }
 /* FUNÇÃO PARA VALIDAR E ENVIAR FORMULÁRIO DE AVALIAÇÃO DE PROFISSIONAL */
 
+document.querySelector("input#nome_usuario").addEventListener("input", function() {
+  const allowedCharacters = "azertyuiopqsdfghjklmwxcvbnAZERTYUIOPQSDFGHJKLMWXCVBNzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ";
+  this.value = this.value.split('').filter(char => allowedCharacters.includes(char)).join('')
+});
+
 /* FUNÇÃO DO CAMPO DE TELEFONE FIXO E CELULAR */
 window.addEventListener("DOMContentLoaded", function () {
   var telefoneInput = document.getElementById("telefone_usuario");
