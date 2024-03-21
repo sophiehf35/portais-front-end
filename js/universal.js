@@ -49,6 +49,7 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
         }
         carregaListaDeArtigos(config, slugDaPagina);
         carregaConteudoDestaque(config);
+        setaJsCustomizado(config, 'paginas_categoria');
 
     } else if (config.possui_ferramentas == 1 && slugDaPagina == 'ferramentas') {
     //PÁGINA DE FERRAMENTAS
@@ -84,6 +85,7 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
        carregaComentariosAvaliacoes();
        validarFormularioComentario(config);
        compartilhamentoDeImagens(config);
+       setaJsCustomizado(config, 'paginas_artigo');
 
     } else if (config.paginas_fixas && config.paginas_fixas.slugs.includes(slugDaPagina) && slugDaPagina !== 'home') {
     //PÁGINAS FIXAS
@@ -181,6 +183,19 @@ function setaMetaTags(config, slugDaPagina, nomeDaPagina, linkCanonical = '') {
     document.querySelector('meta[name="twitter:image"]').parentNode.insertBefore(metaAltImageTwitter, document.querySelector('meta[name="twitter:image"]').nextSibling);
 
 }
+
+function setaJsCustomizado(config, tipoPagina) {
+    const paginasCustomizadas = config.js_customizado[tipoPagina];
+
+    if (paginasCustomizadas && paginasCustomizadas.length > 0) {
+        paginasCustomizadas.forEach(function(nomeDoAquivoJS) {
+            const scriptCustomizado = document.createElement('script');
+            scriptCustomizado.src = `/configuracao/js/${nomeDoAquivoJS}`;
+            document.body.appendChild(scriptCustomizado);
+        });
+    }
+}
+
 
 function setaGoogleAnalytics(config) {
     if (config.possui_google_analytics === 1) {
