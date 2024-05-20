@@ -270,6 +270,24 @@ function carregaLogo(config, logoContainer) {
 
 }
 
+function inserirAnuncio(divId, key, height, width, src) {
+    var div = document.getElementById(divId);
+    var iframe = document.createElement('iframe');
+    iframe.setAttribute('width', width);
+    iframe.setAttribute('height', height);
+    iframe.setAttribute('frameborder', '0');
+    iframe.setAttribute('scrolling', 'no');
+    div.appendChild(iframe);
+
+    var script1 = document.createElement('script');
+    script1.textContent = `var atOptions = {'key' : '${key}','format' : 'iframe','height' : ${height},'width' : ${width},'params' : {}};`;
+    iframe.contentDocument.head.appendChild(script1);
+
+    var script2 = document.createElement('script');
+    script2.src = src;
+    iframe.contentDocument.head.appendChild(script2);
+}
+
 
 /* FUNÇÃO PARA ADIAR CARREGAMENTO DAS IMAGENS */
 const config = {
