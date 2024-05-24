@@ -82,7 +82,7 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
     //PÁGINA DE ARTIGOS
        carregaArtigosRelacionados(config, document.querySelector("h1").dataset.slugCategoria, document.querySelector("h1").dataset.slug);
        carregaConteudoDestaque(config);
-       carregaComentariosAvaliacoes();
+       carregaComentariosAvaliacoes(config);
        validarFormularioComentario(config);
        compartilhamentoDeImagens(config);
        setaJsCustomizado(config, 'paginas_artigo');

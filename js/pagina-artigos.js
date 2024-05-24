@@ -283,7 +283,7 @@ function carregaArtigosRelacionados(config, categoria, slugArtigo) {
 /* FUNÇÃO PARA CRIAR SECTION E CARREGAR OS ARTIGOS RELACIONADOS */
 
 /* FUNÇÃO PARA CRIAR SECTION E CARREGAR OS COMENTÁRIOS */
-function carregaComentariosAvaliacoes() {
+function carregaComentariosAvaliacoes(config) {
 
   const numeroComentarios = document.querySelector("h1").dataset.comentarios;
   if (numeroComentarios > 0) {
@@ -307,8 +307,9 @@ function carregaComentariosAvaliacoes() {
                     '<i class="icon_star"></i>'
                 ).join('');
         
-                // Ajuste aqui para acessar o sexo corretamente
-                const imagemAvatar = dados.sexo === '1' ? '<img src="../img/feminino_comentario.webp">' : '<img src="../img/masculino_comentario.webp">';
+                const imagemAvatar = `${dados.sexo === '1' ? (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/feminino_comentario.webp' : (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/masculino_comentario.webp'}`;
+                const tagAvatar = `<img width="80px" height="80px" src="data:image/webp;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-src="${imagemAvatar}" data-srcset="${imagemAvatar}">`;
+                
                 const options = {
                     weekday: 'long',
                     day: 'numeric',
@@ -319,7 +320,7 @@ function carregaComentariosAvaliacoes() {
         
                 return `
                     <div class="review-box clearfix">
-                        <figure class="rev-thumb">${imagemAvatar}</figure>
+                        <figure class="rev-thumb">${tagAvatar}</figure>
                         <div class="rev-content">
                             <div class="rating_pequeno">${estrelas}</div>
                             <div class="rev-info">${dados.nome}</div>
@@ -342,6 +343,8 @@ function carregaComentariosAvaliacoes() {
                   "</div></div></section>"
               );
 
+              AdiarImagens();
+
               function ListarComentariosDeRespostas(comentarios, id_comentario_pai, marginleft = 0) {
                   const comentariosRespostas = comentarios.filter(comentario => comentario.id_comentario_pai === id_comentario_pai);
                   const output = comentariosRespostas.map(comentario => {
@@ -353,7 +356,10 @@ function carregaComentariosAvaliacoes() {
                           '<i class="icon_star voted"></i>' :
                           '<i class="icon_star"></i>'
                       ).join('');
-                      const imagemAvatar = comentario.sexo === '1' ? '<img src="../img/feminino_comentario.webp">' : '<img src="../img/masculino_comentario.webp">';
+
+                      const imagemAvatar = `${dados.sexo === '1' ? (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/feminino_comentario.webp' : (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + '/masculino_comentario.webp'}`;
+                      const tagAvatar = `<img width="80px" height="80px" src="data:image/webp;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-src="${imagemAvatar}" data-srcset="${imagemAvatar}">`;
+                      
                       const options = {
                           weekday: 'long',
                           day: 'numeric',
@@ -363,7 +369,7 @@ function carregaComentariosAvaliacoes() {
 
                       return `
                       <div style="margin-left:${marginleft}px" class="review-box clearfix">
-                          <figure class="rev-thumb">${imagemAvatar}</figure>
+                          <figure class="rev-thumb">${tagAvatar}</figure>
                           <div class="rev-content">
                               <div class="rating_pequeno">${estrelas}</div>
                               <div class="rev-info">${comentario.nome}</div>
