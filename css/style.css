@@ -7297,66 +7297,6 @@ section#artigo h2,section#artigo h3,section#artigo h4,section#artigo h5 {
 }
 
 @media screen and (min-width: 768px) {
-    #estado {
-        padding-right:0
-    }
-
-    #cidade {
-        padding: 0
-    }
-
-    #bairro {
-        padding-left: 0
-    }
-
-    .select_customizado {
-        border-radius: unset;
-        height: 60px;
-        font-size: 1rem
-    }
-
-    .select_customizado.bairro {
-        border-radius: 0 3px 3px 0;
-        border-left: 1px solid #fff;
-        border-right: 2px solid #fff
-    }
-
-    .select_customizado.estado {
-        border-radius: 3px 0 0 3px
-    }
-
-    .select_customizado.cidade {
-        border-radius: 0;
-        border-right: 2px solid #d2d8dd
-    }
-
-    #BotaoBuscar {
-        width: 100%;
-        height: 60px
-    }
-
-    #BotaoBuscar.diretorio {
-        display: none
-    }
-
-    .botao_filtro:first-child {
-        padding-left: 0;
-        padding-right: 5px
-    }
-
-    .botao_filtro:nth-child(2) {
-        padding-left: 5px;
-        padding-right: 5px
-    }
-
-    .botao_filtro:nth-child(3) {
-        padding-left: 5px;
-        padding-right: 0
-    }
-
-    .radio-btn,.radio-btn-selected {
-        font-size: 15px
-    }
 
     .botao_responder_comentario {
         font-size: 14px;
@@ -7394,103 +7334,11 @@ section#artigo h2,section#artigo h3,section#artigo h4,section#artigo h5 {
 }
 
 @media screen and (max-width: 767px) {
-    #BotaoBuscar {
-        height:40px;
-        margin: 0
-    }
-
-    #BotaoBuscar.diretorio {
-        display: block
-    }
-
-    .div_botao_buscar {
-        margin-bottom: 10px
-    }
-
-    .botao_filtro:first-child {
-        padding-left: 15px;
-        padding-right: 5px
-    }
-
-    .botao_filtro:nth-child(2),.div_blog {
-        padding-left: 5px;
-        padding-right: 5px
-    }
-
-    .botao_filtro:nth-child(3) {
-        padding-left: 5px;
-        padding-right: 15px
-    }
-
-    .radio-btn,.radio-btn-selected {
-        font-size: 14px
-    }
-
     .botao_responder_comentario {
         font-size: 14px;
         color: #ffc20e;
         cursor: pointer
     }
-}
-
-@media screen and (min-width: 992px) {
-    .div_acao_politica {
-        float:right
-    }
-
-    #bairro {
-        padding: 0
-    }
-
-    .select_customizado.bairro {
-        border-radius: 0
-    }
-
-    #BotaoBuscar {
-        border-radius: 0 3px 3px 0
-    }
-
-    .div_botao_buscar {
-        padding-left: 0
-    }
-}
-
-.botao_acao_politica_copiar,.botao_acao_politica_gerar_nova {
-    padding: 10px 15px;
-    cursor: pointer;
-    color: #fff;
-    border-radius: 3px
-}
-
-.botao_acao_politica_copiar {
-    background-color: #28a745
-}
-
-.botao_acao_politica_gerar_nova {
-    background-color: #007bff
-}
-
-.radio-btn,.radio-btn-selected {
-    color: #fff;
-    line-height: 26px;
-    padding: 4px 6px;
-    outline: 0
-}
-
-.radio-btn {
-    background-color: #001741;
-    border-radius: 3px;
-    border: none
-}
-
-.radio-btn-selected {
-    background-color: #32a067;
-    border-radius: 3px;
-    border: none
-}
-
-#advogados:focus,#escritorios:focus,#todos_os_perfis:focus {
-    outline: unset
 }
 
 .titulo_secao {
