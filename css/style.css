@@ -1508,7 +1508,7 @@ ul#additional_links li:after {
     background: url(../img/search.svg) center center no-repeat #cea05f
 }
 
-#BotaoBuscar:hover,.custom-search-input-2.inner input[type=submit]:hover,.reviews-container .progress-bar {
+.botao-buscar:hover,.custom-search-input-2.inner input[type=submit]:hover,.reviews-container .progress-bar {
     background-color: #32a067
 }
 
@@ -2228,7 +2228,7 @@ a.box_feat i {
     background-color: #fff
 }
 
-#BotaoBuscar,.strip figure small {
+.botao-buscar,.strip figure small {
     background-color: var(--cor-secundaria)
 }
 
@@ -7193,14 +7193,14 @@ figure.figure_container {
     transform: translateY(-55%)
 }
 
-#BotaoBuscar {
+.botao-buscar {
     border: 0;
     font-weight: 600;
     color: #fff;
     cursor: pointer
 }
 
-#BotaoBuscar,.btn3d {
+.botao-buscar.btn3d {
     outline: 0;
     width: 100%
 }
