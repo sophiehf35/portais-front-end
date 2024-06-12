@@ -89,7 +89,7 @@ const formAvaliacaoProfissional = document.querySelector("#formulario_de_avaliac
 const inputNomeAvaliacaoProfissional = formAvaliacaoProfissional.querySelector("#nome");
 const inputEmailAvaliacaoProfissional = formAvaliacaoProfissional.querySelector("#email");
 const inputSexoAvaliacaoProfissional = formAvaliacaoProfissional.querySelector("#sexo");
-const inputNotaAvaliacaoProfissional = formAvaliacaoProfissional.querySelector("#nota");
+const inputNotaAvaliacaoProfissional = formAvaliacaoProfissional.querySelector("#avaliacao");
 const inputComentarioAvaliacaoProfissional = formAvaliacaoProfissional.querySelector("#comentario");
 
 const botaoEnviarAvaliacaoProfissional = document.querySelector("#envia_avaliacao_profissional");
@@ -131,7 +131,7 @@ function validarFormularioAvaliacaoProfissional(config) {
           "nome": inputNomeAvaliacaoProfissional.value,
           "email": inputEmailAvaliacaoProfissional.value,
           "sexo": inputSexoAvaliacaoProfissional.value,
-          "nota": inputNotaAvaliacaoProfissional.value,
+          "avaliacao": inputNotaAvaliacaoProfissional.value,
           "comentario": inputComentarioAvaliacaoProfissional.value
         };
 
