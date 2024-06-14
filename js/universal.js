@@ -321,7 +321,6 @@ const loadImage = image => {
 function onChange(changes, observer) {
     changes.forEach(change => {
         if (change.intersectionRatio > 0) {
-            // Stop watching and load the image
             loadImage(change.target);
             observer.unobserve(change.target);
         }

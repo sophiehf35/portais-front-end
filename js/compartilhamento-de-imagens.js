@@ -1,4 +1,5 @@
 function compartilhamentoDeImagens(config) {
+  AdiarImagens();
   const imagens = document.querySelectorAll("section#artigo.box_detail > figure >img");
 
   if (imagens.length > 0) {
