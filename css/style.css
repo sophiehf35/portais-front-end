@@ -3292,9 +3292,9 @@ a.btn_search_mobile {
 }
 
 .booking .dropdown,.box_detail {
-    -webkit-border-radius: 3px;
+    /*--webkit-border-radius: 3px;*/
     -moz-border-radius: 3px;
-    /*-ms-border-radius: 3px;*/
+    -ms-border-radius: 3px;
     background-color: #fff
 }
 
