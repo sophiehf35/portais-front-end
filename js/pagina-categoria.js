@@ -227,7 +227,10 @@ function carregaListaDeArtigos(config, slugDaPagina) {
                 paginationList.appendChild(firstPageItem);
     
                 const ellipsisItem = document.createElement('li');
+                const ellipsisItemContent = document.createElement('span');
                 ellipsisItem.textContent = '...';
+                
+                ellipsisItem.appendChild(ellipsisItemContent);
                 paginationList.appendChild(ellipsisItem);
             }
     
