@@ -179,6 +179,7 @@ function carregaListaDeArtigos(config, slugDaPagina) {
         const artigosDaPagina = data.filter(item => item.slug_categoria === slugDaPagina);
         const totalPages = Math.ceil(artigosDaPagina.length / numeroArtigosPorPagina);
         const paginationContainer = document.querySelector('#divPaginacao');
+        const maxButtons = 5; // Número máximo de botões de paginação exibidos
     
         // Verifica se há mais de uma página
         if (totalPages > 1) {
@@ -202,13 +203,41 @@ function carregaListaDeArtigos(config, slugDaPagina) {
                 paginationList.appendChild(prevPageItem);
             }
     
+            // Calcula os botões de paginação a serem exibidos
+            let startPage = Math.max(1, paginaAtual - Math.floor(maxButtons / 2));
+            let endPage = Math.min(totalPages, paginaAtual + Math.floor(maxButtons / 2));
+    
+            if (paginaAtual <= Math.floor(maxButtons / 2)) {
+                endPage = Math.min(totalPages, maxButtons);
+            }
+    
+            if (totalPages - paginaAtual < Math.floor(maxButtons / 2)) {
+                startPage = Math.max(1, totalPages - maxButtons + 1);
+            }
+    
+            // Adiciona elipses antes dos botões, se necessário
+            if (startPage > 1) {
+                const firstPageItem = document.createElement('li');
+                const firstPageLink = document.createElement('a');
+                firstPageLink.classList.add('page-link');
+                firstPageLink.href = `/${slugDaPagina}/`;
+                firstPageLink.title = 'página 1';
+                firstPageLink.textContent = '1';
+                firstPageItem.appendChild(firstPageLink);
+                paginationList.appendChild(firstPageItem);
+    
+                const ellipsisItem = document.createElement('li');
+                ellipsisItem.textContent = '...';
+                paginationList.appendChild(ellipsisItem);
+            }
+    
             // Adiciona os links das páginas
-            for (let i = 1; i <= totalPages; i++) {
+            for (let i = startPage; i <= endPage; i++) {
                 const paginationItem = document.createElement('li');
                 if (i === paginaAtual) {
                     const activeLink = document.createElement('a');
                     activeLink.classList.add('active');
-                    activeLink.href = i === 1 ? '#' : `?pagina=${i}`;
+                    activeLink.href = i === 1 ? `/${slugDaPagina}/` : `?pagina=${i}`;
                     activeLink.title = `página ${i}`;
                     activeLink.textContent = i;
                     paginationItem.appendChild(activeLink);
@@ -221,6 +250,22 @@ function carregaListaDeArtigos(config, slugDaPagina) {
                     paginationItem.appendChild(pageLink);
                 }
                 paginationList.appendChild(paginationItem);
+            }
+    
+            // Adiciona elipses após os botões, se necessário
+            if (endPage < totalPages) {
+                const ellipsisItem = document.createElement('li');
+                ellipsisItem.textContent = '...';
+                paginationList.appendChild(ellipsisItem);
+    
+                const lastPageItem = document.createElement('li');
+                const lastPageLink = document.createElement('a');
+                lastPageLink.classList.add('page-link');
+                lastPageLink.href = `?pagina=${totalPages}`;
+                lastPageLink.title = `página ${totalPages}`;
+                lastPageLink.textContent = totalPages;
+                lastPageItem.appendChild(lastPageLink);
+                paginationList.appendChild(lastPageItem);
             }
     
             // Adiciona o botão "Próxima página" se houver uma próxima página
