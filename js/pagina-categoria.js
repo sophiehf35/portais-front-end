@@ -228,8 +228,8 @@ function carregaListaDeArtigos(config, slugDaPagina) {
     
                 const ellipsisItem = document.createElement('li');
                 const ellipsisItemContent = document.createElement('span');
-                ellipsisItem.textContent = '...';
-                
+                ellipsisItemContent.textContent = '...';
+
                 ellipsisItem.appendChild(ellipsisItemContent);
                 paginationList.appendChild(ellipsisItem);
             }
