@@ -228,6 +228,7 @@ function carregaListaDeArtigos(config, slugDaPagina) {
     
                 const ellipsisItem = document.createElement('li');
                 const ellipsisItemContent = document.createElement('span');
+                ellipsisItemContent.classList.add('page-link');
                 ellipsisItemContent.textContent = '...';
     
                 ellipsisItem.appendChild(ellipsisItemContent);
@@ -259,6 +260,7 @@ function carregaListaDeArtigos(config, slugDaPagina) {
             if (endPage < totalPages) {
                 const ellipsisItem = document.createElement('li');
                 const ellipsisItemContent = document.createElement('span');
+                ellipsisItemContent.classList.add('page-link');
                 ellipsisItemContent.textContent = '...';
     
                 ellipsisItem.appendChild(ellipsisItemContent);
@@ -292,6 +294,7 @@ function carregaListaDeArtigos(config, slugDaPagina) {
             paginationContainer.appendChild(paginationList);
         }
     }
+    
 
     function updateURL() {
         const params = new URLSearchParams(window.location.search);
