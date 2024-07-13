@@ -229,7 +229,7 @@ function carregaListaDeArtigos(config, slugDaPagina) {
                 const ellipsisItem = document.createElement('li');
                 const ellipsisItemContent = document.createElement('span');
                 ellipsisItemContent.textContent = '...';
-
+    
                 ellipsisItem.appendChild(ellipsisItemContent);
                 paginationList.appendChild(ellipsisItem);
             }
@@ -258,7 +258,10 @@ function carregaListaDeArtigos(config, slugDaPagina) {
             // Adiciona elipses após os botões, se necessário
             if (endPage < totalPages) {
                 const ellipsisItem = document.createElement('li');
-                ellipsisItem.textContent = '...';
+                const ellipsisItemContent = document.createElement('span');
+                ellipsisItemContent.textContent = '...';
+    
+                ellipsisItem.appendChild(ellipsisItemContent);
                 paginationList.appendChild(ellipsisItem);
     
                 const lastPageItem = document.createElement('li');
