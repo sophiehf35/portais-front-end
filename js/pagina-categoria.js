@@ -179,7 +179,7 @@ function carregaListaDeArtigos(config, slugDaPagina) {
         const artigosDaPagina = data.filter(item => item.slug_categoria === slugDaPagina);
         const totalPages = Math.ceil(artigosDaPagina.length / numeroArtigosPorPagina);
         const paginationContainer = document.querySelector('#divPaginacao');
-        const maxButtons = 5; // Número máximo de botões de paginação exibidos
+        const maxButtons = 3;
     
         // Verifica se há mais de uma página
         if (totalPages > 1) {
