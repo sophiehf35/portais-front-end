@@ -2229,7 +2229,7 @@ a.box_feat i {
 }
 
 .botao-buscar,.strip figure small {
-    background-color: var(--cor-secundaria)
+    background-color: var(--cor-botao-acao)
 }
 
 #filters ul li small {
