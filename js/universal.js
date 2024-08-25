@@ -246,16 +246,16 @@ function carregaLogo(config, logoContainer) {
     link.title = config.nome_do_site;
 
     var img = document.createElement("img");
-    
+    const baseDir = (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img');
+
     if (getComputedStyle(document.documentElement).getPropertyValue('--cor-fundo-header') === '#FFFFFF') {
-        const baseDir = (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img');
         img.dataset.src = `${baseDir}/${config.nome_do_logo}.webp`;
         img.dataset.srcset = `${baseDir}/${config.nome_do_logo}.webp?tr=w-50 200w,${baseDir}/${config.nome_do_logo}.webp?tr=w-100 400w,${baseDir}/${config.nome_do_logo}.webp?tr=w-150 600w,${baseDir}/${config.nome_do_logo}.webp?tr=w-200 800w`;
         img.srcset = `${baseDir}/${config.nome_do_logo}.webp?tr=w-50 200w,${baseDir}/${config.nome_do_logo}.webp?tr=w-100 400w,${baseDir}/${config.nome_do_logo}.webp?tr=w-150 600w,${baseDir}/${config.nome_do_logo}.webp?tr=w-200 800w`;
     } else {
-        img.dataset.src = (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') +  "/" + config.nome_do_logo + "-branco.webp";
-        img.dataset.srcset = (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') +  "/" + config.nome_do_logo + "-branco.webp?tr=w-50 200w," + config.diretorio_cdn_imagens + "/" + config.nome_do_logo + "-branco.webp?tr=w-100 400w," + config.diretorio_cdn_imagens + "/" + config.nome_do_logo + "-branco.webp?tr=w-150 600w," + config.diretorio_cdn_imagens + "/" + config.nome_do_logo + "-branco.webp?tr=w-200 800w,";
-        img.srcset = (config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img') + config.nome_do_logo + "-branco.webp?tr=w-50 200w," + config.diretorio_cdn_imagens + "/" + config.nome_do_logo + "-branco.webp?tr=w-100 400w," + config.diretorio_cdn_imagens + "/" + config.nome_do_logo + "-branco.webp?tr=w-150 600w," + config.diretorio_cdn_imagens + "/" + config.nome_do_logo + "-branco.webp?tr=w-200 800w,";
+        img.dataset.src = `${baseDir}/${config.nome_do_logo}-branco.webp`;
+        img.dataset.srcset = `${baseDir}/${config.nome_do_logo}-branco.webp?tr=w-50 200w,${baseDir}/${config.nome_do_logo}-branco.webp?tr=w-100 400w,${baseDir}/${config.nome_do_logo}-branco.webp?tr=w-150 600w,${baseDir}/${config.nome_do_logo}-branco.webp?tr=w-200 800w`;
+        img.srcset = `${baseDir}/${config.nome_do_logo}-branco.webp?tr=w-50 200w,${baseDir}/${config.nome_do_logo}-branco.webp?tr=w-100 400w,${baseDir}/${config.nome_do_logo}-branco.webp?tr=w-150 600w,${baseDir}/${config.nome_do_logo}-branco.webp?tr=w-200 800w`;
         nav.classList.add('navbar-dark');
     }
 
