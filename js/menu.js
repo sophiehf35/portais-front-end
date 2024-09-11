@@ -7,7 +7,7 @@ function carregaMenu(config) {
             return response.json();
         })
         .then(menu => {
-            var menuHTML = '<div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="menu" aria-labelledby="menuLabel">';
+            var menuHTML = '<div class="offcanvas offcanvas-start text-bg-dark menu-mobile" tabindex="-1" id="menu" aria-labelledby="menuLabel">';
             menuHTML += '<div class="offcanvas-header">';
             menuHTML += '<h5 class="offcanvas-title text-white" id="menuLabel">MENU</h5>';
             menuHTML += '<button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>';
