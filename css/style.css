@@ -3476,6 +3476,9 @@ a.btn_search_mobile {
     .menu-mobile {
         border-right: none!important;
     }
+    .menu-mobile-body { 
+        background-color: #f5f7fa;
+    }
     .nav-link {
         font-weight: 500;
         align-items: center;

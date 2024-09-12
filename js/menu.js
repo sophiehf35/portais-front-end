@@ -12,7 +12,7 @@ function carregaMenu(config) {
             menuHTML += '<h5 class="offcanvas-title text-white" id="menuLabel">MENU</h5>';
             menuHTML += '<button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>';
             menuHTML += '</div>';
-            menuHTML += '<div class="offcanvas-body p-0" style="background-color: #f5f7fa;">';
+            menuHTML += '<div class="offcanvas-body p-0 menu-mobile-body">';
             menuHTML += '<ul class="navbar-nav justify-content-end flex-grow-1">';
             
             for (var chave in menu) {
