@@ -3492,6 +3492,7 @@ a.btn_search_mobile {
         -ms-flex-align: center;
         -webkit-box-align: center;
         border-bottom: solid 1px #e0e4eb;
+        color:#444;
     }
     .btn_add, a.btn_add {
         width:100%;
