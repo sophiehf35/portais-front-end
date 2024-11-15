@@ -3525,6 +3525,7 @@ a.btn_search_mobile {
 
     .dropdown-item {
         font-size:1rem!important;
+        padding: 12px 16px!important;
     }
     .dropdown-menu > li:not(:last-child) > .dropdown-item {
         border-bottom: solid 1px #e0e4eb !important;
