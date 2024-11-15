@@ -3520,8 +3520,8 @@ a.btn_search_mobile {
         padding: 3px!important;
     }
 
-    .dropdown-item {
-        border-bottom: solid 1px #e0e4eb!important;
+    .dropdown-item:not(:last-child) {
+        border-bottom: solid 1px #e0e4eb !important;
     }
 
 }
