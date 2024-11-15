@@ -26,7 +26,8 @@ function carregaMenu(config) {
                         menuHTML += '<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">';
                         menuHTML += itemMenu['nome'];
                         menuHTML += '</a>';
-                        menuHTML += '<ul class="dropdown-menu" data-bs-popper="static">';
+                        //menuHTML += '<ul class="dropdown-menu" data-bs-popper="static">';
+                        menuHTML += '<ul class="dropdown-menu collapse" data-bs-parent=".offcanvas-body">';
                         
                         // Construir os itens do submenu
                         for (var subChave in itemMenu['submenu']) {
