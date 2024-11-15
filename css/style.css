@@ -3504,7 +3504,7 @@ a.btn_search_mobile {
 
     .dropdown .dropdown-menu {
         margin-top: 0px!important;
-        font-size: .875rem;
+        font-size: .94rem;
         -moz-transition: opacity .5s;
         -o-transition: opacity .5s;
         -webkit-transition: opacity .5s;
@@ -3514,13 +3514,16 @@ a.btn_search_mobile {
         border-radius: unset !important;
         box-shadow: none;
         white-space: normal;
-        border-top: solid 1px #e0e4eb!important;
+        border: none !important;
         border-bottom: solid 1px #e0e4eb!important;
         width: 100%!important;
         padding: 3px!important;
     }
 
-    .dropdown-item:not(:last-child) {
+    .dropdown-item {
+        font-size:1rem!important;
+    }
+    .dropdown-menu .dropdown-item:not(:last-child) {
         border-bottom: solid 1px #e0e4eb !important;
     }
 
