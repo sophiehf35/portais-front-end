@@ -3473,6 +3473,10 @@ a.btn_search_mobile {
 }
 
 @media screen and (max-width: 991px) {
+    .navbar-toggler {
+        font-size: 1.1rem;
+        padding: 3px 8px;
+    }
     .menu-mobile {
         border-right: none!important;
     }
