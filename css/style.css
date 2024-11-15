@@ -3514,6 +3514,7 @@ a.btn_search_mobile {
         border-radius: unset !important;
         box-shadow: none;
         white-space: normal;
+        border: none!important;
         width: 100%!important;
         padding: 3px!important;
     }
