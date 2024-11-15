@@ -3503,7 +3503,7 @@ a.btn_search_mobile {
     }
 
     .dropdown .dropdown-menu {
-        margin-top: 0px;
+        margin-top: 0px!important;
         font-size: .875rem;
         -moz-transition: opacity .5s;
         -o-transition: opacity .5s;
@@ -3511,13 +3511,17 @@ a.btn_search_mobile {
         -ms-transition: opacity .5s;
         transition: opacity .5s;
         background: #fff;
-        border-bottom: solid 1px #e0e4eb!important;
-        border-radius: none;
+        border-radius: unset !important;
         box-shadow: none;
         white-space: normal;
-        width: 100%;
-
+        width: 100%!important;
+        padding: 3px!important;
     }
+
+    .dropdown-item {
+        border-bottom: solid 1px #e0e4eb!important;
+    }
+
 }
 
 
