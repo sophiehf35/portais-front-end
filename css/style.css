@@ -3492,7 +3492,7 @@ a.btn_search_mobile {
         -ms-flex-align: center;
         -webkit-box-align: center;
         border-bottom: solid 1px #e0e4eb;
-        color:#444;
+        color:#444!important;
     }
     .btn_add, a.btn_add {
         width:100%;
@@ -3500,6 +3500,18 @@ a.btn_search_mobile {
 
     ul#top_menu {
         float: none!important;
+    }
+
+    .dropdown .dropdown-menu {
+        font-size: .875rem;
+        -moz-transition: opacity .5s;
+        -o-transition: opacity .5s;
+        -webkit-transition: opacity .5s;
+        -ms-transition: opacity .5s;
+        transition: opacity .5s;
+        background: transparent;
+        border-bottom: solid 1px #e0e4eb;
+        white-space: normal;
     }
 }
 
@@ -6257,14 +6269,6 @@ ul.bullets li:before {
 
     .booking .dropdown {
         height: inherit
-    }
-
-    .dropdown {
-        -webkit-border-radius: 3px;
-        -moz-border-radius: 3px;
-        -ms-border-radius: 3px;
-        border-radius: 3px;
-        height: 50px
     }
 
     .full-height,.row-height {
