@@ -3483,7 +3483,7 @@ a.btn_search_mobile {
         font-weight: 500;
         align-items: center;
         position: relative;
-        font-size: 14px;
+        font-size: 15px;
         letter-spacing: 0.3px;
         text-decoration: none !important;
         width: 100%;
@@ -3504,7 +3504,6 @@ a.btn_search_mobile {
 
     .dropdown .dropdown-menu {
         margin-top: 0px!important;
-        font-size: .94rem;
         -moz-transition: opacity .5s;
         -o-transition: opacity .5s;
         -webkit-transition: opacity .5s;
@@ -3512,7 +3511,7 @@ a.btn_search_mobile {
         transition: opacity .5s;
         background: #fff;
         border-radius: unset !important;
-        box-shadow: none;
+        box-shadow: none!important;
         white-space: normal;
         border: none !important;
         border-bottom: solid 1px #e0e4eb!important;
@@ -3523,7 +3522,7 @@ a.btn_search_mobile {
     .dropdown-item {
         font-size:1rem!important;
     }
-    .dropdown-menu .dropdown-item:not(:last-child) {
+    .dropdown-menu > li:not(:last-child) > .dropdown-item {
         border-bottom: solid 1px #e0e4eb !important;
     }
 
