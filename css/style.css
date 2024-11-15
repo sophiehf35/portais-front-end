@@ -3503,15 +3503,20 @@ a.btn_search_mobile {
     }
 
     .dropdown .dropdown-menu {
+        margin-top: 0px;
         font-size: .875rem;
         -moz-transition: opacity .5s;
         -o-transition: opacity .5s;
         -webkit-transition: opacity .5s;
         -ms-transition: opacity .5s;
         transition: opacity .5s;
-        background: transparent;
-        border-bottom: solid 1px #e0e4eb;
+        background: #fff;
+        border-bottom: solid 1px #e0e4eb!important;
+        border-radius: none;
+        box-shadow: none;
         white-space: normal;
+        width: 100%;
+
     }
 }
 
