@@ -3477,6 +3477,7 @@ a.btn_search_mobile {
     .navbar-toggler {
         font-size: 1.1rem;
         padding: 3px 8px;
+        border-radius: unset!important;
     }
     .menu-mobile {
         border-right: none!important;
