@@ -1306,7 +1306,6 @@ ul#additional_links li:after {
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
-        top: 6px;
     }
 
     .sub_header_in.sticky_header {
