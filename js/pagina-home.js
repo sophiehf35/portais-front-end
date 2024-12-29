@@ -22,7 +22,7 @@ function carregaConteudoHomePortal(config) {
                 slide.classList.add('swiper-slide');
 
                 const link = document.createElement('a');
-                link.href = '/' + item.slug_categoria + '/' + item.slug;
+                link.href = (config.diretorio_blog === '/' ? "" : `/${config.diretorio_blog}/`) + item.slug_categoria + '/' + item.slug;
 
                 const image = document.createElement('img');
                 image.src = 'data:image/webp;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
@@ -47,7 +47,7 @@ function carregaConteudoHomePortal(config) {
                 }
 
                 const titleLink = document.createElement('a');
-                titleLink.href = '/' + item.slug_categoria + '/' + item.slug + '/';
+                titleLink.href = (config.diretorio_blog === '/' ? "" : `/${config.diretorio_blog}/`) + item.slug_categoria + '/' + item.slug + '/';
 
                 const title = document.createElement('h2');
                 title.style.fontSize = '23px';
