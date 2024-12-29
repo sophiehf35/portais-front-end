@@ -41,7 +41,7 @@ function carregaConteudoHomePortal(config) {
 
                 if (config.exibe_categorias_de_artigos === 1) {
                     categoryBadge = document.createElement('a');
-                    categoryBadge.href = '/' + item.slug_categoria + '/';
+                    categoryBadge.href = (config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`) + item.slug_categoria + '/';
                     categoryBadge.classList.add('p-2', 'badge', 'badge-primary', 'rounded-0');
                     categoryBadge.textContent = item.categoria;
                 }
@@ -92,7 +92,7 @@ function carregaConteudoHomePortal(config) {
                 article.classList.add('col-xl-4', 'col-md-6', 'mb-3', 'px-0');
 
                 const link = document.createElement('a');
-                link.href = '/' + item.slug_categoria + '/' + item.slug;
+                link.href = (config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`) + item.slug_categoria + '/' + item.slug;
                 
                 const card = document.createElement('div');
                 card.classList.add('card', 'border-0', 'rounded-0', 'text-white', 'overflow', 'zoom', 'position-relative', 'mb-0');
@@ -175,7 +175,7 @@ function carregaConteudoHomePortal(config) {
 
                 if (config.exibe_categorias_de_artigos === 1) {
                     categoryBadge = document.createElement('a');
-                    categoryBadge.href = '/' + item.slug_categoria + '/';
+                    categoryBadge.href = (config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`) + item.slug_categoria + '/';
                     categoryBadge.classList.add('p-2', 'badge', 'badge-primary', 'rounded-0');
                     categoryBadge.textContent = item.categoria;
                 }
