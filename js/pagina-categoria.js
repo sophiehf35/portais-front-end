@@ -49,7 +49,7 @@ function carregaListaDeArtigos(config, slugDaPagina) {
             const colImagem = document.createElement('div');
             colImagem.classList.add('col-xl-6', 'col-xxl-6');
             const linkImagem = document.createElement('a');
-            linkImagem.href = '/' + item.slug_categoria + '/' + item.slug;
+            linkImagem.href = (config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`) + item.slug_categoria + '/' + item.slug;
             const hoverContainer = document.createElement('div');
             hoverContainer.classList.add('hover', 'hover-3', 'text-white', 'secao-imagem');
             const imagem = document.createElement('img');
@@ -134,7 +134,7 @@ function carregaListaDeArtigos(config, slugDaPagina) {
             const conteudo = document.createElement('div');
             conteudo.classList.add('conteudo', 'mb-4', 'mb-lg-3', 'mb-xl-4');
             const tituloLink = document.createElement('a');
-            tituloLink.href = '/' + item.slug_categoria + '/' + item.slug;
+            tituloLink.href = (config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`) + item.slug_categoria + '/' + item.slug;
             const titulo = document.createElement('h2');
             titulo.classList.add('card-title', 'mb-3', 'h5');
             titulo.textContent = item.titulo;
