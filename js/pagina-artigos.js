@@ -238,7 +238,7 @@ function carregaArtigosRelacionados(config, categoria, slugArtigo) {
                                 <div class="row">
                                     ${artigosRelacionados.map(relacionado => `
                                         <div class="col-lg-6 col-sm-6 mb-3">
-                                            <a href="/${categoria}/${relacionado.slug}">
+                                            <a href="/${(config.diretorio_blog === home ? "" : `${config.diretorio_blog}/`)}${categoria}/${relacionado.slug}">
                                                 <div class="card border-0 rounded-0 text-white overflow zoom position-relative mb-0">
                                                     <div class="ratio_right-cover-2 image-wrapper">
                                                         <img
@@ -413,7 +413,7 @@ function carregaConteudoDestaque(config) {
 
                 data.forEach(conteudo => {
                     const imagem = (conteudo.tipo === 'artigos' ? `/usuarios/${conteudo.diretorio_autor}/artigos/thumb/${conteudo.imagem_destaque}` : `/ferramentas/${conteudo.imagem_destaque}`);
-                    const slugConteudo = (conteudo.tipo === 'artigos' ? `${conteudo.slug_categoria}/${conteudo.slug}` : `ferramentas/${conteudo.slug}`);
+                    const slugConteudo = (config.diretorio_blog === home ? "" : `${config.diretorio_blog}/`) (conteudo.tipo === 'artigos' ? `${conteudo.slug_categoria}/${conteudo.slug}` : `ferramentas/${conteudo.slug}`);
                     const categoria = (conteudo.tipo === 'artigos' ? conteudo.categoria.toUpperCase() : conteudo.tipo.toUpperCase());
             
                     link += `
