@@ -20,13 +20,31 @@ function carregaMenu(config) {
                     var itemMenu = menu[chave];
                     menuHTML += '<li class="nav-item">';
 
-                    if (itemMenu['submenu'] && Array.isArray(itemMenu['submenu'])) {
-                        // Adicionar a classe "dropdown" se houver submenu
+                    if (itemMenu['megaMenu']) {
+                        // Mega menu
+                        menuHTML += '<li class="nav-item dropdown dropdown-mega position-static">';
+                        menuHTML += '<a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">';
+                        menuHTML += itemMenu['nome'];
+                        menuHTML += '</a>';
+                        menuHTML += '<ul class="row dropdown-menu shadow mx-auto container-md mt-0 px-md-3" style="right: 0px;">';
+                        
+                        // Construir os itens do mega menu
+                        if (itemMenu['submenu'] && Array.isArray(itemMenu['submenu'])) {
+                            itemMenu['submenu'].forEach(subItem => {
+                                menuHTML += '<li class="col-12 col-sm-6 col-md-3 px-0 px-md-2 py-md-2">';
+                                menuHTML += '<a class="dropdown-item" href="' + subItem['slug'] + '">' + subItem['nome'] + '</a>';
+                                menuHTML += '</li>';
+                            });
+                        }
+
+                        menuHTML += '</ul>';
+                        menuHTML += '</li>';
+                    } else if (itemMenu['submenu'] && Array.isArray(itemMenu['submenu'])) {
+                        // Dropdown normal
                         menuHTML += '<li class="nav-item dropdown">';
                         menuHTML += '<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">';
                         menuHTML += itemMenu['nome'];
                         menuHTML += '</a>';
-                        //menuHTML += '<ul class="dropdown-menu" data-bs-popper="static">';
                         menuHTML += '<ul class="dropdown-menu collapse" data-bs-parent=".offcanvas-body">';
                         
                         // Construir os itens do submenu
@@ -40,12 +58,11 @@ function carregaMenu(config) {
                         menuHTML += '</ul>';
                         menuHTML += '</li>';
                     } else {
-                        // Adicionar a classe padrão se não houver submenu
+                        // Menu simples sem submenu
                         menuHTML += '<a class="nav-link" href="' + itemMenu['slug'] + '">' + itemMenu['nome'] + '</a>';
                     }
 
                     menuHTML += '</li>';
-
                 }
             }
 
