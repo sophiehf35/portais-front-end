@@ -1,6 +1,6 @@
 function carregaConteudoHomePortal(config) {
 
-    fetch('configuracao/json/artigos.json')
+    fetch('/configuracao/json/artigos.json')
         .then(response => {
             if (!response.ok) {
                 throw new Error(`Erro ao buscar dados. Código de status: ${response.status}`);
