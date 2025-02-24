@@ -250,12 +250,12 @@ function carregaLogo(config, logoContainer) {
 
     if (getComputedStyle(document.documentElement).getPropertyValue('--cor-fundo-header') === '#FFFFFF') {
         img.dataset.src = `${baseDir}/${config.nome_do_logo}.webp`;
-        img.dataset.srcset = `${baseDir}/${config.nome_do_logo}.webp?tr=w-50 200w,${baseDir}/${config.nome_do_logo}.webp?tr=w-100 400w,${baseDir}/${config.nome_do_logo}.webp?tr=w-150 600w,${baseDir}/${config.nome_do_logo}.webp?tr=w-200 800w`;
-        img.srcset = `${baseDir}/${config.nome_do_logo}.webp?tr=w-50 200w,${baseDir}/${config.nome_do_logo}.webp?tr=w-100 400w,${baseDir}/${config.nome_do_logo}.webp?tr=w-150 600w,${baseDir}/${config.nome_do_logo}.webp?tr=w-200 800w`;
+        img.dataset.srcset = `${baseDir}/${config.nome_do_logo}.webp?tr=w-50 200w,${baseDir}/${config.nome_do_logo}.webp?tr=w-100 400w,${baseDir}/${config.nome_do_logo}.webp?tr=w-150 500w,${baseDir}/${config.nome_do_logo}.webp?tr=w-600 800w`;
+        img.srcset = `${baseDir}/${config.nome_do_logo}.webp?tr=w-50 200w,${baseDir}/${config.nome_do_logo}.webp?tr=w-100 400w,${baseDir}/${config.nome_do_logo}.webp?tr=w-150 500w,${baseDir}/${config.nome_do_logo}.webp?tr=w-600 800w`;
     } else {
         img.dataset.src = `${baseDir}/${config.nome_do_logo}-branco.webp`;
-        img.dataset.srcset = `${baseDir}/${config.nome_do_logo}-branco.webp?tr=w-50 200w,${baseDir}/${config.nome_do_logo}-branco.webp?tr=w-100 400w,${baseDir}/${config.nome_do_logo}-branco.webp?tr=w-150 600w,${baseDir}/${config.nome_do_logo}-branco.webp?tr=w-200 800w`;
-        img.srcset = `${baseDir}/${config.nome_do_logo}-branco.webp?tr=w-50 200w,${baseDir}/${config.nome_do_logo}-branco.webp?tr=w-100 400w,${baseDir}/${config.nome_do_logo}-branco.webp?tr=w-150 600w,${baseDir}/${config.nome_do_logo}-branco.webp?tr=w-200 800w`;
+        img.dataset.srcset = `${baseDir}/${config.nome_do_logo}-branco.webp?tr=w-50 200w,${baseDir}/${config.nome_do_logo}-branco.webp?tr=w-100 400w,${baseDir}/${config.nome_do_logo}-branco.webp?tr=w-150 500w,${baseDir}/${config.nome_do_logo}-branco.webp?tr=w-600 800w`;
+        img.srcset = `${baseDir}/${config.nome_do_logo}-branco.webp?tr=w-50 200w,${baseDir}/${config.nome_do_logo}-branco.webp?tr=w-100 400w,${baseDir}/${config.nome_do_logo}-branco.webp?tr=w-150 500w,${baseDir}/${config.nome_do_logo}-branco.webp?tr=w-600 800w`;
         nav.classList.add('navbar-dark');
     }
 
