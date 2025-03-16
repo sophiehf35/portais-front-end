@@ -7410,3 +7410,27 @@ section#artigo h2,section#artigo h3,section#artigo h4,section#artigo h5 {
 .titulo_secao h4 {
     font-size: 16px
 }
+@media (min-width: 768px) {
+    .nav-item.dropdown-mega .dropdown-menu {
+        display: none; /* Oculte por padrão */
+        flex-wrap: wrap;
+        column-gap: 30px; /* Espaço entre as colunas */
+    }
+
+    .nav-item.dropdown-mega .dropdown-menu.show {
+        display: flex; /* Exibe o menu quando a classe 'show' for adicionada */
+        justify-content: space-between;
+    }
+
+    .nav-item.dropdown-mega .dropdown-menu li {
+        border-bottom: 1px solid #e0e0e0;
+        padding-bottom: 5px; /* Espaço abaixo do texto */
+        width: calc(25% - 30px); /* 4 colunas com espaçamento */
+    }
+
+    /* Remove a borda dos últimos itens da última linha */
+    .nav-item.dropdown-mega .dropdown-menu li:nth-last-child(-n+4) {
+        border-bottom: none; 
+    }
+
+}
