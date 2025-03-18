@@ -382,7 +382,7 @@ function carregarTabelaArtigos(config, artigos, slugDaPagina) {
         ],
         data: artigosDaPagina.map((artigo, index) => ({
             id: index + 1,
-            titulo: gridjs.html(`<a href='/${(config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`)}/${artigo.slug_categoria}/${artigo.slug}'>${capitalizar(artigo.titulo_breadcumb)}</a>`)
+            titulo: gridjs.html(`<a href='/${(config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`)}/${artigo.slug_categoria}/${artigo.slug}'>${artigo.titulo_breadcumb}</a>`)
         })),
         className: {
             table: 'table table-striped'
