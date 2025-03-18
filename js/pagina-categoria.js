@@ -373,7 +373,8 @@ function carregaConteudoDestaque(config) {
 function carregarTabelaArtigos(config, artigos, slugDaPagina) {
 
     const artigosDaPagina = artigos.filter(item => item.slug_categoria === slugDaPagina);
-    
+    const visualizacaoMobile = window.innerWidth < 600;
+
     new gridjs.Grid({
         columns: [
             { name: 'ID', hidden: visualizacaoMobile },
