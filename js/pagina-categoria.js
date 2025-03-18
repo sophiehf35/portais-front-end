@@ -372,7 +372,7 @@ function carregaConteudoDestaque(config) {
 /* FUNÇÃO PARA CARREGAR TABELA DE ARTIGOS NA SIDEBAR (SEM NOTÍCIAS) */
 function carregarTabelaArtigos(config, artigos, slugDaPagina) {
 
-    const artigosDaPagina = artigos.filter(item => item.slug_categoria === slugDaPagina).slice(startIndex, endIndex);
+    const artigosDaPagina = artigos.filter(item => item.slug_categoria === slugDaPagina);
     
     new gridjs.Grid({
         columns: [
