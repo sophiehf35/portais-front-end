@@ -23,6 +23,9 @@ function carregaListaDeArtigos(config, slugDaPagina) {
             // Exibe os artigos na página atual e a paginação
             exibirArtigosNaPagina(paginaAtual, slugDaPagina);
             exibirPaginacao();
+
+            // Carrega tabela de artigos na sidebar
+            carregarTabelaArtigos(config, data, slugDaPagina);
         })
         .catch(error => {
             console.error('Erro ao buscar dados:', error);
@@ -365,3 +368,56 @@ function carregaConteudoDestaque(config) {
 
 }
 /* FUNÇÃO PARA CRIAR SECTION E CARREGAR O CONTEÚDO EM DESTAQUE */
+
+/* FUNÇÃO PARA CARREGAR TABELA DE ARTIGOS NA SIDEBAR (SEM NOTÍCIAS) */
+function carregarTabelaArtigos(config, artigos, slugDaPagina) {
+
+    const artigosDaPagina = artigos.filter(item => item.slug_categoria === slugDaPagina).slice(startIndex, endIndex);
+    
+    new gridjs.Grid({
+        columns: [
+            { name: 'ID', hidden: visualizacaoMobile },
+            { name: 'Titulo' }
+        ],
+        data: artigosDaPagina.map((artigo, index) => ({
+            id: index + 1,
+            titulo: gridjs.html(`<a href='/${(config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`)}/${artigo.slug_categoria}/${artigo.slug}'>${capitalizar(artigo.titulo_breadcumb)}</a>`)
+        })),
+        className: {
+            table: 'table table-striped'
+        },
+        style: {
+            th: {
+                background: '#fff',
+                color: '#000',
+                padding: '0.5rem'
+            },
+            td: {
+                padding: '0.5rem'
+            }
+        },
+        pagination: {
+            limit: 10,
+            summary: visualizacaoMobile ? false : true,
+            buttonsCount: 2
+        },
+        resizable: true,
+        sort: true,
+        search: true,
+        language: {
+            search: {
+                placeholder: 'Pesquise um artigo'
+            },
+            pagination: {
+                previous: visualizacaoMobile ? '<' : 'Anterior',
+                next: visualizacaoMobile ? '>' : 'Próximo',
+                showing: 'Exibindo',
+                to: 'a',
+                of: 'de',
+                results: 'resultados'
+            },
+            noRecordsFound: 'Nenhum artigo encontrado para a busca'
+        }
+    }).render(document.getElementById('divTabelaArtigosCategoria'));
+}
+/* FUNÇÃO PARA CARREGAR TABELA DE ARTIGOS NA SIDEBAR (SEM NOTÍCIAS) */
