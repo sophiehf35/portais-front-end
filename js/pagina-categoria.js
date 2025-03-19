@@ -372,7 +372,7 @@ function carregaConteudoDestaque(config) {
 /* FUNÇÃO PARA CARREGAR TABELA DE ARTIGOS NA SIDEBAR (SEM NOTÍCIAS) */
 function carregarTabelaArtigos(config, artigos, slugDaPagina) {
 
-    const artigosDaPagina = artigos.filter(item => item.slug_categoria === slugDaPagina && item.tipo_conteudo_schema === 1);
+    const artigosDaPagina = artigos.filter(item => item.slug_categoria === slugDaPagina && item.tipo_conteudo_schema === "1");
     const visualizacaoMobile = window.innerWidth < 600;
 
     new gridjs.Grid({
