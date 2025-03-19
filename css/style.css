@@ -7445,3 +7445,14 @@ section#artigo h2,section#artigo h3,section#artigo h4,section#artigo h5 {
     color: #FFF;
     font-size: 18px;
 }
+#divTabelaArtigosCategoria .gridjs-search-input {
+    width: 100%;
+}
+#divTabelaArtigosCategoria .gridjs-search {
+    float: right;
+    width: 100%;
+}
+#divTabelaArtigosCategoria .gridjs-pagination .gridjs-pages {
+    float: none;
+    text-align: center;
+}
