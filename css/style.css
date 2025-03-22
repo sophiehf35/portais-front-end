@@ -5266,6 +5266,14 @@ ul.info_booking li strong {
     font-size: 24px
 }
 
+section#artigo h3 {
+    font-size: 21px
+}
+
+section#artigo h4 {
+    font-size: 18px
+}
+
 .leaflet-control-layers {
     box-shadow: 0 1px 5px rgba(0,0,0,.4);
     background: #fff;
