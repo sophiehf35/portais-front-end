@@ -198,9 +198,7 @@ function carregaListaDeArtigos(config, slugDaPagina) {
                 const prevPageLink = document.createElement('a');
                 prevPageLink.classList.add('page-link');
                 prevPageLink.style.fontSize = '20px';
-                prevPageLink.href = paginaAtual === 2
-    ? `${config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`}${slugDaPagina}/`
-    : `?pagina=${paginaAtual - 1}`;
+                prevPageLink.href = paginaAtual === 2 ? `${config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`}${slugDaPagina}/` : `?pagina=${paginaAtual - 1}`;
                 prevPageLink.title = 'página anterior';
                 prevPageLink.textContent = '<';
     
@@ -225,7 +223,7 @@ function carregaListaDeArtigos(config, slugDaPagina) {
                 const firstPageItem = document.createElement('li');
                 const firstPageLink = document.createElement('a');
                 firstPageLink.classList.add('page-link');
-                firstPageLink.href = `/${slugDaPagina}/`;
+                firstPageLink.href = `${config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`}${slugDaPagina}/`;
                 firstPageLink.title = 'página 1';
                 firstPageLink.textContent = '1';
                 firstPageItem.appendChild(firstPageLink);
@@ -274,9 +272,7 @@ function carregaListaDeArtigos(config, slugDaPagina) {
                 const lastPageItem = document.createElement('li');
                 const lastPageLink = document.createElement('a');
                 lastPageLink.classList.add('page-link');
-                lastPageLink.href = totalPages === 2 
-    ? `${(config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`)}${slugDaPagina}/` 
-    : `?pagina=${totalPages}`;
+                lastPageLink.href = totalPages === 2 ? `${(config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`)}${slugDaPagina}/` : `?pagina=${totalPages}`;
                 lastPageLink.title = `página ${totalPages}`;
                 lastPageLink.textContent = totalPages;
                 lastPageItem.appendChild(lastPageLink);
