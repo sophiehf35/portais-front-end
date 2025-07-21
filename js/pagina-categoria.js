@@ -272,7 +272,9 @@ function carregaListaDeArtigos(config, slugDaPagina) {
                 const lastPageItem = document.createElement('li');
                 const lastPageLink = document.createElement('a');
                 lastPageLink.classList.add('page-link');
-                lastPageLink.href = totalPages === 2 ? `${(config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`)}${slugDaPagina}/` : `?pagina=${totalPages}`;
+                lastPageLink.href = totalPages === 2 
+    ? `${(config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`)}${slugDaPagina}/` 
+    : `?pagina=${totalPages}`;
                 lastPageLink.title = `página ${totalPages}`;
                 lastPageLink.textContent = totalPages;
                 lastPageItem.appendChild(lastPageLink);
