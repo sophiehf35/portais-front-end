@@ -371,10 +371,36 @@ function carregaConteudoDestaque(config) {
 
 /* FUNÇÃO PARA CARREGAR TABELA DE ARTIGOS NA SIDEBAR (SEM NOTÍCIAS) */
 function carregarTabelaArtigos(config, artigos, slugDaPagina) {
-
-    const artigosDaPagina = artigos.filter(item => item.slug_categoria === slugDaPagina && item.tipo_conteudo_schema === "1");
+    const artigosDaPagina = artigos.filter(item =>
+        item.slug_categoria === slugDaPagina && item.tipo_conteudo_schema === "1"
+    );
     const visualizacaoMobile = window.innerWidth < 600;
 
+    // Cria o bloco com o mesmo padrão dos widgets
+    const aside = document.querySelector('aside');
+    if (!aside) return;
+
+    const novoWidget = document.createElement('div');
+    novoWidget.className = 'box_detail widget';
+
+    const tituloSecao = document.createElement('div');
+    tituloSecao.className = 'titulo_secao';
+
+    const h3 = document.createElement('h3');
+    h3.className = 'titulo';
+    h3.textContent = 'ARTIGOS';
+
+    tituloSecao.appendChild(h3);
+
+    const divTabelaWrapper = document.createElement('div');
+    divTabelaWrapper.id = 'divTabelaArtigosCategoria';
+
+    novoWidget.appendChild(tituloSecao);
+    novoWidget.appendChild(divTabelaWrapper);
+
+    aside.appendChild(novoWidget); // adiciona como último filho do aside
+
+    // Renderiza a tabela
     new gridjs.Grid({
         columns: [
             { name: 'ID', hidden: visualizacaoMobile },
@@ -382,7 +408,9 @@ function carregarTabelaArtigos(config, artigos, slugDaPagina) {
         ],
         data: artigosDaPagina.map((artigo, index) => ({
             id: index + 1,
-            titulo: gridjs.html(`<a href='${(config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`)}${artigo.slug_categoria}/${artigo.slug}'>${artigo.titulo_breadcumb}</a>`)
+            titulo: gridjs.html(
+                `<a href='${(config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`)}${artigo.slug_categoria}/${artigo.slug}'>${artigo.titulo_breadcumb}</a>`
+            )
         })),
         className: {
             table: 'table table-striped'
@@ -419,6 +447,6 @@ function carregarTabelaArtigos(config, artigos, slugDaPagina) {
             },
             noRecordsFound: 'Nenhum artigo encontrado para a busca'
         }
-    }).render(document.getElementById('divTabelaArtigosCategoria'));
+    }).render(divTabelaWrapper);
 }
 /* FUNÇÃO PARA CARREGAR TABELA DE ARTIGOS NA SIDEBAR (SEM NOTÍCIAS) */
