@@ -457,6 +457,6 @@ function carregarTabelaArtigos(config, artigos, slugDaPagina) {
             },
             noRecordsFound: 'Nenhum artigo encontrado para a busca'
         }
-    }).render(divTabelaWrapper);
+    }).render(divTabela);
 }
 /* FUNÇÃO PARA CARREGAR TABELA DE ARTIGOS NA SIDEBAR (SEM NOTÍCIAS) */
