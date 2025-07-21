@@ -198,7 +198,9 @@ function carregaListaDeArtigos(config, slugDaPagina) {
                 const prevPageLink = document.createElement('a');
                 prevPageLink.classList.add('page-link');
                 prevPageLink.style.fontSize = '20px';
-                prevPageLink.href = paginaAtual === 2 ? `/${slugDaPagina}/` : `?pagina=${paginaAtual - 1}`;
+                prevPageLink.href = paginaAtual === 2
+    ? `${config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`}${slugDaPagina}/`
+    : `?pagina=${paginaAtual - 1}`;
                 prevPageLink.title = 'página anterior';
                 prevPageLink.textContent = '<';
     
