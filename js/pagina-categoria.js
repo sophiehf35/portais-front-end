@@ -374,6 +374,8 @@ function carregarTabelaArtigos(config, artigos, slugDaPagina) {
     const artigosDaPagina = artigos.filter(item =>
         item.slug_categoria === slugDaPagina && item.tipo_conteudo_schema === "1"
     );
+    if (!artigosDaPagina.length) return;
+
     const visualizacaoMobile = window.innerWidth < 600;
 
     // Cria o bloco com o mesmo padrão dos widgets
@@ -392,13 +394,21 @@ function carregarTabelaArtigos(config, artigos, slugDaPagina) {
 
     tituloSecao.appendChild(h3);
 
-    const divTabelaWrapper = document.createElement('div');
-    divTabelaWrapper.id = 'divTabelaArtigosCategoria';
+    const divConteudo = document.createElement('div');
+    divConteudo.className = 'conteudo_secao_sidebar';
 
+    const divTabela = document.createElement('div');
+    divTabela.id = 'divTabelaArtigosCategoria';
+
+    // Adiciona a tabela dentro do conteúdo
+    divConteudo.appendChild(divTabela);
+
+    // Adiciona o título e o conteúdo ao widget
     novoWidget.appendChild(tituloSecao);
-    novoWidget.appendChild(divTabelaWrapper);
+    novoWidget.appendChild(divConteudo);
 
-    aside.appendChild(novoWidget); // adiciona como último filho do aside
+    // Adiciona o widget ao final do <aside>
+    aside.appendChild(novoWidget);
 
     // Renderiza a tabela
     new gridjs.Grid({
