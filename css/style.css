@@ -1,4 +1,4 @@
-#error_page h2,#hero_video .wrapper h3,#redes-sociais li span,.box_list small,.btn,.grid-gallery ul li figcaption p,.hero_single .wrapper h3,.my-toggle,.ribbon span,.strip_booking .date .day,.strip_booking .date .month,.strip_booking h3,a.box_news ul li,ul.info_booking li strong {
+#error_page h2,#hero_video .wrapper h3,#redes-sociais li span,.box_list small,.grid-gallery ul li figcaption p,.hero_single .wrapper h3,.my-toggle,.ribbon span,.strip_booking .date .day,.strip_booking .date .month,.strip_booking h3,a.box_news ul li,ul.info_booking li strong {
     text-transform: uppercase
 }
 
@@ -7305,22 +7305,6 @@ figure.figure_container {
 
 .btn3d.btn-success:hover {
     background-color: #218838;
-}
-
-.btn {
-    padding: 12px 50px;
-    font-size: 14px;
-    line-height: 24px;
-    transition-property: color,border-color,background-color;
-    transition-duration: .35s;
-    transition-timing-function: ease-in-out;
-    display: inline-block;
-    margin-bottom: 0;
-    font-weight: 400;
-    vertical-align: middle;
-    touch-action: manipulation;
-    background-image: none;
-    border: 1px solid transparent
 }
 
 .btn3d {
