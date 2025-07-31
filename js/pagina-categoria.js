@@ -335,8 +335,7 @@ function carregaConteudoDestaque(config) {
                                     </figure>
                                 </a>
                             </div>
-                            <small class="p-1 badge badge-primary rounded-0">${categoria}</small>
-                            <h4><a href="/${slugConteudo}">${conteudo.titulo}</a></h4>
+                            <h4 class="mt-0"><a href="/${slugConteudo}">${conteudo.titulo}</a></h4>
                         </li>
                     `;
                 });
