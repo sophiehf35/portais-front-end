@@ -7264,11 +7264,6 @@ figure.figure_container {
     width: 100%
 }
 
-#description p,ol,section#artigo p {
-    font-size: 15px;
-    text-align: justify
-}
-
 .imagem_artigo_centralizada,section#artigo figure {
     background-color: unset!important
 }
