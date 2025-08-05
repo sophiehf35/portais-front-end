@@ -305,6 +305,11 @@ hr {
     border-color: #ddd
 }
 
+ul.links {
+    list-style-type: none;
+    padding: 0px;
+}
+
 .main_title,.main_title_2 {
     text-align: center;
     margin-bottom: 45px;
