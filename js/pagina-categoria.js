@@ -149,7 +149,7 @@ function carregaListaDeArtigos(config, slugDaPagina) {
 
             // Rodapé
             const rodape = document.createElement('ul');
-            rodape.classList.add('rodape', 'mb-0', 'pt-xl-1', 'pt-xxl-4');
+            rodape.classList.add('rodape', 'mb-0', 'ps-0', 'pt-xl-1', 'pt-xxl-4');
             const liData = document.createElement('li');
             const dataPublicacao = document.createElement('small');
             dataPublicacao.textContent = calcularDiferencaTempo(item.data_hora_criacao);
