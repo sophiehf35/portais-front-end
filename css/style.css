@@ -793,13 +793,6 @@ header.header_in .hamburger-inner,header.header_in .hamburger-inner::after,heade
     background-color: #f8f8f8
 }
 
-main.pattern {
-    background: url(../img/pattern_3.webp) center center/cover no-repeat #f8f8f8;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover
-}
-
 @media (min-width: 576px) {
     .collapse.dont-collapse-sm {
         display:block!important;
@@ -1112,14 +1105,6 @@ ul#additional_links li:after {
     outline: 0
 }
 
-.hero_single.version_2 {
-    height: 620px;
-    background: url(../img/home_section_1.jpg) center center/cover no-repeat #222;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover
-}
-
 #toTop,.box_detail figure a i,.box_list figure small,.call_section.pattern .wrapper,.grid-gallery ul li figcaption,.hero_single.version_2 .wrapper,.hero_single.version_3 .wrapper {
     background-color: rgba(0,0,0,.6)
 }
@@ -1157,11 +1142,6 @@ ul#additional_links li:after {
 .hero_single.version_4 .wrapper input[type=submit]:hover,.hero_single.version_5 .wrapper input[type=submit]:hover,.search_bar_error input[type=submit]:hover,.search_mob_wp input[type=submit]:hover {
     background-color: #32a067;
     color: #fff
-}
-
-.hero_single.version_5 {
-    height: 640px;
-    background: url(../img/pattern_2.svg) center center fixed #004dda
 }
 
 .hero_single.version_5 .wrapper {
@@ -4554,10 +4534,6 @@ iframe#map_iframe {
     color: #721c24
 }
 
-#error_page {
-    background: url(../img/pattern_1.svg) center bottom repeat-x #0054a6;
-    color: #fff
-}
 
 #error_page .wrapper {
     background: rgba(0,0,0,.6);
@@ -5646,10 +5622,6 @@ section#artigo h4 {
     font-size: 3.75rem;
     margin-bottom: 10px;
     color: #ffc107
-}
-
-.call_section.pattern {
-    background: url(../img/pattern.svg) center center fixed #004dda
 }
 
 .call_section.image_bg {
