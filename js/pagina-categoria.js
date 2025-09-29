@@ -48,7 +48,7 @@ function carregaListaDeArtigos(config, slugDaPagina) {
             const row = document.createElement('div');
             row.classList.add('row', 'g-0');
 
-            // CORREÇÃO DOS LINKS - VERIFICA SE TEM SUBCATEGORIA
+            // VERIFICA SE TEM SUBCATEGORIA
             let linkArtigo = '';
             if (item.slug_subcategoria) {
                 // Se tem subcategoria: /categoria/subcategoria/slug
