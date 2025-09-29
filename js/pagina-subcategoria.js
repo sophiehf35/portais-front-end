@@ -6,8 +6,8 @@ function carregaListaDeArtigosSubcategoria(config, slugDaPagina) {
     // Encontra a categoria pai da subcategoria
     let categoriaPai = null;
     for (let categoria in config.paginas_subcategorias) {
-        if (config.paginas_categorias.slugs.includes(categoria) && 
-            config.paginas_subcategorias[categoria].includes(slugDaPagina)) {
+        if (config.paginas_categorias[categoria] &&
+            config.paginas_subcategorias[categoria].some(sub => sub.slug === slugDaPagina)) {
             categoriaPai = categoria;
             break;
         }
