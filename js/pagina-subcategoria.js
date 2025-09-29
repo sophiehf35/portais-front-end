@@ -73,7 +73,7 @@ function carregaListaDeArtigosSubcategoria(config, slugDaPagina) {
             const colImagem = document.createElement('div');
             colImagem.classList.add('col-xl-6', 'col-xxl-6');
             const linkImagem = document.createElement('a');
-            linkImagem.href = (config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`) + item.slug_categoria + '/' + item.slug;
+            linkImagem.href = (config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`) + slugSubcategoria + '/' + item.slug;
             const hoverContainer = document.createElement('div');
             hoverContainer.classList.add('hover', 'hover-3', 'text-white', 'secao-imagem');
             const imagem = document.createElement('img');
@@ -158,7 +158,7 @@ function carregaListaDeArtigosSubcategoria(config, slugDaPagina) {
             const conteudo = document.createElement('div');
             conteudo.classList.add('conteudo', 'mb-4', 'mb-lg-3', 'mb-xl-4');
             const tituloLink = document.createElement('a');
-            tituloLink.href = (config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`) + item.slug_categoria + '/' + item.slug;
+            tituloLink.href = (config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`) + slugSubcategoria + '/' + item.slug;
             const titulo = document.createElement('h2');
             titulo.classList.add('card-title', 'mb-3', 'h5');
             titulo.textContent = item.titulo;
@@ -222,7 +222,9 @@ function carregaListaDeArtigosSubcategoria(config, slugDaPagina) {
                 const prevPageLink = document.createElement('a');
                 prevPageLink.classList.add('page-link');
                 prevPageLink.style.fontSize = '20px';
-                prevPageLink.href = paginaAtual === 2 ? `${config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`}${slugDaPagina}/` : `?pagina=${paginaAtual - 1}`;
+                prevPageLink.href = paginaAtual === 2 ? 
+                    `${config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`}${slugSubcategoria}/` : 
+                    `?pagina=${paginaAtual - 1}`;
                 prevPageLink.title = 'página anterior';
                 prevPageLink.textContent = '<';
     
@@ -247,7 +249,7 @@ function carregaListaDeArtigosSubcategoria(config, slugDaPagina) {
                 const firstPageItem = document.createElement('li');
                 const firstPageLink = document.createElement('a');
                 firstPageLink.classList.add('page-link');
-                firstPageLink.href = `${config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`}${slugDaPagina}/`;
+                firstPageLink.href = `${config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`}${slugSubcategoria}/`;
                 firstPageLink.title = 'página 1';
                 firstPageLink.textContent = '1';
                 firstPageItem.appendChild(firstPageLink);
@@ -268,14 +270,18 @@ function carregaListaDeArtigosSubcategoria(config, slugDaPagina) {
                 if (i === paginaAtual) {
                     const activeLink = document.createElement('a');
                     activeLink.classList.add('active');
-                    activeLink.href = i === 1 ? `${(config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`)}${slugDaPagina}/` : `?pagina=${i}`;
+                    activeLink.href = i === 1 ? 
+                        `${(config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`)}${slugSubcategoria}/` : 
+                        `?pagina=${i}`;
                     activeLink.title = `página ${i}`;
                     activeLink.textContent = i;
                     paginationItem.appendChild(activeLink);
                 } else {
                     const pageLink = document.createElement('a');
                     pageLink.classList.add('page-link');
-                    pageLink.href = i === 1 ? `${(config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`)}${slugDaPagina}/` : `?pagina=${i}`;
+                    pageLink.href = i === 1 ? 
+                        `${(config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`)}${slugSubcategoria}/` : 
+                        `?pagina=${i}`;
                     pageLink.title = `página ${i}`;
                     pageLink.textContent = i;
                     paginationItem.appendChild(pageLink);
@@ -296,7 +302,9 @@ function carregaListaDeArtigosSubcategoria(config, slugDaPagina) {
                 const lastPageItem = document.createElement('li');
                 const lastPageLink = document.createElement('a');
                 lastPageLink.classList.add('page-link');
-                lastPageLink.href = totalPages === 2 ? `${(config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`)}${slugDaPagina}/` : `?pagina=${totalPages}`;
+                lastPageLink.href = totalPages === 2 ? 
+                    `${(config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`)}${slugSubcategoria}/` : 
+                    `?pagina=${totalPages}`;
                 lastPageLink.title = `página ${totalPages}`;
                 lastPageLink.textContent = totalPages;
                 lastPageItem.appendChild(lastPageLink);
@@ -444,7 +452,7 @@ function carregarTabelaArtigosSubcategoria(config, artigos, slugSubcategoria, sl
         data: artigosDaPagina.map((artigo, index) => ({
             id: index + 1,
             titulo: gridjs.html(
-                `<a href='${(config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`)}${artigo.slug_categoria}/${artigo.slug}'>${artigo.titulo_breadcumb}</a>`
+                `<a href='${(config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`)}${slugSubcategoria}/${artigo.slug}'>${artigo.titulo_breadcumb}</a>`
             )
         })),
         className: {
