@@ -51,6 +51,18 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
         carregaConteudoDestaque(config);
         setaJsCustomizado(config, 'paginas_categoria');
 
+    } else if (config.paginas_subcategorias && config.paginas_categorias && config.paginas_categorias.slugs && Object.keys(config.paginas_subcategorias).some(categoria => config.paginas_categorias.slugs.includes(categoria) && config.paginas_subcategorias[categoria].includes(slugDaPagina))) {
+    //PÁGINA DE SUBCATEGORIAS
+        document.querySelector('h1').textContent = slugParaTitulo(slugDaPagina);
+        if (parametrosURL.has('pagina')) {
+        //POSSUÍ PAGINAÇÃO
+            setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina), config.dominio + '/' + slugDaPagina + '/?pagina=' + parametrosURL.get('pagina'));
+        } else {
+            setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina), config.dominio + '/' + slugDaPagina + '/');
+        }
+        carregaListaDeArtigos(config, slugDaPagina);
+        carregaConteudoDestaque(config);
+        setaJsCustomizado(config, 'paginas_subcategoria');
     } else if (config.possui_ferramentas == 1 && slugDaPagina == 'ferramentas') {
     //PÁGINA DE FERRAMENTAS
         document.querySelector('h1').textContent = config.paginas_fixas['ferramentas'].meta_titulo;
@@ -78,7 +90,17 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
         //PÁGINA CADASTRO DE PROFISSIONAL
         validarFormularioCadastroProfissional(config);
     
-    } else if (config.paginas_categorias.slugs && config.paginas_categorias.slugs.some(categoria => caminho.includes(`/${categoria}/`))) {
+    } else if (config.paginas_categorias.slugs && (config.paginas_categorias.slugs.some(categoria => caminho.includes(`/${categoria}/`)) || (config.paginas_subcategorias && Object.keys(config.paginas_subcategorias).some(categoria => config.paginas_categorias.slugs.includes(categoria) && config.paginas_subcategorias[categoria].some(subcategoria => caminho.includes(`/${subcategoria}/`)))))) {
+        //PÁGINA DE ARTIGOS
+        carregaArtigosRelacionados(config, document.querySelector("h1").dataset.slugCategoria, document.querySelector("h1").dataset.slug);
+        carregaConteudoDestaque(config);
+        carregaComentariosAvaliacoes(config);
+        validarFormularioComentario(config);
+        compartilhamentoDeImagens(config);
+        setaJsCustomizado(config, 'paginas_artigo');
+    }
+
+    /*} else if (config.paginas_categorias.slugs && config.paginas_categorias.slugs.some(categoria => caminho.includes(`/${categoria}/`))) {
     //PÁGINA DE ARTIGOS
        carregaArtigosRelacionados(config, document.querySelector("h1").dataset.slugCategoria, document.querySelector("h1").dataset.slug);
        carregaConteudoDestaque(config);
@@ -87,7 +109,7 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
        compartilhamentoDeImagens(config);
        setaJsCustomizado(config, 'paginas_artigo');
 
-    } else if (config.paginas_fixas && config.paginas_fixas.slugs.includes(slugDaPagina) && slugDaPagina !== 'home') {
+    }*/ else if (config.paginas_fixas && config.paginas_fixas.slugs.includes(slugDaPagina) && slugDaPagina !== 'home') {
     //PÁGINAS FIXAS
         setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina));
 
