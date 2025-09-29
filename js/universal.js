@@ -39,7 +39,7 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
         }
 
     } else if (config.paginas_categorias && config.paginas_categorias[slugDaPagina]) {
-        //PÁGINA DE CATEGORIASs
+        //PÁGINA DE CATEGORIAS
         const categoria = config.paginas_categorias[slugDaPagina][0];
         document.querySelector('h1').textContent = categoria.meta_titulo;
         if (parametrosURL.has('pagina')) {
