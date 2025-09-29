@@ -61,7 +61,7 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
             setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina), config.dominio + '/' + slugDaPagina + '/');
         }
         carregaListaDeArtigosSubcategoria(config, slugDaPagina);
-        carregaConteudoDestaque(config);
+        carregaConteudoDestaqueSubcategoria(config);
         setaJsCustomizado(config, 'paginas_subcategoria');
     } else if (config.possui_ferramentas == 1 && slugDaPagina == 'ferramentas') {
     //PÁGINA DE FERRAMENTAS
