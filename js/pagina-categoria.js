@@ -48,11 +48,21 @@ function carregaListaDeArtigos(config, slugDaPagina) {
             const row = document.createElement('div');
             row.classList.add('row', 'g-0');
 
+            // CORREÇÃO DOS LINKS - VERIFICA SE TEM SUBCATEGORIA
+            let linkArtigo = '';
+            if (item.slug_subcategoria) {
+                // Se tem subcategoria: /categoria/subcategoria/slug
+                linkArtigo = (config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`) + item.slug_categoria + '/' + item.slug_subcategoria + '/' + item.slug;
+            } else {
+                // Se não tem subcategoria: /categoria/slug
+                linkArtigo = (config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`) + item.slug_categoria + '/' + item.slug;
+            }
+
             // Imagem
             const colImagem = document.createElement('div');
             colImagem.classList.add('col-xl-6', 'col-xxl-6');
             const linkImagem = document.createElement('a');
-            linkImagem.href = (config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`) + item.slug_categoria + '/' + item.slug;
+            linkImagem.href = linkArtigo;
             const hoverContainer = document.createElement('div');
             hoverContainer.classList.add('hover', 'hover-3', 'text-white', 'secao-imagem');
             const imagem = document.createElement('img');
@@ -137,7 +147,7 @@ function carregaListaDeArtigos(config, slugDaPagina) {
             const conteudo = document.createElement('div');
             conteudo.classList.add('conteudo', 'mb-4', 'mb-lg-3', 'mb-xl-4');
             const tituloLink = document.createElement('a');
-            tituloLink.href = (config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`) + item.slug_categoria + '/' + item.slug;
+            tituloLink.href = linkArtigo;
             const titulo = document.createElement('h2');
             titulo.classList.add('card-title', 'mb-3', 'h5');
             titulo.textContent = item.titulo;
@@ -323,7 +333,13 @@ function carregaConteudoDestaque(config) {
             
                 data.forEach(conteudo => {
                     const imagem = (conteudo.tipo === 'artigos' ? `/usuarios/${conteudo.diretorio_autor}/${conteudo.tipo}/thumb/${conteudo.imagem_destaque}` : `/ferramentas/${conteudo.imagem_destaque}`);
-                    const slugConteudo = `${config.diretorio_blog === "home" ? "" : `${config.diretorio_blog}/`}${conteudo.tipo === 'artigos' ? `${conteudo.slug_categoria}/${conteudo.slug}` : `ferramentas/${conteudo.slug}`}`;
+                    // CORREÇÃO DO LINK NO CONTEÚDO EM DESTAQUE TAMBÉM
+                    let slugConteudo = '';
+                    if (conteudo.slug_subcategoria) {
+                        slugConteudo = `${config.diretorio_blog === "home" ? "" : `${config.diretorio_blog}/`}${conteudo.tipo === 'artigos' ? `${conteudo.slug_categoria}/${conteudo.slug_subcategoria}/${conteudo.slug}` : `ferramentas/${conteudo.slug}`}`;
+                    } else {
+                        slugConteudo = `${config.diretorio_blog === "home" ? "" : `${config.diretorio_blog}/`}${conteudo.tipo === 'artigos' ? `${conteudo.slug_categoria}/${conteudo.slug}` : `ferramentas/${conteudo.slug}`}`;
+                    }
                     const categoria = (conteudo.tipo === 'artigos' ? conteudo.categoria.toUpperCase() : conteudo.tipo.toUpperCase());
             
                     link += `
@@ -415,12 +431,22 @@ function carregarTabelaArtigos(config, artigos, slugDaPagina) {
             { name: 'ID', hidden: visualizacaoMobile },
             { name: 'Titulo' }
         ],
-        data: artigosDaPagina.map((artigo, index) => ({
-            id: index + 1,
-            titulo: gridjs.html(
-                `<a href='${(config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`)}${artigo.slug_categoria}/${artigo.slug}'>${artigo.titulo_breadcumb}</a>`
-            )
-        })),
+        data: artigosDaPagina.map((artigo, index) => {
+            // CORREÇÃO DOS LINKS NA TABELA TAMBÉM
+            let linkArtigo = '';
+            if (artigo.slug_subcategoria) {
+                linkArtigo = `${(config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`)}${artigo.slug_categoria}/${artigo.slug_subcategoria}/${artigo.slug}`;
+            } else {
+                linkArtigo = `${(config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`)}${artigo.slug_categoria}/${artigo.slug}`;
+            }
+            
+            return {
+                id: index + 1,
+                titulo: gridjs.html(
+                    `<a href='${linkArtigo}'>${artigo.titulo_breadcumb}</a>`
+                )
+            };
+        }),
         className: {
             table: 'table table-striped'
         },
