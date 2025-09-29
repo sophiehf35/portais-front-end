@@ -31,40 +31,50 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
     carregaLogo(config, document.getElementById("logo"));
 
     if (url.protocol + '//' + url.hostname + url.pathname === config.dominio + '/') {
-    //PÁGINA HOME
+        //PÁGINA HOME
         slugDaPagina = 'home';
         if(config.tipo_home === "portal") {
             carregaConteudoHomePortal(config);
             setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina), config.dominio);
         }
 
-    } else if (config.paginas_categorias && config.paginas_categorias.slugs && config.paginas_categorias.slugs.includes(slugDaPagina)) {
-    //PÁGINA DE CATEGORIAS
-        document.querySelector('h1').textContent = config.paginas_fixas[slugDaPagina].meta_titulo;
+    } else if (config.paginas_categorias && config.paginas_categorias[slugDaPagina]) {
+        //PÁGINA DE CATEGORIAS
+        const categoria = config.paginas_categorias[slugDaPagina][0];
+        document.querySelector('h1').textContent = categoria.meta_titulo;
         if (parametrosURL.has('pagina')) {
         //POSSUÍ PAGINAÇÃO
-            setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina), config.dominio + '/' + slugDaPagina + '/?pagina=' + parametrosURL.get('pagina'));
+            setaMetaTags(config, slugDaPagina, categoria.meta_titulo, config.dominio + '/' + slugDaPagina + '/?pagina=' + parametrosURL.get('pagina'));
         } else {
-            setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina), config.dominio + '/' + slugDaPagina + '/');
+            setaMetaTags(config, slugDaPagina, categoria.meta_titulo, config.dominio + '/' + slugDaPagina + '/');
         }
         carregaListaDeArtigos(config, slugDaPagina);
         carregaConteudoDestaque(config);
         setaJsCustomizado(config, 'paginas_categoria');
 
-    } else if (config.paginas_subcategorias && config.paginas_categorias && config.paginas_categorias.slugs && Object.keys(config.paginas_subcategorias).some(categoria => config.paginas_categorias.slugs.includes(categoria) && config.paginas_subcategorias[categoria].includes(slugDaPagina))) {
-    //PÁGINA DE SUBCATEGORIAS
-        document.querySelector('h1').textContent = slugParaTitulo(slugDaPagina);
+    } else if (config.paginas_subcategorias && Object.keys(config.paginas_subcategorias).some(categoria => 
+        config.paginas_subcategorias[categoria].some(sub => sub.slug === slugDaPagina)
+    )) {
+        //PÁGINA DE SUBCATEGORIAS
+        let subcategoriaData = null;
+        for (let categoria in config.paginas_subcategorias) {
+            subcategoriaData = config.paginas_subcategorias[categoria].find(sub => sub.slug === slugDaPagina);
+            if (subcategoriaData) break;
+        }
+        
+        document.querySelector('h1').textContent = subcategoriaData.meta_titulo;
         if (parametrosURL.has('pagina')) {
         //POSSUÍ PAGINAÇÃO
-            setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina), config.dominio + '/' + slugDaPagina + '/?pagina=' + parametrosURL.get('pagina'));
+            setaMetaTags(config, slugDaPagina, subcategoriaData.meta_titulo, config.dominio + '/' + slugDaPagina + '/?pagina=' + parametrosURL.get('pagina'));
         } else {
-            setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina), config.dominio + '/' + slugDaPagina + '/');
+            setaMetaTags(config, slugDaPagina, subcategoriaData.meta_titulo, config.dominio + '/' + slugDaPagina + '/');
         }
         carregaListaDeArtigosSubcategoria(config, slugDaPagina);
         carregaConteudoDestaqueSubcategoria(config);
         setaJsCustomizado(config, 'paginas_subcategoria');
+        
     } else if (config.possui_ferramentas == 1 && slugDaPagina == 'ferramentas') {
-    //PÁGINA DE FERRAMENTAS
+        //PÁGINA DE FERRAMENTAS
         document.querySelector('h1').textContent = config.paginas_fixas['ferramentas'].meta_titulo;
         if (parametrosURL.has('pagina')) {
         //POSSUÍ PAGINAÇÃO
@@ -76,7 +86,7 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
         carregaConteudoDestaque(config);
 
     } else if (caminho.includes('/profissionais/')) {
-    //PÁGINAS DE PROFISSIONAIS
+        //PÁGINAS DE PROFISSIONAIS
         if (config.profissionais && config.profissionais.tipos.some(tipo => tipo.slug_diretorio && caminho.includes(`/${tipo.slug_diretorio}/`))) {
             //PÁGINAS DO PROFISSIONAL
             //carregaAvaliacoesProfissional();
@@ -89,8 +99,11 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
     } else if (config.permite_profissionais == 1 && slugDaPagina == 'cadastro-de-profissional') {
         //PÁGINA CADASTRO DE PROFISSIONAL
         validarFormularioCadastroProfissional(config);
-    
-    } else if (config.paginas_categorias.slugs && (config.paginas_categorias.slugs.some(categoria => caminho.includes(`/${categoria}/`)) || (config.paginas_subcategorias && Object.keys(config.paginas_subcategorias).some(categoria => config.paginas_categorias.slugs.includes(categoria) && config.paginas_subcategorias[categoria].some(subcategoria => caminho.includes(`/${subcategoria}/`)))))) {
+        
+    } else if ((Object.keys(config.paginas_categorias).some(categoria => caminho.includes(`/${categoria}/`)) || 
+            (config.paginas_subcategorias && Object.keys(config.paginas_subcategorias).some(categoria => 
+                config.paginas_subcategorias[categoria].some(subcategoria => caminho.includes(`/${subcategoria.slug}/`))
+            ))) {
         //PÁGINA DE ARTIGOS
         carregaArtigosRelacionados(config, document.querySelector("h1").dataset.slugCategoria, document.querySelector("h1").dataset.slug);
         carregaConteudoDestaque(config);
@@ -98,19 +111,9 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
         validarFormularioComentario(config);
         compartilhamentoDeImagens(config);
         setaJsCustomizado(config, 'paginas_artigo');
-    }
-
-    /*} else if (config.paginas_categorias.slugs && config.paginas_categorias.slugs.some(categoria => caminho.includes(`/${categoria}/`))) {
-    //PÁGINA DE ARTIGOS
-       carregaArtigosRelacionados(config, document.querySelector("h1").dataset.slugCategoria, document.querySelector("h1").dataset.slug);
-       carregaConteudoDestaque(config);
-       carregaComentariosAvaliacoes(config);
-       validarFormularioComentario(config);
-       compartilhamentoDeImagens(config);
-       setaJsCustomizado(config, 'paginas_artigo');
-
-    }*/ else if (config.paginas_fixas && config.paginas_fixas.slugs.includes(slugDaPagina) && slugDaPagina !== 'home') {
-    //PÁGINAS FIXAS
+        
+    } else if (config.paginas_fixas && config.paginas_fixas.slugs.includes(slugDaPagina) && slugDaPagina !== 'home') {
+        //PÁGINAS FIXAS
         setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina));
 
         if(slugDaPagina === 'fale-conosco') {
@@ -120,8 +123,17 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
             carregaLogoQuemSomos(config);
             carregaCardsDiferenciais();
         }
-    
     }
+    /*} else if (config.paginas_categorias.slugs && config.paginas_categorias.slugs.some(categoria => caminho.includes(`/${categoria}/`))) {
+    //PÁGINA DE ARTIGOS
+       carregaArtigosRelacionados(config, document.querySelector("h1").dataset.slugCategoria, document.querySelector("h1").dataset.slug);
+       carregaConteudoDestaque(config);
+       carregaComentariosAvaliacoes(config);
+       validarFormularioComentario(config);
+       compartilhamentoDeImagens(config);
+       setaJsCustomizado(config, 'paginas_artigo');
+
+    }*/
     
     carregaRodape(config);
     setaGoogleAnalytics(config);
