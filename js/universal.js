@@ -41,7 +41,14 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
             if (config.paginas_fixas && config.paginas_fixas['home'] && config.paginas_fixas['home'].meta_descricao) {
                 metaDescHome = config.paginas_fixas['home'].meta_descricao;
             }
-            setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina), config.dominio, metaDescHome);
+            setaMetaTags(
+            config,
+            slugDaPagina,
+            slugParaTitulo(slugDaPagina),
+            config.dominio,
+            metaDescHome,
+            (config.paginas_fixas && config.paginas_fixas.home && config.paginas_fixas.home.meta_titulo) ? config.paginas_fixas.home.meta_titulo : slugParaTitulo(slugDaPagina)
+            );
         }
 
     } else if (config.paginas_categorias && config.paginas_categorias[slugDaPagina]) {
@@ -54,7 +61,7 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
         if (parametrosURL.has('pagina')) {
             setaMetaTags(config, slugDaPagina, categoria.meta_titulo, canonicalBaseCategoria + '?pagina=' + parametrosURL.get('pagina'), categoria.meta_descricao);
         } else {
-            setaMetaTags(config, slugDaPagina, categoria.meta_titulo, canonicalBaseCategoria, categoria.meta_descricao);
+            setaMetaTags(config, slugDaPagina, categoria.meta_titulo, canonicalBaseCategoria, categoria.meta_descricao, categoria.meta_titulo);
         }
 
         carregaListaDeArtigos(config, slugDaPagina);
@@ -76,7 +83,7 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
         if (parametrosURL.has('pagina')) {
             setaMetaTags(config, slugDaPagina, subcategoriaData.meta_titulo, canonicalBaseSub + '?pagina=' + parametrosURL.get('pagina'), subcategoriaData.meta_descricao);
         } else {
-            setaMetaTags(config, slugDaPagina, subcategoriaData.meta_titulo, canonicalBaseSub, subcategoriaData.meta_descricao);
+            setaMetaTags(config, slugDaPagina, subcategoriaData.meta_titulo, canonicalBaseSub, subcategoriaData.meta_descricao, subcategoriaData.meta_titulo);
         }
 
         carregaListaDeArtigosSubcategoria(config, slugDaPagina);
@@ -96,7 +103,14 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
         if (parametrosURL.has('pagina')) {
             setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina), canonicalBaseFerr + '?pagina=' + parametrosURL.get('pagina'), metaDescFerramentas);
         } else {
-            setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina), canonicalBaseFerr, metaDescFerramentas);
+            setaMetaTags(
+            config,
+            slugDaPagina,
+            slugParaTitulo(slugDaPagina),
+            canonicalBaseFerr,
+            metaDescFerramentas,
+            (config.paginas_fixas && config.paginas_fixas.ferramentas && config.paginas_fixas.ferramentas.meta_titulo) ? config.paginas_fixas.ferramentas.meta_titulo : slugParaTitulo(slugDaPagina)
+            );
         }
 
         carregaListaDeFerramentas(config);
@@ -137,7 +151,14 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
             metaDescFixa = config.paginas_fixas[slugDaPagina].meta_descricao;
         }
 
-        setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina), '', metaDescFixa);
+        setaMetaTags(
+        config,
+        slugDaPagina,
+        slugParaTitulo(slugDaPagina),
+        '',
+        metaDescFixa,
+        (config.paginas_fixas && config.paginas_fixas[slugDaPagina] && config.paginas_fixas[slugDaPagina].meta_titulo) ? config.paginas_fixas[slugDaPagina].meta_titulo : slugParaTitulo(slugDaPagina)
+        );
 
         if (slugDaPagina === 'fale-conosco') {
             carregaCardsDiferenciais();
@@ -158,21 +179,22 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
 });
 
 
-function setaMetaTags(config, slugDaPagina, nomeDaPagina, linkCanonical = '', metaDescricao = '') {
+function setaMetaTags(config, slugDaPagina, nomeDaPagina, linkCanonical = '', metaDescricao = '', metaTituloEspecifico = '') {
     const paginasFixas = config.paginas_fixas || {};
     const paginaFixa = paginasFixas[slugDaPagina];
 
-    // Title: prioridade para paginas_fixas[slug].meta_titulo, senão nomeDaPagina + padrao, senão slug + padrao
     const titleContent = (paginaFixa && paginaFixa.meta_titulo)
         ? paginaFixa.meta_titulo
-        : ( (nomeDaPagina || slugDaPagina) + (paginasFixas.meta_titulo_padrao ? ' ' + paginasFixas.meta_titulo_padrao : '') );
+        : ( metaTituloEspecifico
+            ? metaTituloEspecifico
+            : ( (nomeDaPagina || slugDaPagina) + (paginasFixas.meta_titulo_padrao ? ' ' + paginasFixas.meta_titulo_padrao : '') )
+          );
 
-    // Description: prioridade para paginas_fixas[slug].meta_descricao, senão metaDescricao (passado), senão nomeDaPagina + padrao
     const descriptionContent = (paginaFixa && paginaFixa.meta_descricao)
         ? paginaFixa.meta_descricao
         : ( metaDescricao ? metaDescricao : ( (nomeDaPagina ? nomeDaPagina + ' ' : '') + (paginasFixas.meta_descricao_padrao || '') ) ).trim();
 
-    // Set document.title (mais seguro do que inserir novo <title>)
+    // Set document.title
     document.title = titleContent;
 
     // Upsert meta[name="description"]
@@ -229,6 +251,7 @@ function setaMetaTags(config, slugDaPagina, nomeDaPagina, linkCanonical = '', me
     upsertMeta('name', 'twitter:image', config.dominio + '/img/' + slugDaPagina + '.webp', false);
     upsertMeta('name', 'twitter:image:alt', 'Imagem da pagina de ' + nomeDaPagina + ' do ' + (config.nome_do_site || ''), false);
 }
+
 
 
 function setaJsCustomizado(config, tipoPagina) {
