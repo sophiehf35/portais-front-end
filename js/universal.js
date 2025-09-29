@@ -31,90 +31,115 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
     carregaLogo(config, document.getElementById("logo"));
 
     if (url.protocol + '//' + url.hostname + url.pathname === config.dominio + '/') {
-    //PÁGINA HOME
+        // PÁGINA HOME
         slugDaPagina = 'home';
-        if(config.tipo_home === "portal") {
+        if (config.tipo_home === "portal") {
             carregaConteudoHomePortal(config);
-            setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina), config.dominio);
+
+            // meta da home (se existir nas paginas_fixas, usa; senão passa vazio e a função usará o padrão)
+            let metaDescHome = '';
+            if (config.paginas_fixas && config.paginas_fixas['home'] && config.paginas_fixas['home'].meta_descricao) {
+                metaDescHome = config.paginas_fixas['home'].meta_descricao;
+            }
+            setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina), config.dominio, metaDescHome);
         }
 
     } else if (config.paginas_categorias && config.paginas_categorias[slugDaPagina]) {
-    //PÁGINA DE CATEGORIAS
+        // PÁGINA DE CATEGORIAS
         const categoria = config.paginas_categorias[slugDaPagina][0];
         document.querySelector('h1').textContent = categoria.meta_titulo;
+
+        // passe a meta_descricao da categoria como 5º parâmetro
+        const canonicalBaseCategoria = config.dominio + '/' + slugDaPagina + '/';
         if (parametrosURL.has('pagina')) {
-        //POSSUÍ PAGINAÇÃO
-            setaMetaTags(config, slugDaPagina, categoria.meta_titulo, config.dominio + '/' + slugDaPagina + '/?pagina=' + parametrosURL.get('pagina'));
+            setaMetaTags(config, slugDaPagina, categoria.meta_titulo, canonicalBaseCategoria + '?pagina=' + parametrosURL.get('pagina'), categoria.meta_descricao);
         } else {
-            setaMetaTags(config, slugDaPagina, categoria.meta_titulo, config.dominio + '/' + slugDaPagina + '/');
+            setaMetaTags(config, slugDaPagina, categoria.meta_titulo, canonicalBaseCategoria, categoria.meta_descricao);
         }
+
         carregaListaDeArtigos(config, slugDaPagina);
         carregaConteudoDestaque(config);
         setaJsCustomizado(config, 'paginas_categoria');
 
     } else if (config.paginas_subcategorias && Object.keys(config.paginas_subcategorias).some(categoria => config.paginas_subcategorias[categoria].some(sub => sub.slug === slugDaPagina))) {
-    //PÁGINA DE SUBCATEGORIAS
+        // PÁGINA DE SUBCATEGORIAS
         let subcategoriaData = null;
         for (let categoria in config.paginas_subcategorias) {
             subcategoriaData = config.paginas_subcategorias[categoria].find(sub => sub.slug === slugDaPagina);
             if (subcategoriaData) break;
         }
-        
+
         document.querySelector('h1').textContent = subcategoriaData.meta_titulo;
+
+        // passe a meta_descricao da subcategoria como 5º parâmetro
+        const canonicalBaseSub = config.dominio + '/' + slugDaPagina + '/';
         if (parametrosURL.has('pagina')) {
-        //POSSUÍ PAGINAÇÃO
-            setaMetaTags(config, slugDaPagina, subcategoriaData.meta_titulo, config.dominio + '/' + slugDaPagina + '/?pagina=' + parametrosURL.get('pagina'));
+            setaMetaTags(config, slugDaPagina, subcategoriaData.meta_titulo, canonicalBaseSub + '?pagina=' + parametrosURL.get('pagina'), subcategoriaData.meta_descricao);
         } else {
-            setaMetaTags(config, slugDaPagina, subcategoriaData.meta_titulo, config.dominio + '/' + slugDaPagina + '/');
+            setaMetaTags(config, slugDaPagina, subcategoriaData.meta_titulo, canonicalBaseSub, subcategoriaData.meta_descricao);
         }
+
         carregaListaDeArtigosSubcategoria(config, slugDaPagina);
         carregaConteudoDestaqueSubcategoria(config);
         setaJsCustomizado(config, 'paginas_subcategoria');
-        
+
     } else if (config.possui_ferramentas == 1 && slugDaPagina == 'ferramentas') {
-    //PÁGINA DE FERRAMENTAS
+        // PÁGINA DE FERRAMENTAS
         document.querySelector('h1').textContent = config.paginas_fixas['ferramentas'].meta_titulo;
-        if (parametrosURL.has('pagina')) {
-        //POSSUÍ PAGINAÇÃO
-            setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina), config.dominio + '/' + slugDaPagina + '/?pagina=' + parametrosURL.get('pagina'));
-        } else {
-            setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina), config.dominio + '/' + slugDaPagina + '/');
+
+        let metaDescFerramentas = '';
+        if (config.paginas_fixas && config.paginas_fixas['ferramentas'] && config.paginas_fixas['ferramentas'].meta_descricao) {
+            metaDescFerramentas = config.paginas_fixas['ferramentas'].meta_descricao;
         }
+
+        const canonicalBaseFerr = config.dominio + '/' + slugDaPagina + '/';
+        if (parametrosURL.has('pagina')) {
+            setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina), canonicalBaseFerr + '?pagina=' + parametrosURL.get('pagina'), metaDescFerramentas);
+        } else {
+            setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina), canonicalBaseFerr, metaDescFerramentas);
+        }
+
         carregaListaDeFerramentas(config);
         carregaConteudoDestaque(config);
 
     } else if (caminho.includes('/profissionais/')) {
-    //PÁGINAS DE PROFISSIONAIS
+        // PÁGINAS DE PROFISSIONAIS
         if (config.profissionais && config.profissionais.tipos.some(tipo => tipo.slug_diretorio && caminho.includes(`/${tipo.slug_diretorio}/`))) {
-            //PÁGINAS DO PROFISSIONAL
-            //carregaAvaliacoesProfissional();
+            // PÁGINAS DO PROFISSIONAL
             validarFormularioContatoProfissional(config);
             validarFormularioAvaliacaoProfissional(config);
-        } else if(slugDaPagina == 'confirma-cadastro-de-profissional') {
+        } else if (slugDaPagina == 'confirma-cadastro-de-profissional') {
             verificaEmailConfirmacaoDeProfissional(config);
         }
 
     } else if (config.permite_profissionais == 1 && slugDaPagina == 'cadastro-de-profissional') {
-    //PÁGINA CADASTRO DE PROFISSIONAL
+        // PÁGINA CADASTRO DE PROFISSIONAL
         validarFormularioCadastroProfissional(config);
-        
-    } else if (Object.keys(config.paginas_categorias).some(categoria => caminho.includes(`/${categoria}/`)) ||(config.paginas_subcategorias && Object.keys(config.paginas_subcategorias).some(categoria => config.paginas_subcategorias[categoria].some(subcategoria => caminho.includes(`/${subcategoria.slug}/`))))) {
-    // PÁGINA DE ARTIGOS
-    const h1 = document.querySelector("h1");
-    const slugCategoria = h1.dataset.slugCategoria;
-    const slug = h1.dataset.slug;
 
-    carregaArtigosRelacionados(config, slugCategoria, slug);
-    carregaConteudoDestaque(config);
-    carregaComentariosAvaliacoes(config);
-    validarFormularioComentario(config);
-    compartilhamentoDeImagens(config);
-    setaJsCustomizado(config, 'paginas_artigo');
+    } else if (Object.keys(config.paginas_categorias).some(categoria => caminho.includes(`/${categoria}/`)) || (config.paginas_subcategorias && Object.keys(config.paginas_subcategorias).some(categoria => config.paginas_subcategorias[categoria].some(subcategoria => caminho.includes(`/${subcategoria.slug}/`))))) {
+        // PÁGINA DE ARTIGOS (artigo individual)
+        const h1 = document.querySelector("h1");
+        const slugCategoria = h1.dataset.slugCategoria;
+        const slug = h1.dataset.slug;
+
+        carregaArtigosRelacionados(config, slugCategoria, slug);
+        carregaConteudoDestaque(config);
+        carregaComentariosAvaliacoes(config);
+        validarFormularioComentario(config);
+        compartilhamentoDeImagens(config);
+        setaJsCustomizado(config, 'paginas_artigo');
+
     } else if (config.paginas_fixas && config.paginas_fixas.slugs.includes(slugDaPagina) && slugDaPagina !== 'home') {
-    //PÁGINAS FIXAS
-        setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina));
+        // PÁGINAS FIXAS
+        // passe a meta_descricao da pagina fixa (se existir)
+        let metaDescFixa = '';
+        if (config.paginas_fixas && config.paginas_fixas[slugDaPagina] && config.paginas_fixas[slugDaPagina].meta_descricao) {
+            metaDescFixa = config.paginas_fixas[slugDaPagina].meta_descricao;
+        }
 
-        if(slugDaPagina === 'fale-conosco') {
+        setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina), '', metaDescFixa);
+
+        if (slugDaPagina === 'fale-conosco') {
             carregaCardsDiferenciais();
             validarFormularioContato(config);
         } else if (slugDaPagina === 'quem-somos') {
@@ -122,99 +147,89 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
             carregaCardsDiferenciais();
         }
     }
-    /*} else if (config.paginas_categorias.slugs && config.paginas_categorias.slugs.some(categoria => caminho.includes(`/${categoria}/`))) {
-    //PÁGINA DE ARTIGOS
-       carregaArtigosRelacionados(config, document.querySelector("h1").dataset.slugCategoria, document.querySelector("h1").dataset.slug);
-       carregaConteudoDestaque(config);
-       carregaComentariosAvaliacoes(config);
-       validarFormularioComentario(config);
-       compartilhamentoDeImagens(config);
-       setaJsCustomizado(config, 'paginas_artigo');
 
-    }*/
-    
     carregaRodape(config);
     setaGoogleAnalytics(config);
     setaGoogleAdsense(config);
     setaClarity(config);
-                
+
 }).catch(error => {
     console.error('Erro ao buscar dados:', error);
 });
 
 
-function setaMetaTags(config, slugDaPagina, nomeDaPagina, linkCanonical = '') {
+function setaMetaTags(config, slugDaPagina, nomeDaPagina, linkCanonical = '', metaDescricao = '') {
+    const paginasFixas = config.paginas_fixas || {};
+    const paginaFixa = paginasFixas[slugDaPagina];
 
-    const titleTag = document.createElement('title');
-    titleTag.innerText = config.paginas_fixas[slugDaPagina] && config.paginas_fixas[slugDaPagina].meta_titulo ? config.paginas_fixas[slugDaPagina].meta_titulo : nomeDaPagina + ' ' + config.paginas_fixas.meta_titulo_padrao;
-    document.querySelector('meta[name="robots"]').parentNode.insertBefore(titleTag, document.querySelector('meta[name="robots"]').nextSibling);
+    // Title: prioridade para paginas_fixas[slug].meta_titulo, senão nomeDaPagina + padrao, senão slug + padrao
+    const titleContent = (paginaFixa && paginaFixa.meta_titulo)
+        ? paginaFixa.meta_titulo
+        : ( (nomeDaPagina || slugDaPagina) + (paginasFixas.meta_titulo_padrao ? ' ' + paginasFixas.meta_titulo_padrao : '') );
 
-    const metaDescription = document.createElement('meta');
-    metaDescription.setAttribute('name', 'description');
-    metaDescription.content = config.paginas_fixas[slugDaPagina] && config.paginas_fixas[slugDaPagina].meta_descricao ? config.paginas_fixas[slugDaPagina].meta_descricao : nomeDaPagina + ' ' + config.paginas_fixas.meta_descricao_padrao;
-    document.querySelector('title').parentNode.insertBefore(metaDescription, document.querySelector('title').nextSibling);
+    // Description: prioridade para paginas_fixas[slug].meta_descricao, senão metaDescricao (passado), senão nomeDaPagina + padrao
+    const descriptionContent = (paginaFixa && paginaFixa.meta_descricao)
+        ? paginaFixa.meta_descricao
+        : ( metaDescricao ? metaDescricao : ( (nomeDaPagina ? nomeDaPagina + ' ' : '') + (paginasFixas.meta_descricao_padrao || '') ) ).trim();
 
-    const metaAuthor = document.createElement('meta');
-    metaAuthor.setAttribute('name', 'author');
-    metaAuthor.content = config.autor_padrao;
-    document.querySelector('meta[name="description"]').parentNode.insertBefore(metaAuthor, document.querySelector('meta[name="description"]').nextSibling);
+    // Set document.title (mais seguro do que inserir novo <title>)
+    document.title = titleContent;
 
-    const tagCanonical = document.createElement('link');
-    tagCanonical.setAttribute('real', 'canonical');
-    tagCanonical.setAttribute('href', (linkCanonical === '' ? config.dominio + '/' + slugDaPagina : linkCanonical));
-    document.querySelector('meta[name="author"]').parentNode.insertBefore(tagCanonical, document.querySelector('meta[name="author"]').nextSibling);
+    // Upsert meta[name="description"]
+    let metaDescriptionEl = document.querySelector('meta[name="description"]');
+    if (!metaDescriptionEl) {
+        metaDescriptionEl = document.createElement('meta');
+        metaDescriptionEl.setAttribute('name', 'description');
+        document.head.appendChild(metaDescriptionEl);
+    }
+    metaDescriptionEl.setAttribute('content', descriptionContent);
 
-    const metaTitleTagOg = document.createElement('meta');
-    metaTitleTagOg.setAttribute('property', 'og:title');
-    metaTitleTagOg.setAttribute('content', config.paginas_fixas[slugDaPagina] && config.paginas_fixas[slugDaPagina].meta_titulo ? config.paginas_fixas[slugDaPagina].meta_titulo : nomeDaPagina + ' ' + config.paginas_fixas.meta_titulo_padrao);
-    document.querySelector('meta[property="og:type"]').parentNode.insertBefore(metaTitleTagOg, document.querySelector('meta[property="og:type"]').nextSibling);
+    // Upsert meta[name="author"]
+    let metaAuthor = document.querySelector('meta[name="author"]');
+    if (!metaAuthor) {
+        metaAuthor = document.createElement('meta');
+        metaAuthor.setAttribute('name', 'author');
+        document.head.appendChild(metaAuthor);
+    }
+    metaAuthor.setAttribute('content', config.autor_padrao || '');
 
-    const metaDescriptionOg = document.createElement('meta');
-    metaDescriptionOg.setAttribute('property', 'og:description');
-    metaDescriptionOg.setAttribute('content', config.paginas_fixas[slugDaPagina] && config.paginas_fixas[slugDaPagina].meta_descricao ? config.paginas_fixas[slugDaPagina].meta_descricao : nomeDaPagina + ' ' + config.paginas_fixas.meta_descricao_padrao);
-    document.querySelector('meta[property="og:title"]').parentNode.insertBefore(metaDescriptionOg, document.querySelector('meta[property="og:title"]').nextSibling);
+    // Upsert link[rel="canonical"]
+    let linkCanonicalEl = document.querySelector('link[rel="canonical"]');
+    if (!linkCanonicalEl) {
+        linkCanonicalEl = document.createElement('link');
+        linkCanonicalEl.setAttribute('rel', 'canonical');
+        document.head.appendChild(linkCanonicalEl);
+    }
+    linkCanonicalEl.setAttribute('href', (linkCanonical === '' ? config.dominio + '/' + slugDaPagina : linkCanonical));
 
-    const metaUrlOg = document.createElement('meta');
-    metaUrlOg.setAttribute('property', 'og:url');
-    metaUrlOg.setAttribute('content', (linkCanonical === '' ? config.dominio + '/' + slugDaPagina : linkCanonical));
-    document.querySelector('meta[property="og:description"]').parentNode.insertBefore(metaUrlOg, document.querySelector('meta[property="og:description"]').nextSibling);
+    // Helper para criar/atualizar meta tags (og / twitter)
+    function upsertMeta(selectorAttr, attrName, content, isProperty = true) {
+        const selector = isProperty ? `meta[property="${attrName}"]` : `meta[name="${attrName}"]`;
+        let el = document.querySelector(selector);
+        if (!el) {
+            el = document.createElement('meta');
+            if (isProperty) el.setAttribute('property', attrName);
+            else el.setAttribute('name', attrName);
+            document.head.appendChild(el);
+        }
+        el.setAttribute('content', content);
+    }
 
-    const metaSitenameOg = document.createElement('meta');
-    metaSitenameOg.setAttribute('property', 'og:site_name');
-    metaSitenameOg.setAttribute('content', config.nome_do_site);
-    document.querySelector('meta[property="og:url"]').parentNode.insertBefore(metaSitenameOg, document.querySelector('meta[property="og:url"]').nextSibling);
+    // Open Graph
+    upsertMeta('property', 'og:title', titleContent, true);
+    upsertMeta('property', 'og:description', descriptionContent, true);
+    upsertMeta('property', 'og:url', (linkCanonical === '' ? config.dominio + '/' + slugDaPagina : linkCanonical), true);
+    upsertMeta('property', 'og:site_name', config.nome_do_site || '', true);
+    upsertMeta('property', 'og:image', config.dominio + '/img/' + slugDaPagina + '.webp', true);
+    upsertMeta('property', 'og:image:alt', 'Imagem da pagina de ' + nomeDaPagina + ' do ' + (config.nome_do_site || ''), true);
 
-    const metaImageOg = document.createElement('meta');
-    metaImageOg.setAttribute('property', 'og:image');
-    metaImageOg.setAttribute('content', config.dominio + '/img/' + slugDaPagina + '.webp');
-    document.querySelector('meta[property="og:site_name"]').parentNode.insertBefore(metaImageOg, document.querySelector('meta[property="og:site_name"]').nextSibling);
-
-    const metaAltImageOg = document.createElement('meta');
-    metaAltImageOg.setAttribute('property', 'og:image:alt');
-    metaAltImageOg.setAttribute('content', 'Imagem da pagina de ' + nomeDaPagina + ' do ' + config.nome_do_site);
-    document.querySelector('meta[property="og:image"]').parentNode.insertBefore(metaAltImageOg, document.querySelector('meta[property="og:image"]').nextSibling);
-
-    const metaTitleTwitter = document.createElement('meta');
-    metaTitleTwitter.setAttribute('name', 'twitter:title');
-    metaTitleTwitter.setAttribute('content', config.paginas_fixas[slugDaPagina] && config.paginas_fixas[slugDaPagina].meta_titulo ? config.paginas_fixas[slugDaPagina].meta_titulo : nomeDaPagina + ' ' + config.paginas_fixas.meta_titulo_padrao);
-    document.querySelector('meta[name="twitter:card"]').parentNode.insertBefore(metaTitleTwitter, document.querySelector('meta[name="twitter:card"]').nextSibling);
-
-    const metaDescriptionTwitter = document.createElement('meta');
-    metaDescriptionTwitter.setAttribute('name', 'twitter:description');
-    metaDescriptionTwitter.setAttribute('content', config.paginas_fixas[slugDaPagina] && config.paginas_fixas[slugDaPagina].meta_descricao ? config.paginas_fixas[slugDaPagina].meta_descricao : nomeDaPagina + ' ' + config.paginas_fixas.meta_descricao_padrao);
-    document.querySelector('meta[name="twitter:title"]').parentNode.insertBefore(metaDescriptionTwitter, document.querySelector('meta[name="twitter:title"]').nextSibling);
-
-    const metaImageTwitter = document.createElement('meta');
-    metaImageTwitter.setAttribute('name', 'twitter:image');
-    metaImageTwitter.setAttribute('content', config.dominio + '/img/' + slugDaPagina + '.webp');
-    document.querySelector('meta[name="twitter:description"]').parentNode.insertBefore(metaImageTwitter, document.querySelector('meta[name="twitter:description"]').nextSibling);
-    
-    const metaAltImageTwitter = document.createElement('meta');
-    metaAltImageTwitter.setAttribute('name', 'twitter:image:alt');
-    metaAltImageTwitter.setAttribute('content', 'Imagem da pagina de ' + nomeDaPagina + ' do ' + config.nome_do_site);
-    document.querySelector('meta[name="twitter:image"]').parentNode.insertBefore(metaAltImageTwitter, document.querySelector('meta[name="twitter:image"]').nextSibling);
-
+    // Twitter cards (usar name)
+    upsertMeta('name', 'twitter:title', titleContent, false);
+    upsertMeta('name', 'twitter:description', descriptionContent, false);
+    upsertMeta('name', 'twitter:image', config.dominio + '/img/' + slugDaPagina + '.webp', false);
+    upsertMeta('name', 'twitter:image:alt', 'Imagem da pagina de ' + nomeDaPagina + ' do ' + (config.nome_do_site || ''), false);
 }
+
 
 function setaJsCustomizado(config, tipoPagina) {
     const paginasCustomizadas = config.js_customizado[tipoPagina];
