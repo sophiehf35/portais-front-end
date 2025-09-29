@@ -60,7 +60,7 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
         } else {
             setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina), config.dominio + '/' + slugDaPagina + '/');
         }
-        carregaListaDeArtigos(config, slugDaPagina);
+        carregaListaDeArtigosSubcategoria(config, slugDaPagina);
         carregaConteudoDestaque(config);
         setaJsCustomizado(config, 'paginas_subcategoria');
     } else if (config.possui_ferramentas == 1 && slugDaPagina == 'ferramentas') {
