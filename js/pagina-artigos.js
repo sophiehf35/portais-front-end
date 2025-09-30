@@ -204,40 +204,45 @@ function validarFormularioComentario(config) {
 function carregaArtigosRelacionados(config, slugArtigo, categoria, subcategoria = null) {
     fetch('/configuracao/json/artigos-relacionados.json')
         .then(response => {
-            if (!response.ok) {
-                throw new Error(`Erro ao buscar dados. Código de status: ${response.status}`);
-            }
+            if (!response.ok) throw new Error(`Erro ao buscar dados. Código de status: ${response.status}`);
             return response.json();
         })
         .then(data => {
             let relacionados = [];
 
-            // Preferência para subcategoria se existir
-            if (subcategoria && data.hasOwnProperty(subcategoria)) {
-                relacionados = data[subcategoria];
-            } 
-            // Senão, usa a categoria
-            else if (data.hasOwnProperty(categoria)) {
-                relacionados = data[categoria];
+            // 1. Pega todos os artigos em um array plano
+            const todosArtigos = Object.values(data).flatMap(item => {
+                if (Array.isArray(item)) return item; // subcategorias como caixa-economica
+                if (typeof item === 'object') return [item]; // artigos numerados
+                return [];
+            });
+
+            // 2. Filtra pelo artigo atual
+            const artigosFiltrados = todosArtigos.filter(a => a.slug && a.imagem_destaque && a.slug !== slugArtigo);
+
+            // 3. Prioriza subcategoria
+            if (subcategoria) {
+                relacionados = artigosFiltrados.filter(a => a.subcategoria === subcategoria);
             }
 
-            // Se relacionados não for array, transforma em array
-            if (!Array.isArray(relacionados)) {
-                relacionados = Object.values(relacionados);
+            // 4. Se não houver resultados na subcategoria, filtra pela categoria
+            if ((!relacionados || relacionados.length === 0) && categoria) {
+                relacionados = artigosFiltrados.filter(a => a.categoria === categoria);
             }
 
-            // Filtra removendo o artigo atual
-            relacionados = relacionados.filter(artigo => artigo.slug !== slugArtigo);
+            // 5. Se ainda não houver, pega qualquer artigo (menos o atual)
+            if (!relacionados || relacionados.length === 0) {
+                relacionados = artigosFiltrados;
+            }
 
-            if (relacionados.length > 0) {
-                // Embaralha
-                relacionados.sort(() => Math.random() - 0.5);
+            // 6. Embaralha e pega até 4
+            relacionados.sort(() => Math.random() - 0.5);
+            const artigosRelacionados = relacionados.slice(0, 4);
 
-                // Limita em 4
-                const artigosRelacionados = relacionados.slice(0, 4);
+            if (artigosRelacionados.length === 0) return;
 
-                // Monta a seção
-                const secaoRelacionados = document.createElement('section');
+            // 7. Monta a seção
+            const secaoRelacionados = document.createElement('section');
                 secaoRelacionados.innerHTML = `
                     <div style="margin-bottom: 20px; padding:0px" class="reviews-container box_detail">
                         <div class="titulo_secao">
@@ -274,16 +279,12 @@ function carregaArtigosRelacionados(config, slugArtigo, categoria, subcategoria 
                         </div>
                     </div>
                 `;
-
-                const secaoArtigo = document.getElementById('artigo');
-                secaoArtigo.insertAdjacentElement('afterend', secaoRelacionados);
-            }
+            const secaoArtigo = document.getElementById('artigo');
+            secaoArtigo.insertAdjacentElement('afterend', secaoRelacionados);
 
             AdiarImagens();
         })
-        .catch(error => {
-            console.error('Erro ao buscar dados:', error);
-        });
+        .catch(error => console.error('Erro ao buscar dados:', error));
 }
 /* FUNÇÃO PARA CRIAR SECTION E CARREGAR OS ARTIGOS RELACIONADOS */
 
