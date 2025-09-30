@@ -201,7 +201,7 @@ function validarFormularioComentario(config) {
 
 
 /* FUNÇÃO PARA CRIAR SECTION E CARREGAR OS ARTIGOS RELACIONADOS */
-function carregaArtigosRelacionados(config, categoria, slugArtigo, subcategoria = null) {
+function carregaArtigosRelacionados(config, slugArtigo, categoria, subcategoria = null) {
     fetch('/configuracao/json/artigos-relacionados.json')
         .then(response => {
             if (!response.ok) {
@@ -212,29 +212,31 @@ function carregaArtigosRelacionados(config, categoria, slugArtigo, subcategoria 
         .then(data => {
             let relacionados = [];
 
-            // 🔹 Preferência para subcategoria se existir
+            // Preferência para subcategoria se existir
             if (subcategoria && data.hasOwnProperty(subcategoria)) {
                 relacionados = data[subcategoria];
-            } else if (data.hasOwnProperty(categoria)) {
+            } 
+            // Senão, usa a categoria
+            else if (data.hasOwnProperty(categoria)) {
                 relacionados = data[categoria];
             }
 
-            // 🔹 Se não for array, transforma em array
+            // Se relacionados não for array, transforma em array
             if (!Array.isArray(relacionados)) {
                 relacionados = Object.values(relacionados);
             }
 
-            // 🔹 Remove o artigo atual
+            // Filtra removendo o artigo atual
             relacionados = relacionados.filter(artigo => artigo.slug !== slugArtigo);
 
             if (relacionados.length > 0) {
-                // 🔹 Embaralha
+                // Embaralha
                 relacionados.sort(() => Math.random() - 0.5);
 
-                // 🔹 Pega os primeiros 4
+                // Limita em 4
                 const artigosRelacionados = relacionados.slice(0, 4);
 
-                // 🔹 Cria a seção com data-srcset e tudo que o AdiarImagens precisa
+                // Monta a seção
                 const secaoRelacionados = document.createElement('section');
                 secaoRelacionados.innerHTML = `
                     <div style="margin-bottom: 20px; padding:0px" class="reviews-container box_detail">
@@ -245,22 +247,22 @@ function carregaArtigosRelacionados(config, categoria, slugArtigo, subcategoria 
                             <div class="row">
                                 ${artigosRelacionados.map(relacionado => `
                                     <div class="col-lg-6 col-sm-6 mb-3">
-                                        <a href="/${(config.diretorio_blog === "home" ? "" : `${config.diretorio_blog}/`)}${categoria}/${relacionado.slug}">
+                                        <a href="/${(config.diretorio_blog === "home" ? "" : `${config.diretorio_blog}/`)}${relacionado.slug_categoria || categoria}/${relacionado.slug}">
                                             <div class="card border-0 rounded-0 text-white overflow zoom position-relative mb-0">
-                                                <div class="ratio_right-cover-2 image-wrapper">
-                                                    <img
-                                                        src="data:image/webp;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
-                                                        data-src="${(config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img')}/usuarios/${relacionado.diretorio_autor}/artigos/thumb/${relacionado.imagem_destaque}"
-                                                        data-srcset="${Array.from({ length: 15 }, (_, i) => 
-                                                            `${(config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img')}/usuarios/${relacionado.diretorio_autor}/artigos/thumb/${relacionado.imagem_destaque}?tr=w-${250 + i * 50} ${250 + i * 50}w`
-                                                        ).join(', ')}"
-                                                        sizes="(max-width: 125px), (max-width: 150px), (max-width: 175px), (max-width: 200px), (max-width: 225px), (max-width: 250px), (max-width: 275px), (max-width: 300px), (max-width: 325px), (max-width: 350px), (max-width: 375px), (max-width: 400px), (max-width: 425px), (max-width: 450px), (max-width: 475px), (-webkit-min-device-pixel-ratio: 1.1) AND (-webkit-max-device-pixel-ratio: 1.5) 80.5vw, (-webkit-min-device-pixel-ratio: 1.6) AND (-webkit-max-device-pixel-ratio: 2) 57.5vw, (-webkit-min-device-pixel-ratio: 2.1) AND (-webkit-max-device-pixel-ratio: 2.5) 42.5vw, (-webkit-min-device-pixel-ratio: 2.6) AND (-webkit-max-device-pixel-ratio: 3) 39.5vw, (-webkit-min-device-pixel-ratio: 3.1) AND (-webkit-max-device-pixel-ratio: 3.5) 32.5vw, (-webkit-min-device-pixel-ratio: 3.6) AND (-webkit-max-device-pixel-ratio: 4) 28.5vw"
-                                                        alt="${relacionado.alt_imagem_destaque}"
-                                                        width="1200"
-                                                        height="675"
-                                                        class="img-fluid w-100"
-                                                    />
-                                                </div>
+                                                    <div class="ratio_right-cover-2 image-wrapper">
+                                                        <img
+                                                            src="data:image/webp;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
+                                                            data-src="${(config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img')}/usuarios/${relacionado.diretorio_autor}/artigos/thumb/${relacionado.imagem_destaque}"
+                                                            data-srcset="${Array.from({ length: 15 }, (_, i) => 
+                                                                `${(config.cdn_imagens === 1 ? config.diretorio_cdn_imagens : '/img')}/usuarios/${relacionado.diretorio_autor}/artigos/thumb/${relacionado.imagem_destaque}?tr=w-${250 + i * 50} ${250 + i * 50}w`
+                                                            ).join(', ')}"
+                                                            sizes="(max-width: 125px), (max-width: 150px), (max-width: 175px), (max-width: 200px), (max-width: 225px), (max-width: 250px), (max-width: 275px), (max-width: 300px), (max-width: 325px), (max-width: 350px), (max-width: 375px), (max-width: 400px), (max-width: 425px), (max-width: 450px), (max-width: 475px), (-webkit-min-device-pixel-ratio: 1.1) AND (-webkit-max-device-pixel-ratio: 1.5) 80.5vw, (-webkit-min-device-pixel-ratio: 1.6) AND (-webkit-max-device-pixel-ratio: 2) 57.5vw, (-webkit-min-device-pixel-ratio: 2.1) AND (-webkit-max-device-pixel-ratio: 2.5) 42.5vw, (-webkit-min-device-pixel-ratio: 2.6) AND (-webkit-max-device-pixel-ratio: 3) 39.5vw, (-webkit-min-device-pixel-ratio: 3.1) AND (-webkit-max-device-pixel-ratio: 3.5) 32.5vw, (-webkit-min-device-pixel-ratio: 3.6) AND (-webkit-max-device-pixel-ratio: 4) 28.5vw"
+                                                            alt="${relacionado.alt_imagem_destaque}"
+                                                            width="1200"
+                                                            height="675"
+                                                            class="img-fluid w-100"
+                                                        />
+                                                    </div>
                                                 <div class="position-absolute p-2 p-lg-3 b-0 w-100 bg-shadow">
                                                     <h3 class="h6 text-white my-1">${relacionado.titulo}</h3>
                                                 </div>
