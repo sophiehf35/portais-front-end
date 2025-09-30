@@ -221,6 +221,11 @@ function carregaArtigosRelacionados(config, slugArtigo, categoria, subcategoria 
                 relacionados = data[categoria];
             }
 
+            // 🔹 Se relacionados não for array, transforma em array
+            if (!Array.isArray(relacionados)) {
+                relacionados = Object.values(relacionados);
+            }
+
             // Filtra removendo o artigo atual
             relacionados = relacionados.filter(artigo => artigo.slug !== slugArtigo);
 
@@ -242,7 +247,7 @@ function carregaArtigosRelacionados(config, slugArtigo, categoria, subcategoria 
                             <div class="row">
                                 ${artigosRelacionados.map(relacionado => `
                                     <div class="col-lg-6 col-sm-6 mb-3">
-                                        <a href="/${(config.diretorio_blog === "home" ? "" : `${config.diretorio_blog}/`)}${relacionado.slug_categoria}/${relacionado.slug}">
+                                        <a href="/${(config.diretorio_blog === "home" ? "" : `${config.diretorio_blog}/`)}${relacionado.slug_categoria || categoria}/${relacionado.slug}">
                                             <div class="card border-0 rounded-0 text-white overflow zoom position-relative mb-0">
                                                 <div class="ratio_right-cover-2 image-wrapper">
                                                     <img
@@ -266,7 +271,6 @@ function carregaArtigosRelacionados(config, slugArtigo, categoria, subcategoria 
                     </div>
                 `;
 
-                // Adiciona depois do artigo
                 const secaoArtigo = document.getElementById('artigo');
                 secaoArtigo.insertAdjacentElement('afterend', secaoRelacionados);
             }
