@@ -21,8 +21,18 @@ function carregaConteudoHomePortal(config) {
                 const slide = document.createElement('div');
                 slide.classList.add('swiper-slide');
 
+                // VERIFICA SE TEM SUBCATEGORIA
+                let linkArtigo = '';
+                if (item.slug_subcategoria !== null) {
+                    // Se tem subcategoria: /categoria/subcategoria/slug
+                    linkArtigo = (config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`) + item.slug_categoria + '/' + item.slug_subcategoria + '/' + item.slug;
+                } else {
+                    // Se não tem subcategoria: /categoria/slug
+                    linkArtigo = (config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`) + item.slug_categoria + '/' + item.slug;
+                }
+
                 const link = document.createElement('a');
-                link.href = (config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`) + item.slug_categoria + '/' + item.slug;
+                link.href = linkArtigo;
 
                 const image = document.createElement('img');
                 image.src = 'data:image/webp;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
@@ -47,7 +57,7 @@ function carregaConteudoHomePortal(config) {
                 }
 
                 const titleLink = document.createElement('a');
-                titleLink.href = (config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`) + item.slug_categoria + '/' + item.slug + '/';
+                titleLink.href = linkArtigo;
 
                 const title = document.createElement('h2');
                 title.style.fontSize = '23px';
@@ -91,8 +101,18 @@ function carregaConteudoHomePortal(config) {
                 const article = document.createElement('div');
                 article.classList.add('col-xl-4', 'col-md-6', 'mb-3', 'px-0');
 
+                // VERIFICA SE TEM SUBCATEGORIA
+                let linkArtigo = '';
+                if (item.slug_subcategoria !== null) {
+                    // Se tem subcategoria: /categoria/subcategoria/slug
+                    linkArtigo = (config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`) + item.slug_categoria + '/' + item.slug_subcategoria + '/' + item.slug;
+                } else {
+                    // Se não tem subcategoria: /categoria/slug
+                    linkArtigo = (config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`) + item.slug_categoria + '/' + item.slug;
+                }
+
                 const link = document.createElement('a');
-                link.href = (config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`) + item.slug_categoria + '/' + item.slug;
+                link.href = linkArtigo;
                 
                 const card = document.createElement('div');
                 card.classList.add('card', 'border-0', 'rounded-0', 'text-white', 'overflow', 'zoom', 'position-relative', 'mb-0');
@@ -220,7 +240,7 @@ function carregaConteudoHomePortal(config) {
                 const colImagem = document.createElement('div');
                 colImagem.classList.add('col-xl-6', 'col-xxl-6');
                 const linkImagem = document.createElement('a');
-                linkImagem.href = (config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`) + item.slug_categoria + '/' + item.slug;
+                linkImagem.href = linkArtigo;
                 const hoverContainer = document.createElement('div');
                 hoverContainer.classList.add('hover', 'hover-3', 'text-white', 'secao-imagem');
                 const imagem = document.createElement('img');
