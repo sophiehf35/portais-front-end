@@ -212,16 +212,16 @@ function carregaArtigosRelacionados(config, slugArtigo, categoria, subcategoria 
         .then(data => {
             let relacionados = [];
 
-            // 🔹 Preferência para subcategoria se existir
+            // Preferência para subcategoria se existir
             if (subcategoria && data.hasOwnProperty(subcategoria)) {
                 relacionados = data[subcategoria];
             } 
-            // 🔹 Senão, usa a categoria
+            // Senão, usa a categoria
             else if (data.hasOwnProperty(categoria)) {
                 relacionados = data[categoria];
             }
 
-            // 🔹 Se relacionados não for array, transforma em array
+            // Se relacionados não for array, transforma em array
             if (!Array.isArray(relacionados)) {
                 relacionados = Object.values(relacionados);
             }
