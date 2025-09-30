@@ -412,7 +412,6 @@ function carregarTabelaArtigosSubcategoria(config, artigos, slugSubcategoria, sl
         item.tipo_conteudo_schema === "1"
     );
     if (!artigosDaPagina.length) return;
-    console.log(artigosDaPagina);
     const visualizacaoMobile = window.innerWidth < 600;
 
     // Cria o bloco com o mesmo padrão dos widgets
