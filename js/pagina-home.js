@@ -236,6 +236,16 @@ function carregaConteudoHomePortal(config) {
                 const row = document.createElement('div');
                 row.classList.add('row', 'g-0');
 
+                // VERIFICA SE TEM SUBCATEGORIA
+                let linkArtigo = '';
+                if (item.slug_subcategoria !== null) {
+                    // Se tem subcategoria: /categoria/subcategoria/slug
+                    linkArtigo = (config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`) + item.slug_categoria + '/' + item.slug_subcategoria + '/' + item.slug;
+                } else {
+                    // Se não tem subcategoria: /categoria/slug
+                    linkArtigo = (config.diretorio_blog === 'home' ? '/' : `/${config.diretorio_blog}/`) + item.slug_categoria + '/' + item.slug;
+                }
+
                 // Imagem
                 const colImagem = document.createElement('div');
                 colImagem.classList.add('col-xl-6', 'col-xxl-6');
