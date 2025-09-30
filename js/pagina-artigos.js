@@ -219,49 +219,73 @@ function carregaArtigosRelacionados(config, slugArtigo, categoria, subcategoria 
 
             // 2. Se existe subcategoria, buscar artigos dela
             if (subcategoria && categoriaData[subcategoria]) {
-                relacionados = categoriaData[subcategoria].filter(a => 
-                    a.slug && a.imagem_destaque && a.slug !== slugArtigo
-                );
+                relacionados = categoriaData[subcategoria]
+                    .filter(a => a.slug && a.imagem_destaque && a.slug !== slugArtigo)
+                    .map(artigo => ({ ...artigo, subcategoriaOrigem: subcategoria }));
             }
 
             // 3. Se não encontrou na subcategoria ou não tem subcategoria, 
             // buscar artigos diretos da categoria (chaves numéricas)
             if (relacionados.length === 0) {
-                const artigosDiretos = Object.values(categoriaData)
-                    .filter(item => 
+                const artigosDiretos = Object.entries(categoriaData)
+                    .filter(([key, item]) => 
+                        !isNaN(key) && 
                         typeof item === 'object' && 
                         !Array.isArray(item) &&
                         item.slug && 
                         item.imagem_destaque
                     )
-                    .filter(a => a.slug !== slugArtigo);
+                    .map(([key, item]) => item)
+                    .filter(a => a.slug !== slugArtigo)
+                    .map(artigo => ({ ...artigo, subcategoriaOrigem: null }));
                 
                 relacionados = artigosDiretos;
             }
 
             // 4. Se ainda não houver resultados, buscar de outras subcategorias da mesma categoria
             if (relacionados.length === 0) {
-                const todasSubcategorias = Object.values(categoriaData)
-                    .filter(item => Array.isArray(item))
-                    .flat();
+                const artigosOutrasSubcategorias = Object.entries(categoriaData)
+                    .filter(([key, item]) => Array.isArray(item) && key !== subcategoria)
+                    .flatMap(([subcat, artigos]) => 
+                        artigos
+                            .filter(a => a.slug && a.imagem_destaque && a.slug !== slugArtigo)
+                            .map(artigo => ({ ...artigo, subcategoriaOrigem: subcat }))
+                    );
                 
-                relacionados = todasSubcategorias.filter(a => 
-                    a.slug && a.imagem_destaque && a.slug !== slugArtigo
-                );
+                relacionados = artigosOutrasSubcategorias;
             }
 
             // 5. Se ainda não houver, pega qualquer artigo (menos o atual)
             if (relacionados.length === 0) {
-                const todosArtigos = Object.values(data)
-                    .flatMap(categoria => {
-                        if (Array.isArray(categoria)) return categoria;
-                        return Object.values(categoria).flatMap(item => 
-                            Array.isArray(item) ? item : [item]
-                        );
+                const todosArtigos = Object.entries(data)
+                    .flatMap(([cat, conteudoCategoria]) => {
+                        if (Array.isArray(conteudoCategoria)) {
+                            // Categorias sem subcategorias (como "estilo-de-vida", "negocios")
+                            return conteudoCategoria
+                                .filter(a => a.slug && a.imagem_destaque)
+                                .map(artigo => ({ ...artigo, categoriaOrigem: cat, subcategoriaOrigem: null }));
+                        } else {
+                            // Categorias com subcategorias
+                            return Object.entries(conteudoCategoria)
+                                .flatMap(([key, item]) => {
+                                    if (Array.isArray(item)) {
+                                        // Subcategorias
+                                        return item
+                                            .filter(a => a.slug && a.imagem_destaque)
+                                            .map(artigo => ({ ...artigo, categoriaOrigem: cat, subcategoriaOrigem: key }));
+                                    } else if (typeof item === 'object' && !isNaN(key)) {
+                                        // Artigos diretos na categoria
+                                        return item.slug && item.imagem_destaque 
+                                            ? [{ ...item, categoriaOrigem: cat, subcategoriaOrigem: null }]
+                                            : [];
+                                    }
+                                    return [];
+                                });
+                        }
                     })
-                    .filter(item => typeof item === 'object' && item.slug && item.imagem_destaque);
+                    .filter(a => a.slug !== slugArtigo);
 
-                relacionados = todosArtigos.filter(a => a.slug !== slugArtigo);
+                relacionados = todosArtigos;
             }
 
             // 6. Embaralha e pega até 4
@@ -270,7 +294,7 @@ function carregaArtigosRelacionados(config, slugArtigo, categoria, subcategoria 
 
             if (artigosRelacionados.length === 0) return;
 
-            // 7. Monta a seção (código existente mantido)
+            // 7. Monta a seção com URLs corretas
             const secaoRelacionados = document.createElement('section');
             secaoRelacionados.innerHTML = `
                 <div style="margin-bottom: 20px; padding:0px" class="reviews-container box_detail">
@@ -279,9 +303,18 @@ function carregaArtigosRelacionados(config, slugArtigo, categoria, subcategoria 
                     </div>
                     <div style="padding: 20px 20px;" class="col-md-12">
                         <div class="row">
-                            ${artigosRelacionados.map(relacionado => `
+                            ${artigosRelacionados.map(relacionado => {
+                                // Monta a URL correta baseada na origem do artigo
+                                const categoriaUrl = relacionado.categoriaOrigem || categoria;
+                                const subcategoriaUrl = relacionado.subcategoriaOrigem;
+                                const baseUrl = config.diretorio_blog === "home" ? "" : `${config.diretorio_blog}/`;
+                                const url = subcategoriaUrl 
+                                    ? `/${baseUrl}${categoriaUrl}/${subcategoriaUrl}/${relacionado.slug}`
+                                    : `/${baseUrl}${categoriaUrl}/${relacionado.slug}`;
+
+                                return `
                                 <div class="col-lg-6 col-sm-6 mb-3">
-                                    <a href="/${(config.diretorio_blog === "home" ? "" : `${config.diretorio_blog}/`)}${relacionado.slug_categoria || categoria}/${relacionado.slug}">
+                                    <a href="${url}">
                                         <div class="card border-0 rounded-0 text-white overflow zoom position-relative mb-0">
                                             <div class="ratio_right-cover-2 image-wrapper">
                                                 <img
@@ -303,7 +336,8 @@ function carregaArtigosRelacionados(config, slugArtigo, categoria, subcategoria 
                                         </div>
                                     </a>
                                 </div>
-                            `).join('')}
+                                `;
+                            }).join('')}
                         </div>
                     </div>
                 </div>
