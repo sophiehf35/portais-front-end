@@ -134,9 +134,10 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
         // PÁGINA DE ARTIGOS (artigo individual)
         const h1 = document.querySelector("h1");
         const slugCategoria = h1.dataset.slugCategoria;
+        const slugSubcategoria = h1.dataset.slugSubcategoria || null;
         const slug = h1.dataset.slug;
 
-        carregaArtigosRelacionados(config, slugCategoria, slug);
+        carregaArtigosRelacionados(config, slug, slugCategoria, slugSubcategoria);
         carregaConteudoDestaque(config);
         carregaComentariosAvaliacoes(config);
         validarFormularioComentario(config);
