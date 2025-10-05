@@ -26,6 +26,7 @@ function defineVariaveisUniversais(slugDaPagina) {
     return configPromise;
 }
 
+
 defineVariaveisUniversais(slugDaPagina).then(config => {
     carregaMenu(config);
     carregaLogo(config, document.getElementById("logo"));
@@ -42,12 +43,12 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
                 metaDescHome = config.paginas_fixas['home'].meta_descricao;
             }
             setaMetaTags(
-            config,
-            slugDaPagina,
-            slugParaTitulo(slugDaPagina),
-            config.dominio,
-            metaDescHome,
-            (config.paginas_fixas && config.paginas_fixas.home && config.paginas_fixas.home.meta_titulo) ? config.paginas_fixas.home.meta_titulo : slugParaTitulo(slugDaPagina)
+                config,
+                slugDaPagina,
+                slugParaTitulo(slugDaPagina),
+                config.dominio,
+                metaDescHome,
+                (config.paginas_fixas && config.paginas_fixas.home && config.paginas_fixas.home.meta_titulo) ? config.paginas_fixas.home.meta_titulo : slugParaTitulo(slugDaPagina)
             );
         }
 
@@ -69,26 +70,38 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
         setaJsCustomizado(config, 'paginas_categoria');
 
     } else if (config.paginas_subcategorias && Object.keys(config.paginas_subcategorias).some(categoria => config.paginas_subcategorias[categoria].some(sub => sub.slug === slugDaPagina))) {
-        // PÁGINA DE SUBCATEGORIAS
+        // PÁGINA DE SUBCATEGORIAS (corrigido para incluir categoria pai no canonical)
         let subcategoriaData = null;
+        let categoriaPai = null;
+
         for (let categoria in config.paginas_subcategorias) {
-            subcategoriaData = config.paginas_subcategorias[categoria].find(sub => sub.slug === slugDaPagina);
-            if (subcategoriaData) break;
+            const encontrada = config.paginas_subcategorias[categoria].find(sub => sub.slug === slugDaPagina);
+            if (encontrada) {
+                subcategoriaData = encontrada;
+                categoriaPai = categoria; // guarda o slug da categoria pai (ex: "emails")
+                break;
+            }
         }
 
-        document.querySelector('h1').textContent = subcategoriaData.meta_titulo;
-
-        // passe a meta_descricao da subcategoria como 5º parâmetro
-        const canonicalBaseSub = config.dominio + '/' + slugDaPagina + '/';
-        if (parametrosURL.has('pagina')) {
-            setaMetaTags(config, slugDaPagina, subcategoriaData.meta_titulo, canonicalBaseSub + '?pagina=' + parametrosURL.get('pagina'), subcategoriaData.meta_descricao);
+        if (!subcategoriaData) {
+            console.error('Subcategoria não encontrada apesar da checagem anterior:', slugDaPagina);
         } else {
-            setaMetaTags(config, slugDaPagina, subcategoriaData.meta_titulo, canonicalBaseSub, subcategoriaData.meta_descricao, subcategoriaData.meta_titulo);
-        }
+            document.querySelector('h1').textContent = subcategoriaData.meta_titulo;
 
-        carregaListaDeArtigosSubcategoria(config, slugDaPagina);
-        carregaConteudoDestaqueSubcategoria(config);
-        setaJsCustomizado(config, 'paginas_subcategoria');
+            // monta canonical incluindo a categoria pai quando disponível
+            const canonicalBaseSub = (categoriaPai ? (config.dominio + '/' + categoriaPai + '/' + slugDaPagina + '/') : (config.dominio + '/' + slugDaPagina + '/'));
+
+            // passe a meta_descricao da subcategoria como 5º parâmetro
+            if (parametrosURL.has('pagina')) {
+                setaMetaTags(config, slugDaPagina, subcategoriaData.meta_titulo, canonicalBaseSub + '?pagina=' + parametrosURL.get('pagina'), subcategoriaData.meta_descricao);
+            } else {
+                setaMetaTags(config, slugDaPagina, subcategoriaData.meta_titulo, canonicalBaseSub, subcategoriaData.meta_descricao, subcategoriaData.meta_titulo);
+            }
+
+            carregaListaDeArtigosSubcategoria(config, slugDaPagina);
+            carregaConteudoDestaqueSubcategoria(config);
+            setaJsCustomizado(config, 'paginas_subcategoria');
+        }
 
     } else if (config.possui_ferramentas == 1 && slugDaPagina == 'ferramentas') {
         // PÁGINA DE FERRAMENTAS
@@ -104,12 +117,12 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
             setaMetaTags(config, slugDaPagina, slugParaTitulo(slugDaPagina), canonicalBaseFerr + '?pagina=' + parametrosURL.get('pagina'), metaDescFerramentas);
         } else {
             setaMetaTags(
-            config,
-            slugDaPagina,
-            slugParaTitulo(slugDaPagina),
-            canonicalBaseFerr,
-            metaDescFerramentas,
-            (config.paginas_fixas && config.paginas_fixas.ferramentas && config.paginas_fixas.ferramentas.meta_titulo) ? config.paginas_fixas.ferramentas.meta_titulo : slugParaTitulo(slugDaPagina)
+                config,
+                slugDaPagina,
+                slugParaTitulo(slugDaPagina),
+                canonicalBaseFerr,
+                metaDescFerramentas,
+                (config.paginas_fixas && config.paginas_fixas.ferramentas && config.paginas_fixas.ferramentas.meta_titulo) ? config.paginas_fixas.ferramentas.meta_titulo : slugParaTitulo(slugDaPagina)
             );
         }
 
@@ -153,12 +166,12 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
         }
 
         setaMetaTags(
-        config,
-        slugDaPagina,
-        slugParaTitulo(slugDaPagina),
-        '',
-        metaDescFixa,
-        (config.paginas_fixas && config.paginas_fixas[slugDaPagina] && config.paginas_fixas[slugDaPagina].meta_titulo) ? config.paginas_fixas[slugDaPagina].meta_titulo : slugParaTitulo(slugDaPagina)
+            config,
+            slugDaPagina,
+            slugParaTitulo(slugDaPagina),
+            '',
+            metaDescFixa,
+            (config.paginas_fixas && config.paginas_fixas[slugDaPagina] && config.paginas_fixas[slugDaPagina].meta_titulo) ? config.paginas_fixas[slugDaPagina].meta_titulo : slugParaTitulo(slugDaPagina)
         );
 
         if (slugDaPagina === 'fale-conosco') {
@@ -252,7 +265,6 @@ function setaMetaTags(config, slugDaPagina, nomeDaPagina, linkCanonical = '', me
     upsertMeta('name', 'twitter:image', config.dominio + '/img/' + slugDaPagina + '.webp', false);
     upsertMeta('name', 'twitter:image:alt', 'Imagem da pagina de ' + nomeDaPagina + ' do ' + (config.nome_do_site || ''), false);
 }
-
 
 
 function setaJsCustomizado(config, tipoPagina) {
