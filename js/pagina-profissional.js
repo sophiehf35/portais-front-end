@@ -14,6 +14,7 @@ const divLegenda = document.querySelector("#legenda_formulario_contato_profissio
 
 function validarFormularioContatoProfissional(config) {
     botaoEnviarContatoProfissional.addEventListener("click", function (event) {
+      console.log("clicou");
       event.preventDefault();
       
       if (inputNomeContatoProfissional.value === "") {
