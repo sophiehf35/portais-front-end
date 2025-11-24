@@ -1,5 +1,4 @@
 /* FUNÇÃO PARA VALIDAR E ENVIAR FORMULÁRIO DE CONTATO PARA PROFISSIONAL */
-window.addEventListener("DOMContentLoaded", function () {
 const formContatoProfissional = document.querySelector("#formulario_de_contato_profissional");
 
 const inputNomeContatoProfissional = formContatoProfissional.querySelector("#nome_usuario");
@@ -15,7 +14,6 @@ const divLegenda = document.querySelector("#legenda_formulario_contato_profissio
 
 function validarFormularioContatoProfissional(config) {
     botaoEnviarContatoProfissional.addEventListener("click", function (event) {
-      console.log("clicou");
       event.preventDefault();
       
       if (inputNomeContatoProfissional.value === "") {
@@ -187,6 +185,7 @@ document.querySelector("input#nome_usuario").addEventListener("input", function(
 });
 
 /* FUNÇÃO DO CAMPO DE TELEFONE FIXO E CELULAR */
+window.addEventListener("DOMContentLoaded", function () {
   var telefoneInput = document.getElementById("telefone_usuario");
   var placeholder = telefoneInput.placeholder;
   telefoneInput.addEventListener("focus", function () {
