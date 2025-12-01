@@ -133,7 +133,6 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
         // PÁGINAS DE PROFISSIONAIS
         if (config.profissionais && config.profissionais.tipos.some(tipo => tipo.slug_diretorio && caminho.includes(`/${tipo.slug_diretorio}/`)) && caminho.split('/').filter(Boolean).length === 3) {
             // PÁGINAS DE CADA PROFISSIONAL
-            console.log('usuario');
             validarFormularioContatoProfissional(config);
         } else if (slugDaPagina == 'confirma-cadastro-de-profissional') {
             verificaEmailConfirmacaoDeProfissional(config);
