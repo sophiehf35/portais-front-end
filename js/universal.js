@@ -135,7 +135,6 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
             // PÁGINAS DE CADA PROFISSIONAL
             console.log('usuario');
             validarFormularioContatoProfissional(config);
-            validarFormularioAvaliacaoProfissional(config);
         } else if (slugDaPagina == 'confirma-cadastro-de-profissional') {
             verificaEmailConfirmacaoDeProfissional(config);
         }
