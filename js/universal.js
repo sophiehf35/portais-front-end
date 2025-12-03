@@ -78,7 +78,7 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
             const encontrada = config.paginas_subcategorias[categoria].find(sub => sub.slug === slugDaPagina);
             if (encontrada) {
                 subcategoriaData = encontrada;
-                categoriaPai = categoria; // guarda o slug da categoria pai (ex: "emails")
+                categoriaPai = categoria;
                 break;
             }
         }
@@ -193,24 +193,14 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
 
 
 function setaMetaTags(config, slugDaPagina, nomeDaPagina, linkCanonical = '', metaDescricao = '', metaTituloEspecifico = '') {
+    
     const paginasFixas = config.paginas_fixas || {};
     const paginaFixa = paginasFixas[slugDaPagina];
+    const titleContent = (paginaFixa && paginaFixa.meta_titulo) ? paginaFixa.meta_titulo: ( metaTituloEspecifico ? metaTituloEspecifico : ( (nomeDaPagina || slugDaPagina) + (paginasFixas.meta_titulo_padrao ? ' ' + paginasFixas.meta_titulo_padrao : '') ));
+    const descriptionContent = (paginaFixa && paginaFixa.meta_descricao) ? paginaFixa.meta_descricao: ( metaDescricao ? metaDescricao : ( (nomeDaPagina ? nomeDaPagina + ' ' : '') + (paginasFixas.meta_descricao_padrao || '') ) ).trim();
 
-    const titleContent = (paginaFixa && paginaFixa.meta_titulo)
-        ? paginaFixa.meta_titulo
-        : ( metaTituloEspecifico
-            ? metaTituloEspecifico
-            : ( (nomeDaPagina || slugDaPagina) + (paginasFixas.meta_titulo_padrao ? ' ' + paginasFixas.meta_titulo_padrao : '') )
-          );
-
-    const descriptionContent = (paginaFixa && paginaFixa.meta_descricao)
-        ? paginaFixa.meta_descricao
-        : ( metaDescricao ? metaDescricao : ( (nomeDaPagina ? nomeDaPagina + ' ' : '') + (paginasFixas.meta_descricao_padrao || '') ) ).trim();
-
-    // Set document.title
     document.title = titleContent;
 
-    // Upsert meta[name="description"]
     let metaDescriptionEl = document.querySelector('meta[name="description"]');
     if (!metaDescriptionEl) {
         metaDescriptionEl = document.createElement('meta');
@@ -219,7 +209,6 @@ function setaMetaTags(config, slugDaPagina, nomeDaPagina, linkCanonical = '', me
     }
     metaDescriptionEl.setAttribute('content', descriptionContent);
 
-    // Upsert meta[name="author"]
     let metaAuthor = document.querySelector('meta[name="author"]');
     if (!metaAuthor) {
         metaAuthor = document.createElement('meta');
@@ -228,7 +217,6 @@ function setaMetaTags(config, slugDaPagina, nomeDaPagina, linkCanonical = '', me
     }
     metaAuthor.setAttribute('content', config.autor_padrao || '');
 
-    // Upsert link[rel="canonical"]
     let linkCanonicalEl = document.querySelector('link[rel="canonical"]');
     if (!linkCanonicalEl) {
         linkCanonicalEl = document.createElement('link');
@@ -237,7 +225,6 @@ function setaMetaTags(config, slugDaPagina, nomeDaPagina, linkCanonical = '', me
     }
     linkCanonicalEl.setAttribute('href', (linkCanonical === '' ? config.dominio + '/' + slugDaPagina : linkCanonical));
 
-    // Helper para criar/atualizar meta tags (og / twitter)
     function upsertMeta(selectorAttr, attrName, content, isProperty = true) {
         const selector = isProperty ? `meta[property="${attrName}"]` : `meta[name="${attrName}"]`;
         let el = document.querySelector(selector);
@@ -294,13 +281,17 @@ function setaGoogleAnalytics(config) {
 }
 
 function setaGoogleAdsense(config) {
+    const paginas_sem_google_adsense = Array.isArray(config.paginas_sem_google_adsense) ? config.paginas_sem_google_adsense: [];
     if (config.possui_google_adsense === 1) {
-        const scriptAdsense = document.createElement('script');
-        scriptAdsense.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${config.codigo_google_adsense}`;
-        scriptAdsense.async = true;
-        scriptAdsense.crossorigin = 'anonymous';
+        const permitido = !paginas_sem_google_adsense.some(pagina => caminho.includes(`/${pagina}/`) || caminho === `/${pagina}`);
+        if (permitido) {
+            const scriptAdsense = document.createElement('script');
+            scriptAdsense.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${config.codigo_google_adsense}`;
+            scriptAdsense.async = true;
+            scriptAdsense.crossOrigin = 'anonymous';
 
-        document.body.appendChild(scriptAdsense);
+            document.body.appendChild(scriptAdsense);
+        }
     }
 }
 
