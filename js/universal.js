@@ -129,19 +129,19 @@ defineVariaveisUniversais(slugDaPagina).then(config => {
         carregaListaDeFerramentas(config);
         carregaConteudoDestaque(config);
 
-    } else if (caminho.includes('/profissionais/')) {
+    } else if (config.permite_profissionais == 1 && caminho.includes('/profissionais/')) {
         // PÁGINAS DE PROFISSIONAIS
         if (config.profissionais && config.profissionais.tipos.some(tipo => tipo.slug_diretorio && caminho.includes(`/${tipo.slug_diretorio}/`)) && caminho.split('/').filter(Boolean).length === 3) {
             // PÁGINAS DE CADA PROFISSIONAL
             validarFormularioContatoProfissional(config);
         } else if (slugDaPagina == 'confirma-cadastro-de-profissional') {
+            // PÁGINA CONFIRMAÇÃO DE CADASTRO DE PROFISSIONAL
             verificaEmailConfirmacaoDeProfissional(config);
+        } else if (slugDaPagina == 'cadastro-de-profissional') {
+            // PÁGINA CADASTRO DE PROFISSIONAL
+            validarFormularioCadastroProfissional(config);
         }
-
-    } else if (config.permite_profissionais == 1 && slugDaPagina == 'cadastro-de-profissional') {
-        // PÁGINA CADASTRO DE PROFISSIONAL
-        validarFormularioCadastroProfissional(config);
-
+        
     } else if (Object.keys(config.paginas_categorias).some(categoria => caminho.includes(`/${categoria}/`)) || (config.paginas_subcategorias && Object.keys(config.paginas_subcategorias).some(categoria => config.paginas_subcategorias[categoria].some(subcategoria => caminho.includes(`/${subcategoria.slug}/`))))) {
         // PÁGINA DE ARTIGOS (artigo individual)
         const h1 = document.querySelector("h1");
