@@ -18,7 +18,7 @@ function validarFormularioContatoProfissional(config) {
     // Inicializa Turnstile se houver
     iniciarTurnstileCasoNecessario(config);
 
-    botaoEnviarContatoProfissional.addEventListener("click", function (event) {
+    botaoEnviarContatoProfissional.addEventListener("click", async function (event) {
         event.preventDefault();
 
         // Valida campos
@@ -40,11 +40,11 @@ function validarFormularioContatoProfissional(config) {
           '<div style="height: 1.5rem;" class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div></div>';
         divBarraContatoProfissional.classList.remove("d-none");
         divBarraContatoProfissional.classList.add("d-block", "fade", "show");
-        divLegenda.remove();
+        divLegenda?.remove();
         criaBarraProgresso(3000);
 
         // Pega token do Turnstile se habilitado
-        const promiseToken = (config.possui_turnstile && config.possui_turnstile == 1) ? getTurnstileToken() : Promise.resolve("");
+        const promiseToken = (config.possui_turnstile && config.possui_turnstile == 1) ? getTurnstileToken(4000) : Promise.resolve("");
 
         promiseToken.then(function(token) {
             const campos = {
@@ -164,6 +164,9 @@ function iniciarTurnstileCasoNecessario(config) {
           callback: onTurnstileSuccess,
           execution: 'execute'
         });
+
+        // Pré-executa Turnstile para agilizar envio
+        try { turnstile.execute(turnstileWidgetId); } catch(e){}
       }
     } else {
       window.addEventListener('load', function() {
@@ -177,7 +180,7 @@ function iniciarTurnstileCasoNecessario(config) {
 /* FUNÇÃO PARA INICIAR TURNSTILE */
 
 /* FUNÇÃO PARA RETORNAR TOKEN DO TURNSTILE */
-function getTurnstileToken(timeoutMs = 8000) {
+function getTurnstileToken(timeoutMs = 4000) {
   return new Promise(function (resolve, reject) {
     if (!turnstileWidgetId) {
       resolve(""); // Não há Turnstile, retorna vazio
