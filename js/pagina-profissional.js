@@ -1,10 +1,86 @@
 /* FUNÇÃO PARA VALIDAR E ENVIAR FORMULÁRIO DE CONTATO PARA PROFISSIONAL */
+let turnstileWidgetId = null;
+let turnstileToken = "";
+let turnstileResolve = null;
+
+function onTurnstileSuccess(token) {
+  turnstileToken = token;
+  if (typeof turnstileResolve === "function") {
+    turnstileResolve(token);
+    turnstileResolve = null;
+  }
+}
+
+function iniciarTurnstileCasoNecessario(siteKey) {
+  try {
+    if (typeof turnstile !== "undefined" && document.getElementById('cf-turnstile-container')) {
+      if (turnstileWidgetId === null) {
+        turnstileWidgetId = turnstile.render('cf-turnstile-container', {
+          sitekey: siteKey,
+          callback: onTurnstileSuccess,
+          execution: 'execute'
+        });
+      }
+    } else {
+      // tenta novamente se a API ainda não carregou
+      window.addEventListener('load', function() {
+        try { initTurnstileIfNeeded(siteKey); } catch(e){ }
+      });
+    }
+  } catch (e) {
+    console.error("Erro initTurnstileIfNeeded:", e);
+  }
+}
+
+window.addEventListener('load', function() {
+  iniciarTurnstileCasoNecessario('0x4AAAAAACFv8G1Co2N1oY9l');
+});
+
+function getTurnstileToken(timeoutMs = 8000) {
+  return new Promise(function (resolve, reject) {
+    if (turnstileToken) {
+      const t = turnstileToken;
+      turnstileToken = "";
+      try { turnstile.reset(turnstileWidgetId); } catch(e){}
+      resolve(t);
+      return;
+    }
+
+    if (typeof turnstile === "undefined" || turnstileWidgetId === null) {
+      reject(new Error("Turnstile não inicializado"));
+      return;
+    }
+
+    turnstileResolve = function (token) {
+      turnstileResolve = null;
+      turnstileToken = "";
+      try { turnstile.reset(turnstileWidgetId); } catch(e){}
+      resolve(token || "");
+    };
+
+    try {
+      turnstile.execute(turnstileWidgetId);
+    } catch (e) {
+      turnstileResolve = null;
+      reject(e);
+      return;
+    }
+
+    setTimeout(function () {
+      if (turnstileResolve) {
+        turnstileResolve = null;
+        try { turnstile.reset(turnstileWidgetId); } catch(e){}
+        reject(new Error("Timeout ao obter token Turnstile"));
+      }
+    }, timeoutMs);
+  });
+}
+
 const formContatoProfissional = document.querySelector("#formulario_de_contato_profissional");
 
 const inputNomeContatoProfissional = formContatoProfissional.querySelector("#nome_usuario");
 const inputTelefoneContatoProfissional = formContatoProfissional.querySelector("#telefone_usuario");
 const inputMensagemContatoProfissional = formContatoProfissional.querySelector("#mensagem_usuario");
-const inputVerificaContatoProfissional = formContatoProfissional.querySelector("#anti_spam_contato_profissional");
 
 const botaoEnviarContatoProfissional = document.querySelector("#enviar_contato_profissional");
 const divNotificacaoContatoProfissional = document.querySelector("#div_notificacao_contato_profissional");
@@ -25,41 +101,45 @@ function validarFormularioContatoProfissional(config) {
       } else if (inputMensagemContatoProfissional.value === "") {
         //CAMPO DE MENSAGEM VAZIA
         exibirNotificacao("erro", "Erro, preencha sua mensagem", inputMensagemContatoProfissional, divNotificacaoContatoProfissional);
-      } else if (inputVerificaContatoProfissional.value === "") {
-        //VERIFICAÇÃO ANTI SPAM VAZIO
-        exibirNotificacao("erro", "Erro, preencha a verificação anti spam", inputVerificaContatoProfissional, divNotificacaoContatoProfissional);
-      } else if (inputVerificaContatoProfissional.value !== "4") {
-        //VERIFICAÇÃO ANTI SPAM VAZIO
-        exibirNotificacao("erro", "Erro, verificação anti spam inválida", inputVerificaContatoProfissional, divNotificacaoContatoProfissional);
       } else {
-        //TODOS OS CAMPOS PREENCHIDOS
+        // TODOS OS CAMPOS PREENCHIDOS
         divBarraContatoProfissional.innerHTML =
           '<div style="height: 1.5rem;" class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div></div>';
-    
+
         divBarraContatoProfissional.classList.remove("d-none");
         divBarraContatoProfissional.classList.add("d-block", "fade", "show");
         divLegenda.remove();
         criaBarraProgresso(1350);
-    
-        const campos = {
-            "nome": inputNomeContatoProfissional.value,
-            "telefone": inputTelefoneContatoProfissional.value,
-            "mensagem": inputMensagemContatoProfissional.value,
-            "verifica_contato": inputVerificaContatoProfissional.value
-        };
 
-        setTimeout(function () {
-          enviaDados(
-            config.endereco_funcao_php,
-            'adicionarContatoProfissional',
-            config.id,
-            divGeral.dataset.id,
-            campos,
-            divNotificacaoContatoProfissional,
-            divBarraContatoProfissional,
-            formContatoProfissional
-          );
-        }, 600);
+        // **Pega token sem async/await**
+        getTurnstileToken().then(function(token) {
+            const campos = {
+                "nome": inputNomeContatoProfissional.value,
+                "telefone": inputTelefoneContatoProfissional.value,
+                "mensagem": inputMensagemContatoProfissional.value,
+                "cf_turnstile_response": token
+            };
+
+            setTimeout(function () {
+                enviaDados(
+                    config.endereco_funcao_php,
+                    'adicionarContatoProfissional',
+                    config.id,
+                    divGeral.dataset.id,
+                    campos,
+                    divNotificacaoContatoProfissional,
+                    divBarraContatoProfissional,
+                    formContatoProfissional
+                );
+            }, 600);
+        }).catch(function(e) {
+            exibirNotificacao(
+                "erro",
+                "Falha na verificação de segurança. Tente novamente.",
+                inputMensagemContatoProfissional,
+                divNotificacaoContatoProfissional
+            );
+        });
       }
     });
     
@@ -80,7 +160,6 @@ function validarFormularioContatoProfissional(config) {
     });
   
   }
-
 /* FUNÇÃO PARA VALIDAR E ENVIAR FORMULÁRIO DE CONTATO PARA PROFISSIONAL */
 
 document.querySelector("input#nome_usuario").addEventListener("input", function() {

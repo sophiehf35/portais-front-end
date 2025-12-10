@@ -26,7 +26,6 @@ function defineVariaveisUniversais(slugDaPagina) {
     return configPromise;
 }
 
-
 defineVariaveisUniversais(slugDaPagina).then(config => {
     carregaMenu(config);
     carregaLogo(config, document.getElementById("logo"));
