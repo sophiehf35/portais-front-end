@@ -41,7 +41,7 @@ function validarFormularioContatoProfissional(config) {
         divBarraContatoProfissional.classList.remove("d-none");
         divBarraContatoProfissional.classList.add("d-block", "fade", "show");
         divLegenda.remove();
-        criaBarraProgresso(1350);
+        criaBarraProgresso(2000);
 
         // Pega token do Turnstile se habilitado
         const promiseToken = (config.possui_turnstile && config.possui_turnstile == 1) ? getTurnstileToken() : Promise.resolve("");
