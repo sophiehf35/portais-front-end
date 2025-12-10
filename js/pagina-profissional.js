@@ -41,7 +41,7 @@ function validarFormularioContatoProfissional(config) {
         divBarraContatoProfissional.classList.remove("d-none");
         divBarraContatoProfissional.classList.add("d-block", "fade", "show");
         divLegenda.remove();
-        criaBarraProgresso(2000);
+        criaBarraProgresso(3000);
 
         // Pega token do Turnstile se habilitado
         const promiseToken = (config.possui_turnstile && config.possui_turnstile == 1) ? getTurnstileToken() : Promise.resolve("");
@@ -53,20 +53,16 @@ function validarFormularioContatoProfissional(config) {
                 "mensagem": inputMensagemContatoProfissional.value
             };
             if (token) campos["cf_turnstile_response"] = token;
-
-            setTimeout(function () {
-                enviaDados(
-                    config.endereco_funcao_php,
-                    'adicionarContatoProfissional',
-                    config.id,
-                    divGeral.dataset.id,
-                    campos,
-                    divNotificacaoContatoProfissional,
-                    divBarraContatoProfissional,
-                    formContatoProfissional
-                );
-            }, 600);
-
+            enviaDados(
+                config.endereco_funcao_php,
+                'adicionarContatoProfissional',
+                config.id,
+                divGeral.dataset.id,
+                campos,
+                divNotificacaoContatoProfissional,
+                divBarraContatoProfissional,
+                formContatoProfissional
+            );
         }).catch(function(e) {
             exibirNotificacao(
                 "erro",
