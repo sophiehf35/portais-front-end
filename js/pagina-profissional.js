@@ -12,28 +12,28 @@ function onTurnstileSuccess(token) {
 }
 
 function iniciarTurnstileCasoNecessario(siteKey) {
-  try {
-    if (typeof turnstile !== "undefined" && document.getElementById('cf-turnstile-container')) {
-      if (turnstileWidgetId === null) {
-        turnstileWidgetId = turnstile.render('cf-turnstile-container', {
-          sitekey: siteKey,
-          callback: onTurnstileSuccess,
-          execution: 'execute'
-        });
-      }
-    } else {
-      // tenta novamente se a API ainda não carregou
-      window.addEventListener('load', function() {
-        try { initTurnstileIfNeeded(siteKey); } catch(e){ }
-      });
+    try {
+        const container = document.getElementById('cf-turnstile-container');
+        if (typeof turnstile !== "undefined" && container) {
+            if (turnstileWidgetId === null) {
+                turnstileWidgetId = turnstile.render(container, {
+                    sitekey: siteKey,
+                    callback: onTurnstileSuccess,
+                    execution: 'execute'
+                });
+            }
+        } else {
+            window.addEventListener('load', function() {
+                try { iniciarTurnstileCasoNecessario(siteKey); } catch(e){ }
+            });
+        }
+    } catch (e) {
+        console.error("Erro initTurnstileIfNeeded:", e);
     }
-  } catch (e) {
-    console.error("Erro initTurnstileIfNeeded:", e);
-  }
 }
 
-window.addEventListener('load', function() {
-  iniciarTurnstileCasoNecessario('0x4AAAAAACFv8G1Co2N1oY9l');
+window.addEventListener('DOMContentLoaded', function() {
+    iniciarTurnstileCasoNecessario('0x4AAAAAACFv8G1Co2N1oY9l');
 });
 
 function getTurnstileToken(timeoutMs = 8000) {
@@ -111,7 +111,6 @@ function validarFormularioContatoProfissional(config) {
         divLegenda.remove();
         criaBarraProgresso(1350);
 
-        // **Pega token sem async/await**
         getTurnstileToken().then(function(token) {
             const campos = {
                 "nome": inputNomeContatoProfissional.value,
@@ -153,10 +152,6 @@ function validarFormularioContatoProfissional(config) {
     
     inputMensagemContatoProfissional.addEventListener("input", function () {
       ocultaNotificacao(verificaTipoAlerta(divNotificacaoContatoProfissional), inputMensagemContatoProfissional, divNotificacaoContatoProfissional);
-    });
-  
-    inputVerificaContatoProfissional.addEventListener("input", function () {
-      ocultaNotificacao(verificaTipoAlerta(divNotificacaoContatoProfissional), inputVerificaContatoProfissional, divNotificacaoContatoProfissional);
     });
   
   }
