@@ -3,85 +3,10 @@ let turnstileWidgetId = null;
 let turnstileToken = "";
 let turnstileResolve = null;
 
-function onTurnstileSuccess(token) {
-  turnstileToken = token;
-  if (typeof turnstileResolve === "function") {
-    turnstileResolve(token);
-    turnstileResolve = null;
-  }
-}
-
-function iniciarTurnstileCasoNecessario(siteKey) {
-    try {
-        const container = document.getElementById('cf-turnstile-container');
-        if (typeof turnstile !== "undefined" && container) {
-            if (turnstileWidgetId === null) {
-                turnstileWidgetId = turnstile.render(container, {
-                    sitekey: siteKey,
-                    callback: onTurnstileSuccess,
-                    execution: 'execute'
-                });
-            }
-        } else {
-            window.addEventListener('load', function() {
-                try { iniciarTurnstileCasoNecessario(siteKey); } catch(e){ }
-            });
-        }
-    } catch (e) {
-        console.error("Erro initTurnstileIfNeeded:", e);
-    }
-}
-
-window.addEventListener('DOMContentLoaded', function() {
-    iniciarTurnstileCasoNecessario('0x4AAAAAACFv8G1Co2N1oY9l');
-});
-
-function getTurnstileToken(timeoutMs = 8000) {
-  return new Promise(function (resolve, reject) {
-    if (turnstileToken) {
-      const t = turnstileToken;
-      turnstileToken = "";
-      try { turnstile.reset(turnstileWidgetId); } catch(e){}
-      resolve(t);
-      return;
-    }
-
-    if (typeof turnstile === "undefined" || turnstileWidgetId === null) {
-      reject(new Error("Turnstile não inicializado"));
-      return;
-    }
-
-    turnstileResolve = function (token) {
-      turnstileResolve = null;
-      turnstileToken = "";
-      try { turnstile.reset(turnstileWidgetId); } catch(e){}
-      resolve(token || "");
-    };
-
-    try {
-      turnstile.execute(turnstileWidgetId);
-    } catch (e) {
-      turnstileResolve = null;
-      reject(e);
-      return;
-    }
-
-    setTimeout(function () {
-      if (turnstileResolve) {
-        turnstileResolve = null;
-        try { turnstile.reset(turnstileWidgetId); } catch(e){}
-        reject(new Error("Timeout ao obter token Turnstile"));
-      }
-    }, timeoutMs);
-  });
-}
-
 const formContatoProfissional = document.querySelector("#formulario_de_contato_profissional");
-
 const inputNomeContatoProfissional = formContatoProfissional.querySelector("#nome_usuario");
 const inputTelefoneContatoProfissional = formContatoProfissional.querySelector("#telefone_usuario");
 const inputMensagemContatoProfissional = formContatoProfissional.querySelector("#mensagem_usuario");
-
 const botaoEnviarContatoProfissional = document.querySelector("#enviar_contato_profissional");
 const divNotificacaoContatoProfissional = document.querySelector("#div_notificacao_contato_profissional");
 const divBarraContatoProfissional = document.querySelector("#div_notificacao_contato_profissional");
@@ -89,35 +14,45 @@ const divGeral = document.querySelector("#geral");
 const divLegenda = document.querySelector("#legenda_formulario_contato_profissional");
 
 function validarFormularioContatoProfissional(config) {
+
+    // Inicializa Turnstile se houver
+    iniciarTurnstileCasoNecessario(config);
+
     botaoEnviarContatoProfissional.addEventListener("click", function (event) {
-      event.preventDefault();
-      
-      if (inputNomeContatoProfissional.value === "") {
-        //CAMPO DO NOME VAZIO
-        exibirNotificacao("erro", "Erro, preencha seu nome", inputNomeContatoProfissional, divNotificacaoContatoProfissional);
-      } else if (inputTelefoneContatoProfissional.value === "") {
-        //CAMPO DO TELEFONE VAZIO
-        exibirNotificacao("erro", "Erro, preencha seu telefone", inputTelefoneContatoProfissional, divNotificacaoContatoProfissional);
-      } else if (inputMensagemContatoProfissional.value === "") {
-        //CAMPO DE MENSAGEM VAZIA
-        exibirNotificacao("erro", "Erro, preencha sua mensagem", inputMensagemContatoProfissional, divNotificacaoContatoProfissional);
-      } else {
-        // TODOS OS CAMPOS PREENCHIDOS
+        event.preventDefault();
+
+        // Valida campos
+        if (inputNomeContatoProfissional.value === "") {
+            exibirNotificacao("erro", "Erro, preencha seu nome", inputNomeContatoProfissional, divNotificacaoContatoProfissional);
+            return;
+        }
+        if (inputTelefoneContatoProfissional.value === "") {
+            exibirNotificacao("erro", "Erro, preencha seu telefone", inputTelefoneContatoProfissional, divNotificacaoContatoProfissional);
+            return;
+        }
+        if (inputMensagemContatoProfissional.value === "") {
+            exibirNotificacao("erro", "Erro, preencha sua mensagem", inputMensagemContatoProfissional, divNotificacaoContatoProfissional);
+            return;
+        }
+
+        // Mostra barra de progresso
         divBarraContatoProfissional.innerHTML =
           '<div style="height: 1.5rem;" class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div></div>';
-
         divBarraContatoProfissional.classList.remove("d-none");
         divBarraContatoProfissional.classList.add("d-block", "fade", "show");
         divLegenda.remove();
         criaBarraProgresso(1350);
 
-        getTurnstileToken().then(function(token) {
+        // Pega token do Turnstile se habilitado
+        const promiseToken = (config.possui_turnstile && config.possui_turnstile == 1) ? getTurnstileToken() : Promise.resolve("");
+
+        promiseToken.then(function(token) {
             const campos = {
                 "nome": inputNomeContatoProfissional.value,
                 "telefone": inputTelefoneContatoProfissional.value,
-                "mensagem": inputMensagemContatoProfissional.value,
-                "cf_turnstile_response": token
+                "mensagem": inputMensagemContatoProfissional.value
             };
+            if (token) campos["cf_turnstile_response"] = token;
 
             setTimeout(function () {
                 enviaDados(
@@ -131,6 +66,7 @@ function validarFormularioContatoProfissional(config) {
                     formContatoProfissional
                 );
             }, 600);
+
         }).catch(function(e) {
             exibirNotificacao(
                 "erro",
@@ -139,22 +75,19 @@ function validarFormularioContatoProfissional(config) {
                 divNotificacaoContatoProfissional
             );
         });
-      }
     });
-    
+
+    // Oculta notificações ao digitar
     inputNomeContatoProfissional.addEventListener("input", function () {
       ocultaNotificacao(verificaTipoAlerta(divNotificacaoContatoProfissional), inputNomeContatoProfissional, divNotificacaoContatoProfissional);
     });
-    
     inputTelefoneContatoProfissional.addEventListener("input", function () {
       ocultaNotificacao(verificaTipoAlerta(divNotificacaoContatoProfissional), inputTelefoneContatoProfissional, divNotificacaoContatoProfissional);
     });
-    
     inputMensagemContatoProfissional.addEventListener("input", function () {
       ocultaNotificacao(verificaTipoAlerta(divNotificacaoContatoProfissional), inputMensagemContatoProfissional, divNotificacaoContatoProfissional);
     });
-  
-  }
+}
 /* FUNÇÃO PARA VALIDAR E ENVIAR FORMULÁRIO DE CONTATO PARA PROFISSIONAL */
 
 document.querySelector("input#nome_usuario").addEventListener("input", function() {
@@ -211,3 +144,80 @@ window.addEventListener("DOMContentLoaded", function () {
   });
 });
 /* FUNÇÃO DO CAMPO DE TELEFONE FIXO E CELULAR */
+
+/* FUNÇÃO DE CALLBACK DO TURNSTILE */
+function onTurnstileSuccess(token) {
+  turnstileToken = token;
+  if (typeof turnstileResolve === "function") {
+    turnstileResolve(token);
+    turnstileResolve = null;
+  }
+}
+/* FUNÇÃO DE CALLBACK DO TURNSTILE */
+
+/* FUNÇÃO PARA INICIAR TURNSTILE */
+function iniciarTurnstileCasoNecessario(config) {
+  if (!config.possui_turnstile || config.possui_turnstile != 1) return;
+
+  try {
+    const container = document.getElementById('cf-turnstile-container');
+    if (typeof turnstile !== "undefined" && container) {
+      if (turnstileWidgetId === null) {
+        turnstileWidgetId = turnstile.render(container, {
+          sitekey: config.codigo_sitekey_turnstile,
+          callback: onTurnstileSuccess,
+          execution: 'execute'
+        });
+      }
+    } else {
+      window.addEventListener('load', function() {
+        try { iniciarTurnstileCasoNecessario(config); } catch(e){ }
+      });
+    }
+  } catch (e) {
+    console.error("Erro initTurnstileIfNeeded:", e);
+  }
+}
+/* FUNÇÃO PARA INICIAR TURNSTILE */
+
+/* FUNÇÃO PARA RETORNAR TOKEN DO TURNSTILE */
+function getTurnstileToken(timeoutMs = 8000) {
+  return new Promise(function (resolve, reject) {
+    if (!turnstileWidgetId) {
+      resolve(""); // Não há Turnstile, retorna vazio
+      return;
+    }
+
+    if (turnstileToken) {
+      const t = turnstileToken;
+      turnstileToken = "";
+      try { turnstile.reset(turnstileWidgetId); } catch(e){}
+      resolve(t);
+      return;
+    }
+
+    turnstileResolve = function (token) {
+      turnstileResolve = null;
+      turnstileToken = "";
+      try { turnstile.reset(turnstileWidgetId); } catch(e){}
+      resolve(token || "");
+    };
+
+    try {
+      turnstile.execute(turnstileWidgetId);
+    } catch (e) {
+      turnstileResolve = null;
+      reject(e);
+      return;
+    }
+
+    setTimeout(function () {
+      if (turnstileResolve) {
+        turnstileResolve = null;
+        try { turnstile.reset(turnstileWidgetId); } catch(e){}
+        reject(new Error("Timeout ao obter token Turnstile"));
+      }
+    }, timeoutMs);
+  });
+}
+/* FUNÇÃO PARA RETORNAR TOKEN DO TURNSTILE */
