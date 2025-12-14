@@ -483,7 +483,7 @@ function carregaConteudoDestaque(config) {
                 let link = '';
 
                 data.forEach(conteudo => {
-                    const imagem = (conteudo.tipo === 'artigos' ? `/usuarios/${conteudo.diretorio_autor}/artigos/thumb/${conteudo.imagem_destaque}` : `/usuarios/${conteudo.diretorio_autor}/ferramentas/${conteudo.imagem_destaque}`);
+                    const imagem = (conteudo.tipo === 'artigos' ? `/usuarios/${conteudo.diretorio_autor}/artigos/thumb/${conteudo.imagem_destaque}` : `/usuarios/${conteudo.diretorio_autor}/ferramentas/thumb/${conteudo.imagem_destaque}`);
                     let slugConteudo = '';
                     if (conteudo.slug_subcategoria !== null) {
                         slugConteudo = `${config.diretorio_blog === "home" ? "" : `${config.diretorio_blog}/`}${conteudo.tipo === 'artigos' ? `${conteudo.slug_categoria}/${conteudo.slug_subcategoria}/${conteudo.slug}` : `ferramentas/${conteudo.slug}`}`;
