@@ -251,8 +251,13 @@ function carregaConteudoDestaque(config) {
                 let link = '';
             
                 data.forEach(conteudo => {
-                    const imagem = `/usuarios/${conteudo.diretorio_autor}/${conteudo.tipo}/thumb/${conteudo.imagem_destaque}`;
-                    const slugConteudo = (conteudo.tipo === 'artigos' ? `${conteudo.slug_categoria}/${conteudo.slug}` : `ferramentas/${conteudo.slug}`);
+                    const imagem = (conteudo.tipo === 'artigos' ? `/usuarios/${conteudo.diretorio_autor}/${conteudo.tipo}/thumb/${conteudo.imagem_destaque}` : `/usuarios/${conteudo.diretorio_autor}/ferramentas/${conteudo.imagem_destaque}`);
+                    let slugConteudo = '';
+                    if (conteudo.slug_subcategoria !== null) {
+                        slugConteudo = `${config.diretorio_blog === "home" ? "" : `${config.diretorio_blog}/`}${conteudo.tipo === 'artigos' ? `${conteudo.slug_categoria}/${conteudo.slug_subcategoria}/${conteudo.slug}` : `ferramentas/${conteudo.slug}`}`;
+                    } else {
+                        slugConteudo = `${config.diretorio_blog === "home" ? "" : `${config.diretorio_blog}/`}${conteudo.tipo === 'artigos' ? `${conteudo.slug_categoria}/${conteudo.slug}` : `ferramentas/${conteudo.slug}`}`;
+                    }
                     const categoria = (conteudo.tipo === 'artigos' ? conteudo.categoria.toUpperCase() : conteudo.tipo.toUpperCase());
             
                     link += `
@@ -264,8 +269,7 @@ function carregaConteudoDestaque(config) {
                                     </figure>
                                 </a>
                             </div>
-                            <small class="p-1 badge badge-primary rounded-0">${categoria}</small>
-                            <h4><a href="/${slugConteudo}">${conteudo.titulo_breadcumb}</a></h4>
+                            <h4 class="mt-0"><a href="/${slugConteudo}">${conteudo.titulo}</a></h4>
                         </li>
                     `;
                 });
