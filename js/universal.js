@@ -264,7 +264,6 @@ function setaJsCustomizado(config, tipoPagina) {
     }
 }
 
-
 function setaGoogleAnalytics(config) {
     if (config.possui_google_analytics === 1) {
         const scriptAnalytics1 = document.createElement('script');
@@ -280,15 +279,14 @@ function setaGoogleAnalytics(config) {
 }
 
 function setaGoogleAdsense(config) {
-    const paginas_sem_google_adsense = Array.isArray(config.paginas_sem_google_adsense) ? config.paginas_sem_google_adsense: [];
+    const paginasSemAdsense = Array.isArray(config.paginas_sem_google_adsense) ? config.paginas_sem_google_adsense : [];
     if (config.possui_google_adsense === 1) {
-        const permitido = !paginas_sem_google_adsense.some(pagina => caminho.includes(`/${pagina}/`) || caminho === `/${pagina}`);
+        const permitido = !paginasSemAdsense.some(pagina => pagina === caminhoSemBarras || caminhoSemBarras.startsWith(pagina + "/"));
         if (permitido) {
             const scriptAdsense = document.createElement('script');
             scriptAdsense.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${config.codigo_google_adsense}`;
             scriptAdsense.async = true;
             scriptAdsense.crossOrigin = 'anonymous';
-
             document.body.appendChild(scriptAdsense);
         }
     }
